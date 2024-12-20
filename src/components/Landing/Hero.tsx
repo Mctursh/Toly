@@ -140,16 +140,16 @@ const HeroSection: React.FC = () => {
             </div>
 
             <motion.button
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="flex justify-center items-center w-[205px] h-16 bg-[#6FCB71] border border-[#6FCB71]/20 rounded-full mx-auto lg:mx-0"
-              type="button"
-            >
-              <Link href="/auth/signup" className="text-lg font-medium text-[#0B0C0F] capitalize font-['Familjen_Grotesk']">
-                let's get started
-              </Link>
-            </motion.button>
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="flex justify-center items-center w-[205px] h-16 bg-[#6FCB71] border border-[#6FCB71]/20 rounded-full mx-auto lg:mx-0"
+                type="button"
+                >
+                <Link href="/auth/signup" className="text-lg font-medium text-[#0B0C0F] capitalize font-[&apos;Familjen_Grotesk&apos;]">
+                    let&apos;s get started
+                </Link>
+                </motion.button>
           </div>
 
           {/* Right Side Cat Image - Hidden on mobile */}

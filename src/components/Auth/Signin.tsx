@@ -140,22 +140,22 @@ const SigninPage: React.FC = () => {
               </div>
 
               <motion.button
-                type="submit"
-                className="flex justify-center items-center w-full h-16 bg-[#6FCB71] rounded-full mt-4"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <span className="text-lg font-medium text-black capitalize font-['Familjen_Grotesk']">
-                  Sign In
-                </span>
-              </motion.button>
+                    type="submit"
+                    className="flex justify-center items-center w-full h-16 bg-[#6FCB71] rounded-full mt-4"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    >
+                    <span className="text-lg font-medium text-black capitalize font-[&apos;Familjen_Grotesk&apos;]">
+                        Sign In
+                    </span>
+                    </motion.button>
 
-              <p className="text-center text-[#9097A6] font-['Familjen_Grotesk'] mt-4">
-                Don't have an account?{' '}
-                <Link href="/auth/signup" className="text-[#6FCB71]">
-                  Sign Up
-                </Link>
-              </p>
+                    <p className="text-center text-[#9097A6] font-[&apos;Familjen_Grotesk&apos;] mt-4">
+                    Don&apos;t have an account?{' '}
+                    <Link href="/auth/signup" className="text-[#6FCB71]">
+                        Sign Up
+                    </Link>
+                    </p>
             </motion.form>
           </motion.div>
         </div>
