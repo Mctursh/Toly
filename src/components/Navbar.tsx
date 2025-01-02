@@ -144,6 +144,7 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { FaBars, FaX } from 'react-icons/fa6';
@@ -193,6 +194,7 @@ const menuItemVariants: Variants = {
 };
 
 const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, setIsOpen, navLinks }) => {
+  const router = useRouter();
   return (
     <AnimatePresence>
       {isOpen && (
@@ -213,7 +215,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, setIsOpen, navLinks }) 
               >
                 <Link
                   href={link.href}
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => { router.push('/contact'); setIsOpen(false); }}
                   className={`relative text-xl ${
                     link.active ? 'text-[#00EE05]' : 'text-[#9097A6]'
                   } hover:text-[#00EE05] transition-colors`}
@@ -247,14 +249,15 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, setIsOpen, navLinks }) 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [scrolled, setScrolled] = useState<boolean>(false);
+  const router = useRouter();
 
   const navLinks: NavLink[] = [
     { href: '/', text: 'Home', active: true },
     { href: '/chat', text: 'Chat' },
-    { href: '/developers', text: 'For Developers' },
+    { href: 'https://toly.gitbook.io', text: 'For Developers' },
     { href: '/token', text: '$Catoly token' },
     { href: '/about', text: 'About us' },
-    { href: '/roadmap', text: 'Roadmap' },
+    // { href: '/roadmap', text: 'Roadmap' },
   ];
 
   useEffect(() => {
@@ -369,6 +372,7 @@ const Navbar: React.FC = () => {
       >
         <motion.button
           className="relative group flex items-center px-6 py-3 border-2 border-[#6FCB71]/20 rounded-full overflow-hidden"
+          onClick={() => router.push('/contact')}
           type="button"
         >
           {/* Animated gradient background */}
