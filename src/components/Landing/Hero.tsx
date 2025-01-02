@@ -323,7 +323,7 @@ const HeroSection = () => {
 
       {/* Main Content Container */}
       <motion.div 
-        className="relative z-10 px-4 md:px-8 pt-[180px] md:pt-[240px]"
+        className="relative z-10 px-4 md:px-8 pt-[90px] md:pt-[240px]"
         style={{ y: parallaxY }}
       >
         {/* Top Row */}
@@ -337,11 +337,37 @@ const HeroSection = () => {
               transition={{ duration: 10, repeat: Infinity }}
             >
               {/* Your left SVG here with glow effect */}
-              <svg width="259" height="123" viewBox="0 0 259 123" className="filter drop-shadow-[0_0_8px_rgba(89,157,176,0.6)]">
-              <path d="M217.133 51.6053C214.61 52.7314 210.552 54.2029 210.552 54.2029C210.552 54.2029 131 174 91 96C51 18 -20.7048 54.2029 -20.7048 54.2029C-28.916 54.2029 -33.0577 44.8227 -27.3719 39.3389L10.6105 2.71303C12.3756 1.0082 14.7229 0.0383183 17.1766 0L249.343 0C257.626 0 261.681 9.46674 255.923 14.9794C255.923 14.9794 236.158 43.1135 217.133 51.6053Z" 
-                fill="url(#paint0_linear_152_101)"
-              />
-              </svg>
+              <motion.svg
+                initial={{ opacity: 0, x: -100 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                className="hidden md:block"
+                width="259"
+                height="123"
+                viewBox="0 0 259 123"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                style={{
+                  filter: "drop-shadow(0 0 8px rgba(89,157,176,0.6))"
+                }}
+              >
+                <path d="M217.133 51.6053C214.61 52.7314 210.552 54.2029 210.552 54.2029C210.552 54.2029 131 174 91 96C51 18 -20.7048 54.2029 -20.7048 54.2029C-28.916 54.2029 -33.0577 44.8227 -27.3719 39.3389L10.6105 2.71303C12.3756 1.0082 14.7229 0.0383183 17.1766 0L249.343 0C257.626 0 261.681 9.46674 255.923 14.9794C255.923 14.9794 236.158 43.1135 217.133 51.6053Z" 
+                  fill="url(#paint0_linear_152_101)"
+                />
+                <defs>
+                  <linearGradient 
+                    id="paint0_linear_152_101" 
+                    x1="-29.9839" 
+                    y1="807.443" 
+                    x2="265.982" 
+                    y2="804.73" 
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stopColor="#599DB0"/>
+                    <stop offset="1" stopColor="#47F8C3"/>
+                  </linearGradient>
+                </defs>
+              </motion.svg>
             </motion.div>
           </FloatingElement>
 
