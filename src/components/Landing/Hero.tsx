@@ -323,7 +323,7 @@ const HeroSection = () => {
 
       {/* Main Content Container */}
       <motion.div 
-        className="relative z-10 px-4 md:px-8 pt-[90px] md:pt-[240px]"
+        className="relative z-10 px-4 md:px-8 pt-[20px] md:pt-[240px]"
         style={{ y: parallaxY }}
       >
         {/* Top Row */}
@@ -524,6 +524,16 @@ const HeroSection = () => {
           </motion.div>
         </div>
       </motion.div>
+      {/* Add CSS for scrollbar hiding */}
+      <style jsx global>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
     </div>
   );
 };
