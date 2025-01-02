@@ -323,7 +323,7 @@ const HeroSection = () => {
 
       {/* Main Content Container */}
       <motion.div 
-        className="relative z-10 px-4 md:px-8 pt-[20px] md:pt-[240px]"
+        className="relative z-10 px-4 md:px-8 pt-[120px] md:pt-[80px]"
         style={{ y: parallaxY }}
       >
         {/* Top Row */}
