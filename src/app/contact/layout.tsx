@@ -1,4 +1,4 @@
-// app/auth/signup/layout.tsx
+// app/contact/layout.tsx
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import type { Metadata } from "next";
