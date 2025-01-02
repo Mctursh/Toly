@@ -1,4 +1,4 @@
-// app/contact/page.tsx
+"use client"
 import React from 'react';
 import ContactPage from '@/components/Contact/Form';
 
