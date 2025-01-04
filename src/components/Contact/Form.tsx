@@ -636,7 +636,7 @@ const ContactPage: React.FC = () => {
         {/* Title - Positioned above the form */}
         <motion.h1 
           animate={titleAnimation}
-          className="text-5xl md:text-7xl font-bold text-[#FAFAFA] text-center mb-6 pt-12"
+          className="text-5xl md:text-7xl font-bold text-[#FAFAFA] text-center mb-6 pt-24"
         >
           Get in Touch
         </motion.h1>
