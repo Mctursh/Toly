@@ -4,26 +4,29 @@ import Image from 'next/image';
 import { motion, useAnimation } from 'framer-motion';
 import { Space_Grotesk } from 'next/font/google';
 
-interface MousePosition {
-    x: number;
-    y: number;
-  }
-
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
 
-const ContactPage = () => {
+interface MousePosition {
+  x: number;
+  y: number;
+}
+
+const ContactPage: React.FC = () => {
   const [mousePosition, setMousePosition] = useState<MousePosition>({ x: 0, y: 0 });
 
+  // Use this effect to handle mouse movement only on the client side
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent): void => {
+    if (typeof window !== 'undefined') {
+      const handleMouseMove = (e: MouseEvent): void => {
         setMousePosition({
-          x: (e.clientX),
-          y: (e.clientY),
+          x: e.clientX,
+          y: e.clientY,
         });
       };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mousemove', handleMouseMove);
+      return () => window.removeEventListener('mousemove', handleMouseMove);
+    }
   }, []);
 
   const backgroundAnimation = useAnimation();
@@ -46,9 +49,9 @@ const ContactPage = () => {
     titleAnimation.start({
       y: [0, -5, 0],
       textShadow: [
-        "0 0 0 rgba(111,203,113, 0)",
-        "0 0 10px rgba(111,203,113, 0.5)",
-        "0 0 0 rgba(111,203,113, 0)"
+        "0 0 0 rgba(97,189,255, 0)",
+        "0 0 10px rgba(97,189,255, 0.5)",
+        "0 0 0 rgba(97,189,255, 0)"
       ],
       transition: {
         duration: 4,
@@ -73,14 +76,14 @@ const ContactPage = () => {
       {/* Animated Background */}
       <motion.div 
         animate={backgroundAnimation}
-        className="absolute inset-0 bg-gradient-to-r from-[#73B0D0] to-[#47F8C3] mix-blend-screen"
+        className="absolute inset-0 bg-gradient-to-r from-[#61BDFF] to-[#B3D9FF] mix-blend-screen"
       ></motion.div>
 
       {/* Dynamic Circles */}
       {[...Array(10)].map((_, i) => (
         <motion.div 
           key={i}
-          className="absolute w-16 h-16 rounded-full bg-[#C44FE2]/30"
+          className="absolute w-16 h-16 rounded-full bg-[#92C7FF]/30"
           animate={{
             x: [0, window.innerWidth - 100],
             scale: [0.5, 1.5, 0.5],
@@ -117,15 +120,15 @@ const ContactPage = () => {
         >
           <div className="mb-4">
             <label htmlFor="name" className="block text-sm font-medium text-[#9097A6] mb-2">Name</label>
-            <input type="text" id="name" name="name" className="w-full h-12 px-3 bg-black/40 rounded-lg text-lg text-[#FAFAFA] focus:outline-none focus:ring-2 focus:ring-[#6FCB71]/50" placeholder="Your Name" />
+            <input type="text" id="name" name="name" className="w-full h-12 px-3 bg-black/40 rounded-lg text-lg text-[#FAFAFA] focus:outline-none focus:ring-2 focus:ring-[#61BDFF]/50" placeholder="Your Name" />
           </div>
           <div className="mb-4">
             <label htmlFor="email" className="block text-sm font-medium text-[#9097A6] mb-2">Email</label>
-            <input type="email" id="email" name="email" className="w-full h-12 px-3 bg-black/40 rounded-lg text-lg text-[#FAFAFA] focus:outline-none focus:ring-2 focus:ring-[#6FCB71]/50" placeholder="Your Email" />
+            <input type="email" id="email" name="email" className="w-full h-12 px-3 bg-black/40 rounded-lg text-lg text-[#FAFAFA] focus:outline-none focus:ring-2 focus:ring-[#61BDFF]/50" placeholder="Your Email" />
           </div>
           <div className="mb-4">
             <label htmlFor="message" className="block text-sm font-medium text-[#9097A6] mb-2">Message</label>
-            <textarea id="message" name="message" rows={4} className="w-full px-3 py-2 bg-black/40 rounded-lg text-lg text-[#FAFAFA] focus:outline-none focus:ring-2 focus:ring-[#6FCB71]/50" placeholder="Your Message"></textarea>
+            <textarea id="message" name="message" rows={4} className="w-full px-3 py-2 bg-black/40 rounded-lg text-lg text-[#FAFAFA] focus:outline-none focus:ring-2 focus:ring-[#61BDFF]/50" placeholder="Your Message"></textarea>
           </div>
           
           {/* Interactive Button */}
@@ -134,11 +137,11 @@ const ContactPage = () => {
             animate={buttonAnimation}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
-            className="w-full h-12 bg-[#6FCB71] text-[#0B0C0F] font-bold text-lg overflow-hidden relative"
+            className="w-full h-12 bg-[#61BDFF] text-[#0B0C0F] font-bold text-lg overflow-hidden relative"
           >
             <span className="relative z-10">Send Message</span>
             <motion.div 
-              className="absolute inset-0 bg-[#47F8C3]/50"
+              className="absolute inset-0 bg-[#B3D9FF]/50"
               animate={{
                 x: ['-100%', '100%'],
               }}
@@ -153,10 +156,10 @@ const ContactPage = () => {
 
         {/* Central Image with Parallax */}
         <motion.div 
-        className="mt-10 absolute bottom-4"
-        style={{
+          className="mt-10 absolute bottom-4"
+          style={{
             transform: `translate(${mousePosition.x * 0.05}px, ${mousePosition.y * 0.05}px)`
-        }}
+          }}
         >
           <Image
             src="/sidecat.png"

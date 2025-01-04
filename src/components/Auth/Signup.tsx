@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { Space_Grotesk } from 'next/font/google';
+
+const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
 
 interface FormData {
   name: string;
@@ -29,11 +32,11 @@ const SignupPage: React.FC = () => {
     <div className="relative w-full min-h-[150vh] bg-black overflow-x-hidden pb-20">
       <div className="relative max-w-[1920px] mx-auto">
         {/* Left Side Content */}
-        <div className="absolute lg:left-[300px] left-8 right-8 lg:right-auto top-[260px] lg:w-[575px] flex flex-col gap-10">
+        <div className="absolute lg:left-[150px] left-8 right-8 lg:right-auto top-[260px] lg:w-[575px] flex flex-col gap-10">
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-3xl lg:text-[48px] leading-normal lg:leading-[60px] font-medium text-[#FAFAFA] font-['Familjen_Grotesk'] capitalize z-10"
+            className={`text-3xl lg:text-[48px] leading-normal lg:leading-[60px] font-medium text-[#FAFAFA]  ${spaceGrotesk.className} capitalize z-10`}
           >
             Your AI companion exploring the solana blockchain to bring you insights and detailed analytics in real time
           </motion.h1>
@@ -42,7 +45,7 @@ const SignupPage: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="w-full lg:w-[561px] text-base lg:text-lg leading-[160%] text-[#9097A6] font-['Familjen_Grotesk']"
+            className={`w-full lg:w-[561px] text-base lg:text-lg leading-[160%] text-[#9097A6]  ${spaceGrotesk.className}`}
           >
             Toly is here to help with insights on transactions, tokens, wallets and all activities on the Solana Blockchain
           </motion.p>
@@ -54,7 +57,7 @@ const SignupPage: React.FC = () => {
             className="mt-0"
           >
             <div className="relative">
-              <div className="absolute inset-0 bg-[#6FCB71]/20 rounded-full blur-lg" />
+              <div className="absolute inset-0 bg-[#61BDFF]/20 rounded-full blur-lg" />
               <Image
                 src="/wen.png"
                 alt="Wen"
@@ -68,7 +71,7 @@ const SignupPage: React.FC = () => {
         </div>
 
         {/* Form Section with Top Decorations */}
-        <div className="absolute lg:right-[300px] left-8 right-8 lg:left-auto top-[750px] lg:top-[120px] lg:w-[480px]">
+        <div className="absolute lg:right-[150px] left-8 right-8 lg:left-auto top-[750px] lg:top-[120px] lg:w-[480px]">
           {/* Top Decorations Container */}
           <div className="relative h-[116px] mb-8 hidden lg:block">
             {/* Diamond - Same size as image */}
@@ -110,7 +113,7 @@ const SignupPage: React.FC = () => {
                 y2="85"
                 gradientUnits="userSpaceOnUse"
               >
-                <stop stopColor="#6FCB71" />
+                <stop stopColor="#61BDFF" />
                 <stop offset="1" stopColor="#C44FE2" />
               </linearGradient>
             </defs>
@@ -135,7 +138,7 @@ const SignupPage: React.FC = () => {
                       placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
                       value={formData[field as keyof FormData]}
                       onChange={handleInputChange}
-                      className="w-full h-16 px-6 bg-black/40 rounded-2xl text-lg text-[#9097A6] font-['Familjen_Grotesk'] outline-none focus:ring-2 focus:ring-[#6FCB71]/20"
+                      className={`w-full h-16 px-6 bg-black/40 rounded-2xl text-lg text-[#9097A6]  ${spaceGrotesk.className} outline-none focus:ring-2 focus:ring-[#61BDFF]/20`}
                     />
                   </motion.div>
                 ))}
@@ -143,18 +146,18 @@ const SignupPage: React.FC = () => {
 
               <motion.button
                 type="submit"
-                className="flex justify-center items-center w-full h-16 bg-[#6FCB71] rounded-full mt-4"
+                className="flex justify-center items-center w-full h-16 bg-[#61BDFF] rounded-full mt-4"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <span className="text-lg font-medium text-black capitalize font-['Familjen_Grotesk']">
+                <span className={`text-lg font-medium text-black capitalize  ${spaceGrotesk.className}`}>
                   Sign Me Up With Toly
                 </span>
               </motion.button>
 
-              <p className="text-center text-[#9097A6] font-['Familjen_Grotesk'] mt-4">
+              <p className={`text-center text-[#9097A6]  ${spaceGrotesk.className} mt-4`}>
                 Already have an account?{' '}
-                <Link href="/auth/signin" className="text-[#6FCB71]">
+                <Link href="/auth/signin" className="text-[#61BDFF]">
                   Sign In
                 </Link>
               </p>

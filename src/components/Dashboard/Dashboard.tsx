@@ -15,6 +15,9 @@ import {
 } from "react-icons/fa6";
 import { FaCog, FaHistory } from 'react-icons/fa'
 import type { IconType } from 'react-icons'
+import { Space_Grotesk } from 'next/font/google';
+
+const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
 
 interface NavigationItem {
   name: string;
@@ -103,7 +106,7 @@ const Dashboard: FC<Props> = ({ username, profileImage = "/logo.png" }) => {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-black text-white font-['Familjen_Grotesk']">
+    <div className={`flex h-screen overflow-hidden bg-black text-white ${spaceGrotesk.className}`}>
       {/* Sidebar */}
       <div 
         className={`fixed lg:relative w-[309px] h-screen bg-[#0B0C0F] transition-all duration-300 z-50 flex flex-col
@@ -114,7 +117,7 @@ const Dashboard: FC<Props> = ({ username, profileImage = "/logo.png" }) => {
         <div className="flex-shrink-0">
           <div className="flex items-center gap-4 p-8">
             <div className="relative">
-              <div className="absolute inset-0 bg-[#6FCB71]/20 rounded-full blur-lg" />
+              <div className="absolute inset-0 bg-[#92C7FF]/20 rounded-full blur-lg" />
               <img src="/logo.png" alt="Logo" className="w-12 h-12 rounded-full relative z-10" />
             </div>
             <span className="text-2xl font-medium">Toly.AI</span>
@@ -125,10 +128,10 @@ const Dashboard: FC<Props> = ({ username, profileImage = "/logo.png" }) => {
             <button 
               type="button"
               onClick={() => { /* Handle new chat */ }}
-              className="w-full flex items-center justify-center gap-3 h-14 bg-[#0B0C0F] rounded-xl border border-[#6FCB71]/20 hover:bg-[#6FCB71]/5 transition-colors duration-200"
+              className="w-full flex items-center justify-center gap-3 h-14 bg-[#0B0C0F] rounded-xl border border-[#92C7FF]/20 hover:bg-[#92C7FF]/5 transition-colors duration-200"
             >
-              <FaPlus className="text-[#6FCB71]" />
-              <span className="text-[#6FCB71] font-medium">New Chat</span>
+              <FaPlus className="text-[#92C7FF]" />
+              <span className="text-[#92C7FF] font-medium">New Chat</span>
             </button>
           </div>
         </div>
@@ -210,9 +213,9 @@ const Dashboard: FC<Props> = ({ username, profileImage = "/logo.png" }) => {
             <FaBars size={24} />
           </button>
           
-          <div className="ml-auto flex items-center gap-4 px-6 py-3 bg-[#121417] border-2 border-[#6FCB71]/20 rounded-full hover:border-[#6FCB71]/40 transition-colors duration-200">
+          <div className="ml-auto flex items-center gap-4 px-6 py-3 bg-[#121417] border-2 border-[#61BDFF]/20 rounded-full hover:border-[#61BDFF]/40 transition-colors duration-200">
             <div className="relative">
-              <div className="absolute inset-0 bg-[#6FCB71]/10 rounded-full blur-sm" />
+              <div className="absolute inset-0 bg-[#61BDFF]/10 rounded-full blur-sm" />
               <img src={profileImage} alt="Profile" className="w-8 h-8 rounded-full relative z-10" />
             </div>
             <span className="font-medium">{username}</span>
@@ -223,30 +226,30 @@ const Dashboard: FC<Props> = ({ username, profileImage = "/logo.png" }) => {
         {/* Scrollable Content */}
         <div className="flex-1 overflow-y-auto px-8 pb-[180px]">
           {/* Welcome Section */}
-          <div className="max-w-4xl mx-auto text-center pt-8">
-            <div className="flex justify-center items-end mb-8 relative">
-              <div className="absolute inset-0 bg-gradient-to-b from-[#6FCB71]/10 via-transparent to-transparent blur-3xl" />
-              <img src="/logo.png" alt="Bot" className="w-12 h-12 rounded-full -rotate-12 relative z-10" />
-              <img src="/logo.png" alt="Bot" className="w-[150px] h-[150px] rounded-full mx-[-10px] relative z-20" />
-              <img src="/logo.png" alt="Bot" className="w-12 h-12 rounded-full rotate-12 relative z-10" />
+          <div className="max-w-3xl mx-auto text-center pt-6">
+            <div className="flex justify-center items-end mb-4 relative">
+              <div className="absolute inset-0 bg-gradient-to-b from-[#92C7FF]/10 via-transparent to-transparent blur-3xl" />
+              <img src="/logo.png" alt="Bot" className="w-8 h-8 rounded-full -rotate-12 relative z-10" />
+              <img src="/logo.png" alt="Bot" className="w-12 h-12 rounded-full mx-[-8px] relative z-20" />
+              <img src="/logo.png" alt="Bot" className="w-8 h-8 rounded-full rotate-12 relative z-10" />
             </div>
             
-            <h1 className="text-5xl font-bold mb-6">Welcome, {username}!</h1>
-            <p className="text-lg text-[#9097A6] max-w-2xl mx-auto">
+            <h1 className="text-3xl font-semibold mb-4">Welcome, {username}!</h1>
+            <p className="text-base text-[#9097A6] max-w-[280px] mx-auto">
               Toly is here to help with insights on transactions, tokens, wallets and all activities on the 
-              <span className="text-[#6FCB71]"> Solana Blockchain</span>! What is on your mind today?
+              <span className="text-[#92C7FF]"> Solana Blockchain</span>! What is on your mind today?
             </p>
           </div>
 
           {/* Feature Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto mt-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto mt-8">
             {featureCards.map((card, index) => (
               <div 
                 key={index}
-                className="bg-[#121417] p-8 rounded-3xl border border-white/5 hover:border-white/10 transition-colors duration-200"
+                className="bg-[#121417] p-4 rounded-xl border border-white/5 hover:border-white/10 transition-colors duration-200"
               >
-                <h2 className="text-2xl font-bold mb-4">{card.title}</h2>
-                <p className="text-[#9097A6] leading-relaxed">{card.description}</p>
+                <h2 className="text-lg font-semibold mb-2">{card.title}</h2>
+                <p className="text-[#9097A6] text-sm leading-tight">{card.description}</p>
               </div>
             ))}
           </div>
@@ -255,18 +258,18 @@ const Dashboard: FC<Props> = ({ username, profileImage = "/logo.png" }) => {
         </div>
 
         {/* Fixed Chat Input */}
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black to-transparent pt-8">
-          <div className="w-full max-w-3xl mx-auto px-8 pb-8">
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black to-transparent pt-6">
+          <div className="w-full max-w-3xl mx-auto px-4 pb-6">
             <div className="relative">
               <img src="/sidecat.png" alt="Side Cat" 
-                className="absolute -top-32 right-0 w-24 h-24" />
+                className="absolute -top-24 right-0 w-16 h-16" />
               
-              <div className="flex items-center gap-4 bg-[#121417] p-4 rounded-2xl border border-white/5">
-                <div className="flex items-center gap-4 flex-1">
+              <div className="flex items-center gap-2 bg-[#121417] p-2 rounded-xl border border-white/5">
+                <div className="flex items-center gap-2 flex-1">
                   <div className="relative">
-                    <div className="absolute inset-0 bg-[#6FCB71]/20 rounded-full blur-lg" />
-                    <div className="w-12 h-12 bg-[#6FCB71] rounded-full flex items-center justify-center relative z-10">
-                      <img src="/dyor.png" alt="Bot" className="w-8 h-8 rounded-full" />
+                    <div className="absolute inset-0 bg-[#92C7FF]/20 rounded-full blur-lg" />
+                    <div className="w-8 h-8 bg-[#92C7FF] rounded-full flex items-center justify-center relative z-10">
+                      <img src="/dyor.png" alt="Bot" className="w-6 h-6 rounded-full" />
                     </div>
                   </div>
                   <input 
@@ -274,23 +277,23 @@ const Dashboard: FC<Props> = ({ username, profileImage = "/logo.png" }) => {
                     value={inputValue}
                     onChange={handleInputChange}
                     placeholder="Ask Toly something..."
-                    className="flex-1 bg-transparent text-[#9097A6] outline-none placeholder:text-[#9097A6]/50"
+                    className="flex-1 bg-transparent text-[#9097A6] outline-none placeholder:text-[#9097A6]/50 text-sm"
                   />
                 </div>
                 <button 
                   type="button"
                   onClick={handleSendMessage}
-                  className={`w-12 h-12 flex items-center justify-center rounded-full transition-colors duration-200
-                    ${inputValue.trim() ? 'bg-[#6FCB71] text-black' : 'bg-[#6FCB71]/20 text-[#6FCB71]'}`}
+                  className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors duration-200
+                    ${inputValue.trim() ? 'bg-[#92C7FF] text-black' : 'bg-[#92C7FF]/20 text-[#92C7FF]'}`}
                 >
-                  <FaPaperPlane size={16} />
+                  <FaPaperPlane size={12} />
                 </button>
               </div>
+              
+              <p className="text-center text-[#9097A6] mt-4 text-xs">
+                Information provided by Toly is not Financial Advice.
+              </p>
             </div>
-            
-            <p className="text-center text-[#9097A6] mt-6 opacity-80">
-              Information provided by Toly is not Financial Advice.
-            </p>
           </div>
         </div>
       </div>

@@ -448,15 +448,15 @@ const HeroSection = () => {
                 }}
               >
                 <span className="relative">
-                  <span className="relative z-10">Your AI companion exploring the solana blockchain</span>
-                  <motion.span
-                    className="absolute -inset-1 bg-gradient-to-r from-[#73B0D0] to-[#47F8C3] opacity-25 blur rounded-lg"
-                    animate={{
-                      opacity: [0.2, 0.4, 0.2],
-                    }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  />
-                </span>
+                <span className="relative z-10">Your AI companion exploring the solana blockchain</span>
+                    <motion.span
+                      className="absolute -inset-1 bg-gradient-to-r from-[#61BDFF] to-[#B3D9FF] opacity-25 blur rounded-lg"
+                      animate={{
+                        opacity: [0.2, 0.4, 0.2],
+                      }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    />
+                  </span>
               </motion.h1>
 
               <motion.p
@@ -475,27 +475,27 @@ const HeroSection = () => {
               whileTap={{ scale: 0.95 }}
               className="mx-auto lg:mx-0"
             >
-              <Link href="/auth/signup">
-                <motion.button
-                  className="relative group flex justify-center items-center w-[205px] h-16 bg-[#6FCB71] border border-[#6FCB71]/20 rounded-full overflow-hidden"
-                  whileHover="hover"
-                >
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-[#6FCB71] to-[#47F8C3]"
-                    animate={{
-                      x: ['-100%', '100%'],
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      ease: "linear",
-                    }}
-                  />
-                  <span className="relative z-10 text-lg font-medium text-[#0B0C0F] capitalize">
-                    let's get started
-                  </span>
-                </motion.button>
-              </Link>
+                <Link href="/auth/signup">
+                  <motion.button
+                    className="relative group flex justify-center items-center w-[205px] h-16 bg-[#61BDFF] border border-[#61BDFF]/20 rounded-full overflow-hidden"
+                    whileHover="hover"
+                  >
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r from-[#61BDFF] to-[#B3D9FF]"
+                      animate={{
+                        x: ['-100%', '100%'],
+                      }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        ease: "linear",
+                      }}
+                    />
+                    <span className="relative z-10 text-lg font-medium text-[#0B0C0F] capitalize">
+                      let's get started
+                    </span>
+                  </motion.button>
+                </Link>
             </motion.div>
           </motion.div>
 

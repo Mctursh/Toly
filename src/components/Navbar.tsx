@@ -217,12 +217,12 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, setIsOpen, navLinks }) 
                   href={link.href}
                   onClick={() => { router.push('/contact'); setIsOpen(false); }}
                   className={`relative text-xl ${
-                    link.active ? 'text-[#00EE05]' : 'text-[#9097A6]'
-                  } hover:text-[#00EE05] transition-colors`}
+                    link.active ? 'text-[#61BDFF]' : 'text-[#92C7FF]'
+                  } hover:text-[#61BDFF] transition-colors`}
                 >
                   {link.text}
                   <motion.div
-                    className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#00EE05]"
+                    className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#61BDFF]"
                     whileHover={{ width: "100%" }}
                     transition={{ duration: 0.3 }}
                   />
@@ -232,9 +232,9 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, setIsOpen, navLinks }) 
 
             <motion.button
               variants={menuItemVariants}
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.05, backgroundColor: '#B3D9FF' }}
               whileTap={{ scale: 0.95 }}
-              className="mt-4 px-6 py-3 border-2 border-[#6FCB71]/20 rounded-full text-lg font-medium text-[#6FCB71] bg-[#6FCB71]/5 hover:bg-[#6FCB71]/10 transition-colors"
+              className="mt-4 px-6 py-3 border-2 border-[#92C7FF] rounded-full text-lg font-medium text-[#92C7FF] bg-transparent hover:bg-[#B3D9FF] transition-colors"
               type="button"
             >
               Get In Touch
@@ -257,7 +257,6 @@ const Navbar: React.FC = () => {
     { href: 'https://toly.gitbook.io', text: 'For Developers' },
     { href: '/token', text: '$Catoly token' },
     { href: '/about', text: 'About us' },
-    // { href: '/roadmap', text: 'Roadmap' },
   ];
 
   useEffect(() => {
@@ -280,9 +279,9 @@ const Navbar: React.FC = () => {
         ${spaceGrotesk.className}
       `}
     >
-{/* Animated Background Line */}
-<motion.div 
-        className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#6FCB71]/20 to-transparent"
+      {/* Animated Background Line */}
+      <motion.div 
+        className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#61BDFF]/20 to-transparent"
         animate={{
           scaleX: [0, 1, 0],
           opacity: [0, 1, 0],
@@ -342,19 +341,18 @@ const Navbar: React.FC = () => {
         {navLinks.map((link) => (
           <motion.div
             key={link.text}
-            whileHover={{ scale: 1.1 }}
+            whileHover={{ scale: 1.05, color: '#61BDFF' }}
             whileTap={{ scale: 0.95 }}
+            transition={{ duration: 0.3 }}
           >
             <Link
               href={link.href}
-              className={`relative text-lg ${
-                link.active ? 'text-[#00EE05]' : 'text-[#9097A6]'
-              } hover:text-[#00EE05] transition-colors`}
+              className={`text-lg ${link.active ? 'text-[#61BDFF]' : 'text-[#92C7FF]'} hover:text-[#61BDFF] transition-colors`}
             >
               {link.text}
               {link.active && (
                 <motion.div
-                  className="absolute -bottom-1 left-0 w-full h-0.5 bg-[#00EE05]"
+                  className="absolute -bottom-1 left-0 w-full h-0.5 bg-[#61BDFF]"
                   layoutId="underline"
                   transition={{ type: "spring", bounce: 0.25, duration: 0.5 }}
                 />
@@ -371,13 +369,13 @@ const Navbar: React.FC = () => {
         className="hidden lg:block"
       >
         <motion.button
-          className="relative group flex items-center px-6 py-3 border-2 border-[#6FCB71]/20 rounded-full overflow-hidden"
+          className="relative group flex items-center px-6 py-3 border-2 border-[#92C7FF] rounded-full overflow-hidden"
           onClick={() => router.push('/contact')}
           type="button"
         >
           {/* Animated gradient background */}
           <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-[#6FCB71]/10 to-[#47F8C3]/10"
+            className="absolute inset-0 bg-gradient-to-r from-[#92C7FF]/10 to-[#B3D9FF]/10"
             animate={{
               x: ['-100%', '100%'],
             }}
@@ -393,15 +391,15 @@ const Navbar: React.FC = () => {
             className="absolute inset-0 rounded-full"
             animate={{
               boxShadow: [
-                "0 0 0 0px rgba(111,203,113,0.2)",
-                "0 0 0 4px rgba(111,203,113,0.2)",
-                "0 0 0 0px rgba(111,203,113,0.2)",
+                "0 0 0 0px rgba(146,199,255,0.2)",
+                "0 0 0 4px rgba(146,199,255,0.2)",
+                "0 0 0 0px rgba(146,199,255,0.2)",
               ],
             }}
             transition={{ duration: 2, repeat: Infinity }}
           />
 
-          <span className="relative z-10 text-lg font-medium text-[#6FCB71]">
+          <span className="relative z-10 text-lg font-medium text-[#92C7FF]">
             Get In Touch
           </span>
         </motion.button>
