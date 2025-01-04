@@ -85,7 +85,7 @@ const ContactPage: React.FC = () => {
           key={i}
           className="absolute w-16 h-16 rounded-full bg-[#92C7FF]/30"
           animate={{
-            x: [0, window.innerWidth - 100],
+            x: [0, typeof window !== 'undefined' ? window.innerWidth - 100 : 100],
             scale: [0.5, 1.5, 0.5],
             opacity: [0.5, 0.8, 0.5]
           }}
