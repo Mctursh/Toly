@@ -642,7 +642,7 @@ const ContactPage: React.FC = () => {
         </motion.h1>
 
         {/* Form and Image Container - Flex row on larger screens */}
-        <div className="flex flex-col lg:flex-row items-center justify-center w-full lg:justify-start lg:mr-[15%]">
+        <div className="flex flex-col lg:flex-row items-center justify-center w-full lg:justify-start lg:mr-[-75%]">
           {/* Contact Form */}
           <motion.form 
             className="w-full max-w-lg bg-black/50 backdrop-blur-lg p-6 rounded-lg shadow-lg lg:mr-4"
