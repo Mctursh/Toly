@@ -636,13 +636,13 @@ const ContactPage: React.FC = () => {
         {/* Title - Positioned above the form */}
         <motion.h1 
           animate={titleAnimation}
-          className="text-5xl md:text-7xl font-bold text-[#FAFAFA] text-center mb-6"
+          className="text-5xl md:text-7xl font-bold text-[#FAFAFA] text-center mb-6 pt-12"
         >
           Get in Touch
         </motion.h1>
 
         {/* Form and Image Container - Flex row on larger screens */}
-        <div className="flex flex-col lg:flex-row items-center justify-center w-full">
+        <div className="flex flex-col lg:flex-row items-center justify-center w-full lg:justify-start lg:ml-[15%]">
           {/* Contact Form */}
           <motion.form 
             className="w-full max-w-lg bg-black/50 backdrop-blur-lg p-6 rounded-lg shadow-lg lg:mr-4"
