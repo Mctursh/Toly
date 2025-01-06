@@ -71,7 +71,7 @@ const DemoChatComponent: React.FC = () => {
   };
 
   return (
-    <div className={`flex max-w-[700px] rounded-md mx-auto w-full h-[600px] overflow-hidden bg-black text-white ${spaceGrotesk.className}`}>
+    <div className={`flex max-w-[800px] mb-12 pb-12 rounded-md mx-auto w-full h-[600px] overflow-hidden bg-black text-white ${spaceGrotesk.className}`}>
       {/* Sidebar */}
       <div 
         className={`fixed lg:relative w-[100px] h-full bg-[#0B0C0F] transition-all duration-300 z-10 flex flex-col
