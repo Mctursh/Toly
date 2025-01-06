@@ -55,7 +55,7 @@ const GetStartedSection: React.FC = () => {
     <div className={`relative w-[80%] mx-auto mt-24 h-[503px] rounded-lg bg-[#121417] ${spaceGrotesk.className}`}>
       {/* Title and Description */}
       <div className="absolute w-[693px] max-sm:w-[400px] h-[105px] left-1/2 top-[100px] -translate-x-1/2 flex flex-col justify-center items-center gap-2">
-        <h2 className="w-full text-[#FAFAFA] max-sm:text-[18px] text-[30px] leading-[130%] font-bold text-center capitalize tracking-[-0.02em]">
+        <h2 className="w-full text-[#FAFAFA] max-sm:text-[24px] text-[30px] leading-[130%] font-bold text-center capitalize tracking-[-0.02em]">
           Let’s Get Started With Toly
         </h2>
         <p className="w-[593px] text-[#9097A6] max-sm:w-[393px] text-[18px] max-sm:text-[12px] leading-[160%] text-center">
@@ -64,7 +64,7 @@ const GetStartedSection: React.FC = () => {
       </div>
 
       {/* Image */}
-      <div className="absolute w-[280px] h-[280px] max-sm:w-[220px] max-sm:h-[220px] max-sm:top-[220px] left-1/2 max-sm:left-[180px] top-[245px] -translate-x-1/2">
+      <div className="absolute w-[280px] h-[280px] max-sm:w-[220px] max-sm:h-[220px] max-sm:top-[220px] left-1/2 max-sm:ml-[200px] top-[245px] -translate-x-1/2">
         <Image 
           src="/dyor.png"
           alt="Solana"
