@@ -80,15 +80,15 @@ const GetStartedSection: React.FC = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
-        <span className="text-white text-[18px] leading-[150%] capitalize">{leftMessage}</span>
+        <span className="text-white text-[14px] leading-[150%] capitalize">{leftMessage}</span>
       </motion.div>
 
       <motion.div 
-        className="absolute w-[300px] h-[80px] left-[500px] top-[313px] bg-[#0B0C0F] rounded-tl-[50px] rounded-br-[50px] rounded-bl-[50px] flex items-center p-6 gap-4 z-10"
+        className="absolute w-[300px] h-[80px] left-[840px] top-[313px] bg-[#0B0C0F] rounded-tl-[50px] rounded-br-[50px] rounded-bl-[50px] flex items-center p-6 gap-4 z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
-        <span className="text-white text-[12px] leading-[150%] capitalize">{rightMessage}</span>
+        <span className="text-white text-[14px] leading-[150%] capitalize">{rightMessage}</span>
       </motion.div>
     </div>
   );
