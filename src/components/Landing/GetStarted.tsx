@@ -52,19 +52,19 @@ const GetStartedSection: React.FC = () => {
 
 
   return (
-    <div className={`relative w-[90%] mx-auto mt-24 h-[503px] rounded-lg bg-[#121417] ${spaceGrotesk.className} sm:w-full sm:mt-12 sm:h-auto`}>
+    <div className={`relative w-[80%] mx-auto mt-24 h-[503px] rounded-lg bg-[#121417] ${spaceGrotesk.className}`}>
       {/* Title and Description */}
-      <div className="absolute w-full sm:w-[90%] left-1/2 top-[100px] -translate-x-1/2 flex flex-col justify-center items-center gap-2 sm:top-[50px]">
-        <h2 className="w-full text-[#FAFAFA] text-[30px] leading-[130%] font-bold text-center capitalize tracking-[-0.02em] sm:text-[24px]">
+      <div className="absolute w-[693px] h-[105px] left-1/2 top-[100px] -translate-x-1/2 flex flex-col justify-center items-center gap-2">
+        <h2 className="w-full text-[#FAFAFA] max-sm:text-[18px] text-[30px] leading-[130%] font-bold text-center capitalize tracking-[-0.02em]">
           Let’s Get Started With Toly
         </h2>
-        <p className="w-full text-[#9097A6] text-[18px] leading-[160%] text-center sm:text-[16px]">
+        <p className="w-[593px] text-[#9097A6] text-[18px] max-sm:text-[12px] leading-[160%] text-center">
           Embarking on an exciting journey: Discover the world of Solana by letting Toly unleash its true potential
         </p>
       </div>
 
       {/* Image */}
-      <div className="absolute w-[280px] h-[280px] left-1/2 top-[245px] -translate-x-1/2 sm:w-[200px] sm:h-[200px] sm:top-[150px]">
+      <div className="absolute w-[280px] h-[280px] max-sm:w-[220px] max-sm:h-[220px] max-sm:top-[220px] left-1/2 top-[245px] -translate-x-1/2">
         <Image 
           src="/dyor.png"
           alt="Solana"
@@ -76,7 +76,7 @@ const GetStartedSection: React.FC = () => {
 
       {/* Chat Messages */}
       <motion.div 
-        className="absolute w-[300px] h-[80px] left-[260px] top-[262px] bg-[#0B0C0F] rounded-tr-[50px] rounded-bl-[50px] rounded-br-[50px] flex items-center p-6 gap-4 z-10 sm:left-[10%] sm:top-[300px]"
+        className="absolute w-[300px] h-[80px] left-[260px] max-sm:left[60px] top-[262px] bg-[#0B0C0F] rounded-tr-[50px] rounded-bl-[50px] rounded-br-[50px] flex items-center p-6 gap-4 z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
@@ -84,7 +84,7 @@ const GetStartedSection: React.FC = () => {
       </motion.div>
 
       <motion.div 
-        className="absolute w-[300px] h-[80px] left-[630px] top-[313px] bg-[#0B0C0F] rounded-tl-[50px] rounded-br-[50px] rounded-bl-[50px] flex items-center p-6 gap-4 z-10 sm:left-[50%] sm:transform sm:-translate-x-1/2 sm:top-[380px]"
+        className="absolute w-[300px] h-[80px] left-[630px] max-sm:left-[300px] top-[313px] bg-[#0B0C0F] rounded-tl-[50px] rounded-br-[50px] rounded-bl-[50px] flex items-center p-6 gap-4 z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
