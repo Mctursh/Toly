@@ -1,8 +1,9 @@
 "use client"
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Space_Grotesk } from 'next/font/google';
 import Image from 'next/image';
+import gsap from 'gsap';
 
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
 
@@ -13,34 +14,59 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({ title, description, imageUrl }) => {
-  // GSAP animation would typically be used with useEffect for more complex animations, but here we use framer-motion for simplicity
-  const cardVariants = {
-    rest: { scale: 1 },
-    hover: { scale: 1.05, rotate: [0, 5, -5, 0], transition: { duration: 0.5, ease: 'easeInOut' } }
-  };
+    const cardRef = useRef<HTMLDivElement | null>(null);
 
-  const borderAnimation = {
-    animate: {
-      backgroundSize: ['0% 0%', '150% 150%'],
-      backgroundPosition: ['0% 0%', '100% 100%'],
-      transition: { duration: 5, repeat: Infinity, ease: 'linear' }
-    }
-  };
+    useEffect(() => {
+        if (cardRef.current) {
+          const tl = gsap.timeline({ repeat: -1, yoyo: true });
+          tl.fromTo(cardRef.current, { rotation: 0 }, { rotation: 2, duration: 2, ease: "power2.out" })
+            .to(cardRef.current, { y: "-=10", ease: "sine.inOut", duration: 1 }, 0)
+            .to(cardRef.current, { y: "+=10", ease: "sine.inOut", duration: 1 }, 1);
+      
+          const border = gsap.timeline({ repeat: -1 });
+          border.fromTo(cardRef.current, { 
+            borderWidth: "6px", 
+            borderColor: "rgba(97,189,255,0.5)" 
+          }, {
+            borderWidth: "12px",
+            borderColor: "rgba(179,217,255,0.5)",
+            duration: 5,
+            ease: "linear"
+          });
+      
+          // Hover effect
+          const hoverTL = gsap.timeline({ paused: true });
+          hoverTL.to(cardRef.current, { scale: 1.05, duration: 0.3 });
+      
+          // Set up mouse event listeners
+          const cardElement = cardRef.current as HTMLElement; // Assert that cardRef.current is an HTMLElement
+          const handleMouseEnter = () => hoverTL.play();
+          const handleMouseLeave = () => hoverTL.reverse();
+      
+          cardElement.addEventListener('mouseenter', handleMouseEnter);
+          cardElement.addEventListener('mouseleave', handleMouseLeave);
+      
+          // Clean up listeners on component unmount
+          return () => {
+            cardElement.removeEventListener('mouseenter', handleMouseEnter);
+            cardElement.removeEventListener('mouseleave', handleMouseLeave);
+          };
+        }
+      }, []);
 
   return (
     <motion.div 
+      ref={cardRef}
       className={`relative w-[387.33px] h-[371px] p-[40px_24px] flex flex-col items-center gap-6 rounded-[24px] ${spaceGrotesk.className}`}
-      variants={cardVariants}
-      initial="rest"
-      whileHover="hover"
       style={{
-        background: 'linear-gradient(45deg, #61BDFF, #B3D9FF, #61BDFF)',
-        backgroundSize: '200% 200%',
-        backgroundClip: 'padding-box, border-box',
+        background: 'rgba(20,20,20,0.8)', // dark background with slight transparency
         border: '6px solid transparent',
-        borderColor: '#61BDFF',
+        borderColor: 'rgba(97,189,255,0.5)',
+        borderImage: `linear-gradient(45deg, #61BDFF, #B3D9FF, #61BDFF) 1`,
       }}
-      animate={borderAnimation.animate}
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5, ease: 'easeOut' }}
     >
       <div className="w-[120px] h-[120px] rounded-[500px] overflow-hidden">
         <Image 
