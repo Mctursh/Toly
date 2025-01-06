@@ -63,12 +63,12 @@ const Card: React.FC<CardProps> = ({ title, description, imageUrl }) => {
     ref={cardRef}
         className={`relative w-[387.33px] h-[371px] p-[40px_24px] flex flex-col items-center gap-6 rounded-[24px] ${spaceGrotesk.className}`}
         style={{
-        background: 'rgba(20,20,20,0.8)', // dark background with slight transparency
-        border: '6px solid',
-        borderColor: 'transparent',
-        backgroundClip: 'padding-box',
-        backgroundImage: `linear-gradient(45deg, #73B0D0, #C44FE2, #47F8C3) 1`,
-      }}
+            background: 'rgba(20,20,20,0.8)', // dark background with slight transparency
+            border: '6px solid transparent',
+            backgroundClip: 'padding-box',
+            backgroundImage: 'linear-gradient(45deg, #73B0D0, #C44FE2, #47F8C3)', // corrected syntax
+            borderImage: 'linear-gradient(45deg, #73B0D0, #C44FE2, #47F8C3) 1', // add this for border image
+          }}
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
@@ -98,7 +98,7 @@ const FeaturesSection: React.FC = () => {
   ];
 
   return (
-    <div className="absolute w-[1210px] h-[371px] left-[calc(50%-1210px/2)] top-[1117px] flex flex-row items-start gap-[24px]">
+    <div className="w-[1210px] h-[371px] left-[calc(50%-1210px/2)] top-[1117px] flex flex-row items-start gap-[24px]">
       {cards.map((card, index) => (
         <Card key={index} {...card} />
       ))}
