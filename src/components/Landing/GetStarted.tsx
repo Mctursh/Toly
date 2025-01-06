@@ -63,7 +63,7 @@ const GetStartedSection: React.FC = () => {
       {/* Image */}
       <div className="absolute w-[280px] h-[280px] left-1/2 top-[245px] -translate-x-1/2">
         <Image 
-          src="/WhatsApp-Image-2024-12-12-at-13.31.30.jpg"
+          src="/dyor.png"
           alt="Solana"
           width={280}
           height={280}
