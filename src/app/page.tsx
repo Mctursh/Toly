@@ -3,6 +3,7 @@ import HeroSection from '@/components/Landing/Hero';
 import Navbar from '@/components/Navbar';
 import FeaturesSection from '@/components/Landing/Features';
 import GetStartedSection from '@/components/Landing/GetStarted';
+import Footer from '@/components/Landing/Footer';
 
 export default function Home() {
   return (
@@ -11,7 +12,7 @@ export default function Home() {
       <HeroSection />
       <FeaturesSection />
       <GetStartedSection />
-
+      <Footer />
     </main>
   );
 }
