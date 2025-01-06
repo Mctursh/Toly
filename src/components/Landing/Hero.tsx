@@ -215,7 +215,6 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { AnimationControls, motion, useAnimation, useScroll, useTransform } from 'framer-motion';
-import FeaturesSection from '@/components/Landing/Features';
 import Link from 'next/link';
 import { Space_Grotesk } from 'next/font/google';
 
@@ -304,7 +303,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <div className={`relative w-full overflow-hidden bg-black ${spaceGrotesk.className}`}>
+    <div className={`relative w-full min-h-screen overflow-hidden bg-black ${spaceGrotesk.className}`}>
       {/* Interactive Background Grid */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(20,20,20,.9)_2px,transparent_2px),linear-gradient(90deg,rgba(20,20,20,.9)_2px,transparent_2px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_70%,transparent_100%)] opacity-30" />
 
@@ -524,7 +523,6 @@ const HeroSection = () => {
             </FloatingElement>
           </motion.div>
         </div>
-        <FeaturesSection />
       </motion.div>
       {/* Add CSS for scrollbar hiding */}
       <style jsx global>{`
