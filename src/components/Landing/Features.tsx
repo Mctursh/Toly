@@ -66,7 +66,6 @@ const Card: React.FC<CardProps> = ({ title, description, imageUrl }) => {
             background: 'rgba(20,20,20,0.8)', // dark background with slight transparency
             border: '6px solid transparent',
             backgroundClip: 'padding-box',
-            backgroundImage: 'linear-gradient(45deg, #73B0D0, #C44FE2, #47F8C3)', // corrected syntax
             borderImage: 'linear-gradient(45deg, #73B0D0, #C44FE2, #47F8C3) 1', // add this for border image
           }}
       initial={{ opacity: 0, scale: 0.9 }}
