@@ -23,23 +23,27 @@ const Card: React.FC<CardProps> = ({ title, description, imageUrl }) => {
             .to(cardRef.current, { y: "-=10", ease: "sine.inOut", duration: 1 }, 0)
             .to(cardRef.current, { y: "+=10", ease: "sine.inOut", duration: 1 }, 1);
       
-          const border = gsap.timeline({ repeat: -1 });
-          border.fromTo(cardRef.current, { 
-            borderWidth: "6px", 
-            borderColor: "rgba(97,189,255,0.5)" 
-          }, {
-            borderWidth: "12px",
-            borderColor: "rgba(179,217,255,0.5)",
+        // Border animation
+        gsap.to(cardRef.current, {
             duration: 5,
-            ease: "linear"
-          });
+            repeat: -1,
+            ease: "linear",
+            backgroundSize: "300% 300%",
+            onUpdate: () => {
+            // Calculate the current position based on the timeline's progress
+            const progress = gsap.getProperty(cardRef.current, 'progress') as number; // Cast to number
+            const [start, end] = ["0% 50%", "100% 50%"];
+            const position = gsap.utils.interpolate(start, end, progress); // Use separate start and end values
+            (cardRef.current as HTMLElement).style.backgroundPosition = position as string; // Cast to string for assignment
+            }
+        });
       
           // Hover effect
           const hoverTL = gsap.timeline({ paused: true });
           hoverTL.to(cardRef.current, { scale: 1.05, duration: 0.3 });
       
           // Set up mouse event listeners
-          const cardElement = cardRef.current as HTMLElement; // Assert that cardRef.current is an HTMLElement
+          const cardElement = cardRef.current as HTMLElement;
           const handleMouseEnter = () => hoverTL.play();
           const handleMouseLeave = () => hoverTL.reverse();
       
@@ -56,13 +60,14 @@ const Card: React.FC<CardProps> = ({ title, description, imageUrl }) => {
 
   return (
     <motion.div 
-      ref={cardRef}
-      className={`relative w-[387.33px] h-[371px] p-[40px_24px] flex flex-col items-center gap-6 rounded-[24px] ${spaceGrotesk.className}`}
-      style={{
+    ref={cardRef}
+        className={`relative w-[387.33px] h-[371px] p-[40px_24px] flex flex-col items-center gap-6 rounded-[24px] ${spaceGrotesk.className}`}
+        style={{
         background: 'rgba(20,20,20,0.8)', // dark background with slight transparency
-        border: '6px solid transparent',
-        borderColor: 'rgba(97,189,255,0.5)',
-        borderImage: `linear-gradient(45deg, #61BDFF, #B3D9FF, #61BDFF) 1`,
+        border: '6px solid',
+        borderColor: 'transparent',
+        backgroundClip: 'padding-box',
+        backgroundImage: `linear-gradient(45deg, #73B0D0, #C44FE2, #47F8C3) 1`,
       }}
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
