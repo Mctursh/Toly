@@ -216,6 +216,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { AnimationControls, motion, useAnimation, useScroll, useTransform } from 'framer-motion';
 import FeaturesSection from '@/components/Landing/Features';
+import GetStartedSection from '@/components/Landing/GetStarted';
 import Link from 'next/link';
 import { Space_Grotesk } from 'next/font/google';
 
@@ -525,6 +526,7 @@ const HeroSection = () => {
           </motion.div>
         </div>
         <FeaturesSection />
+        <GetStartedSection />
       </motion.div>
       {/* Add CSS for scrollbar hiding */}
       <style jsx global>{`
