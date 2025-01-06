@@ -16,6 +16,7 @@ import {
 } from "react-icons/fa6";
 import { FaCog, FaHistory } from 'react-icons/fa'
 import { Space_Grotesk } from 'next/font/google';
+import Image from 'next/image';
 
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
 
@@ -24,12 +25,13 @@ const DemoChatComponent: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [typingIndex, setTypingIndex] = useState<number>(0);
   const [showMessages, setShowMessages] = useState<boolean>(false);
+  const [showLoader, setShowLoader] = useState<boolean>(false);
   
   const demoQuestion = "How does Solana handle scalability?";
   const demoAnswer = "Solana uses Proof of History (PoH) combined with Tower BFT for exceptional scalability.";
 
   useEffect(() => {
-    let intervalId: number | NodeJS.Timeout | undefined; // Use union type for both environments
+    let intervalId: number | NodeJS.Timeout | undefined; // Using union type for both environments
   
     const typeMessage = () => {
       let index = 0;
@@ -39,14 +41,18 @@ const DemoChatComponent: React.FC = () => {
           index++;
         } else {
           clearInterval(intervalId);
+          setInputValue(''); // Clear input after typing
           setShowMessages(true);
           setTimeout(() => {
-            setTypingIndex(0); // Reset typing index
-            setInputValue(''); // Clear input
-            setShowMessages(false); // Hide messages
-            // Restart animation after messages are hidden
-            setTimeout(typeMessage, 2000); // Wait a second before restarting
-          }, 5000); // Show messages for 5 seconds
+            setShowLoader(true); // Show loader
+            setTimeout(() => {
+              setShowLoader(false); // Hide loader after some time
+              setTimeout(() => {
+                setShowMessages(false); // Hide messages
+                setTimeout(typeMessage, 1000); // Restart after everything is done
+              }, 2000); // Time for second message to be displayed
+            }, 3000); // Duration of loader display
+          }, 500); // Small delay before showing loader
         }
       }, 100);
     };
@@ -220,21 +226,38 @@ const DemoChatComponent: React.FC = () => {
           {showMessages && (
             <>
               <motion.div 
-                className="w-[100px] h-[40px] mb-2 bg-[#0B0C0F] rounded-tr-[25px] rounded-bl-[25px] rounded-br-[25px] flex items-center px-2 gap-1 z-10"
+                className="w-[200px] h-[40px] mb-2 bg-[#0B0C0F]  rounded-tl-[25px] rounded-br-[25px] rounded-bl-[25px] flex items-center px-2 gap-1 z-10"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
               >
                 <span className="text-white text-[10px] leading-[150%] capitalize">{demoQuestion}</span>
               </motion.div>
 
-              <motion.div 
-                className="w-[100px] h-[40px] bg-[#61BDFF] rounded-tl-[25px] rounded-br-[25px] rounded-bl-[25px] flex items-center px-2 gap-1 z-10"
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-              >
-                <span className="text-black text-[10px] leading-[150%] capitalize">{demoAnswer}</span>
-              </motion.div>
+              {showLoader ? (
+                <motion.div 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="w-[50px] h-[50px] mx-auto mb-2"
+                >
+                  <Image 
+                    src="/wen.png" 
+                    alt="Loading" 
+                    width={50}
+                    height={50}
+                    className="animate-spin"
+                  />
+                </motion.div>
+              ) : (
+                <motion.div 
+                  className="w-[200px] h-[40px] bg-[#61BDFF] rounded-tr-[25px] rounded-bl-[25px] rounded-br-[25px] flex items-center px-2 gap-1 z-10"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  <span className="text-black text-[10px] leading-[150%] capitalize">{demoAnswer}</span>
+                </motion.div>
+              )}
             </>
           )}
         </div>
