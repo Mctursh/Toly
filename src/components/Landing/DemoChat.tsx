@@ -225,9 +225,9 @@ const DemoChatComponent: React.FC = () => {
           {/* Animated Messages */}
           {showMessages && (
             <>
-            <div className="flex items-center mb-2 left-[220px]">
+            <div className="flex items-center mb-2 ml-[220px]">
               <motion.div 
-                className="w-[200px] h-[60px] mb-2 bg-[#0B0C0F]  rounded-tl-[25px] rounded-br-[25px] rounded-bl-[25px] flex items-center px-2 gap-1 z-10"
+                className="w-[200px] h-[40px] mb-2 bg-[#0B0C0F]  rounded-tl-[25px] rounded-br-[25px] rounded-bl-[25px] flex items-center px-2 gap-1 z-10"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
               >
@@ -266,7 +266,7 @@ const DemoChatComponent: React.FC = () => {
                       alt="Loading" 
                       width={20}
                       height={20}
-                      className="inline-block"
+                      className="inline-block rounded-full"
                     />
                   </motion.div>
                 </motion.div>
@@ -282,7 +282,7 @@ const DemoChatComponent: React.FC = () => {
                     />
                   </div>
                 <motion.div 
-                  className="w-[200px] h-[60px] bg-[#61BDFF] rounded-tr-[25px] rounded-bl-[25px] rounded-br-[25px] flex items-center px-2 gap-1 z-10"
+                  className="w-[200px] h-[40px] bg-[#61BDFF] rounded-tr-[25px] rounded-bl-[25px] rounded-br-[25px] flex items-center px-2 gap-1 z-10"
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 }}
