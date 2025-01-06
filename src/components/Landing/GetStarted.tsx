@@ -64,7 +64,7 @@ const GetStartedSection: React.FC = () => {
       </div>
 
       {/* Image */}
-      <div className="absolute w-[280px] h-[280px] max-sm:w-[220px] max-sm:h-[220px] max-sm:top-[220px] left-1/2 max-sm:ml-[200px] top-[245px] -translate-x-1/2">
+      <div className="absolute w-[280px] h-[280px] max-sm:w-[220px] max-sm:h-[220px] max-sm:top-[220px] left-1/2 max-sm:ml-[120px] top-[245px] -translate-x-1/2">
         <Image 
           src="/dyor.png"
           alt="Solana"
