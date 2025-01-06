@@ -71,7 +71,7 @@ const DemoChatComponent: React.FC = () => {
   };
 
   return (
-    <div className={`flex max-w-[800px] mb-12 pb-12 rounded-md mx-auto w-full h-[600px] overflow-hidden bg-black text-white ${spaceGrotesk.className}`}>
+    <div className={`flex max-w-[800px] mb-24 rounded-md mx-auto w-full h-[600px] overflow-hidden bg-black text-white ${spaceGrotesk.className}`}>
       {/* Sidebar */}
       <div 
         className={`fixed lg:relative w-[100px] h-full bg-[#0B0C0F] transition-all duration-300 z-10 flex flex-col
@@ -225,7 +225,7 @@ const DemoChatComponent: React.FC = () => {
           {/* Animated Messages */}
           {showMessages && (
             <>
-            <div className="flex items-center mb-2 ml-[220px]">
+            <div className="flex items-center mb-2 ml-[400px]">
               <motion.div 
                 className="w-[200px] h-[40px] mb-2 bg-[#0B0C0F]  rounded-tl-[25px] rounded-br-[25px] rounded-bl-[25px] flex items-center px-2 gap-1 z-10"
                 initial={{ opacity: 0, y: -10 }}
@@ -271,7 +271,7 @@ const DemoChatComponent: React.FC = () => {
                   </motion.div>
                 </motion.div>
               ) : (
-                <div className="flex items-center">
+                <div className="flex items-center mb-2">
                   <div className="w-6 h-6 mr-2">
                     <Image 
                       src="/dyor.png" 
