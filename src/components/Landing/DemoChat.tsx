@@ -74,7 +74,7 @@ const DemoChatComponent: React.FC = () => {
     <div className={`flex max-w-[600px] mx-auto w-full h-[600px] overflow-hidden bg-black text-white ${spaceGrotesk.className}`}>
       {/* Sidebar */}
       <div 
-        className={`fixed lg:relative w-[100px] h-full bg-[#0B0C0F] transition-all duration-300 z-50 flex flex-col
+        className={`fixed lg:relative w-[100px] h-full bg-[#0B0C0F] transition-all duration-300 z-10 flex flex-col
           ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
           border-r border-white/5`}
       >

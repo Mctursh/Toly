@@ -273,7 +273,7 @@ const Navbar: React.FC = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       className={`
-        fixed top-0 left-0 w-full h-28 flex items-center z-60 justify-between px-8 md:px-16 lg:px-32 
+        fixed top-0 left-0 w-full h-28 flex items-center z-20 justify-between px-8 md:px-16 lg:px-32 
         ${scrolled ? 'bg-black/90' : 'bg-transparent'} 
         backdrop-blur-sm z-50 transition-all duration-300
         ${spaceGrotesk.className}
