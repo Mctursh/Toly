@@ -245,7 +245,7 @@ const DemoChatComponent: React.FC = () => {
             </div>
               {showLoader ? (
                 <motion.div 
-                  className="w-[200px] h-[40px] bg-[#61BDFF]/20 rounded-tl-[25px] rounded-br-[25px] rounded-bl-[25px] relative overflow-hidden z-10"
+                  className="w-[200px] h-[40px] bg-[#61BDFF]/20 rounded-tr-[25px] rounded-bl-[25px] rounded-br-[25px] relative overflow-hidden z-10"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
