@@ -98,7 +98,7 @@ const FeaturesSection: React.FC = () => {
   ];
 
   return (
-    <div className="absolute w-[1210px] h-[371px] left-[calc(50%-1210px/2)] top-[1117px] flex flex-row items-start gap-[24px]">
+    <div className="bg-black absolute w-[1210px] h-[371px] left-[calc(50%-1210px/2)] top-[1117px] flex flex-row items-start gap-[24px]">
       {cards.map((card, index) => (
         <Card key={index} {...card} />
       ))}
