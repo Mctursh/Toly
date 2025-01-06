@@ -82,7 +82,7 @@ const GetStartedSection: React.FC = () => {
       </motion.div>
 
       <motion.div 
-        className="absolute w-[300px] h-[80px] left-[600px] max-sm:w-[200px] max-sm:h-[40px] max-sm:left-[200px] max-sm:top-[275px] top-[313px] bg-[#0B0C0F] rounded-tl-[50px] rounded-br-[50px] rounded-bl-[50px] flex items-center p-6 gap-4 z-10"
+        className="absolute w-[300px] h-[80px] left-[650px] max-sm:w-[200px] max-sm:h-[40px] max-sm:left-[200px] max-sm:top-[275px] top-[313px] bg-[#0B0C0F] rounded-tl-[50px] rounded-br-[50px] rounded-bl-[50px] flex items-center p-6 gap-4 z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
