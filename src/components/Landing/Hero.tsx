@@ -382,9 +382,10 @@ const HeroSection = () => {
                 alt="Wen Cat"
                 width={100}
                 height={100}
+                quality={100}
                 className="w-[100px] h-[100px] md:w-[200px] md:h-[200px] object-contain hover:cursor-pointer"
                 style={{
-                  filter: "drop-shadow(0 0 8px rgba(111,203,113,0.5))",
+                  filter: "drop-shadow(0 0 4px rgba(111,203,113,0.3))",
                 }}
                 priority
               />

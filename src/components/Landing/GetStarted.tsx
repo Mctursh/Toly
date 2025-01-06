@@ -76,7 +76,7 @@ const GetStartedSection: React.FC = () => {
 
       {/* Chat Messages */}
       <motion.div 
-        className="absolute w-[300px] h-[80px] left-[360px] top-[262px] bg-[#0B0C0F] rounded-tr-[50px] rounded-bl-[50px] rounded-br-[50px] flex items-center p-6 gap-4 z-10"
+        className="absolute w-[300px] h-[80px] left-[260px] top-[262px] bg-[#0B0C0F] rounded-tr-[50px] rounded-bl-[50px] rounded-br-[50px] flex items-center p-6 gap-4 z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
@@ -84,7 +84,7 @@ const GetStartedSection: React.FC = () => {
       </motion.div>
 
       <motion.div 
-        className="absolute w-[300px] h-[80px] left-[770px] top-[313px] bg-[#0B0C0F] rounded-tl-[50px] rounded-br-[50px] rounded-bl-[50px] flex items-center p-6 gap-4 z-10"
+        className="absolute w-[300px] h-[80px] left-[670px] top-[313px] bg-[#0B0C0F] rounded-tl-[50px] rounded-br-[50px] rounded-bl-[50px] flex items-center p-6 gap-4 z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
