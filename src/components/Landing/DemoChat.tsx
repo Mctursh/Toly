@@ -26,7 +26,7 @@ const DemoChatComponent: React.FC = () => {
   const [showMessages, setShowMessages] = useState<boolean>(false);
   
   const demoQuestion = "How does Solana handle scalability?";
-  const demoAnswer = "Solana uses a unique consensus mechanism called Proof of History (PoH) combined with Tower BFT for exceptional scalability.";
+  const demoAnswer = "Solana uses Proof of History (PoH) combined with Tower BFT for exceptional scalability.";
 
   useEffect(() => {
     let intervalId: number | NodeJS.Timeout | undefined; // Use union type for both environments
@@ -41,29 +41,31 @@ const DemoChatComponent: React.FC = () => {
           clearInterval(intervalId);
           setShowMessages(true);
           setTimeout(() => {
-            setTypingIndex(0);
-            setInputValue('');
-            setShowMessages(false);
+            setTypingIndex(0); // Reset typing index
+            setInputValue(''); // Clear input
+            setShowMessages(false); // Hide messages
+            // Restart animation after messages are hidden
+            setTimeout(typeMessage, 2000); // Wait a second before restarting
           }, 5000); // Show messages for 5 seconds
         }
       }, 100);
     };
   
-    typeMessage(); // Call typeMessage to start the animation
+    typeMessage(); // Start the animation
   
     return () => {
       if (intervalId) {
         clearInterval(intervalId);
       }
     };
-  }, [typingIndex]);
+  }, []); // Empty dependency array to run once on mount
 
   const toggleSidebar = (): void => {
     setIsSidebarOpen(prev => !prev);
   };
 
   return (
-    <div className={`flex w-[300px] h-[400px] overflow-hidden bg-black text-white ${spaceGrotesk.className}`}>
+    <div className={`flex max-w-[600px] mx-auto w-full h-[600px] overflow-hidden bg-black text-white ${spaceGrotesk.className}`}>
       {/* Sidebar */}
       <div 
         className={`fixed lg:relative w-[100px] h-full bg-[#0B0C0F] transition-all duration-300 z-50 flex flex-col
