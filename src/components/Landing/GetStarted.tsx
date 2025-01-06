@@ -54,7 +54,7 @@ const GetStartedSection: React.FC = () => {
   return (
     <div className={`relative w-[80%] mx-auto mt-24 h-[503px] rounded-lg bg-[#121417] ${spaceGrotesk.className}`}>
       {/* Title and Description */}
-      <div className="absolute w-[693px] h-[105px] left-1/2 top-[100px] -translate-x-1/2 flex flex-col justify-center items-center gap-2">
+      <div className="absolute w-[693px] max-sm:w-[400px] h-[105px] left-1/2 top-[100px] -translate-x-1/2 flex flex-col justify-center items-center gap-2">
         <h2 className="w-full text-[#FAFAFA] max-sm:text-[18px] text-[30px] leading-[130%] font-bold text-center capitalize tracking-[-0.02em]">
           Let’s Get Started With Toly
         </h2>
@@ -64,7 +64,7 @@ const GetStartedSection: React.FC = () => {
       </div>
 
       {/* Image */}
-      <div className="absolute w-[280px] h-[280px] max-sm:w-[220px] max-sm:h-[220px] max-sm:top-[220px] left-1/2 top-[245px] -translate-x-1/2">
+      <div className="absolute w-[280px] h-[280px] max-sm:w-[220px] max-sm:h-[220px] max-sm:top-[220px] left-1/2 max-sm:left-[180px] top-[245px] -translate-x-1/2">
         <Image 
           src="/dyor.png"
           alt="Solana"
@@ -74,15 +74,15 @@ const GetStartedSection: React.FC = () => {
 
       {/* Chat Messages */}
       <motion.div 
-        className="absolute w-[300px] h-[80px] left-[260px] max-sm:w-[200px] max-sm:h-[40px] max-sm:left[10px] top-[262px] bg-[#0B0C0F] rounded-tr-[50px] rounded-bl-[50px] rounded-br-[50px] flex items-center p-6 gap-4 z-10"
+        className="absolute w-[300px] h-[80px] left-[260px] max-sm:w-[200px] max-sm:h-[40px] max-sm:left-[10px] max-sm:top-[230px] top-[262px] bg-[#0B0C0F] rounded-tr-[50px] rounded-bl-[50px] rounded-br-[50px] flex items-center p-6 gap-4 z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
-        <span className="text-white text-[14px] max-sm:[10px] leading-[150%] capitalize">{leftMessage}</span>
+        <span className="text-white text-[14px] max-sm:text-[10px] leading-[150%] capitalize">{leftMessage}</span>
       </motion.div>
 
       <motion.div 
-        className="absolute w-[300px] h-[80px] left-[630px] max-sm:w-[200px] max-sm:h-[40px] max-sm:left-[200px] top-[313px] bg-[#0B0C0F] rounded-tl-[50px] rounded-br-[50px] rounded-bl-[50px] flex items-center p-6 gap-4 z-10"
+        className="absolute w-[300px] h-[80px] left-[630px] max-sm:w-[200px] max-sm:h-[40px] max-sm:left-[200px] max-sm:top-[275px] top-[313px] bg-[#0B0C0F] rounded-tl-[50px] rounded-br-[50px] rounded-bl-[50px] flex items-center p-6 gap-4 z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
