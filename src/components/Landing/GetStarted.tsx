@@ -6,13 +6,15 @@ import { Space_Grotesk } from 'next/font/google';
 
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
 
-const questions = [
-  "Toly, what is proof of history?",
-  "What makes Solana's consensus mechanism unique?",
-  "How does Solana handle scalability?",
-  "What are Solana's transaction speeds like?",
-  "Can you explain Solana's staking mechanism?",
-];
+const questionsLeft = [
+    "Toly, what is proof of history?",
+    "How does Solana handle scalability?",
+  ];
+  
+  const questionsRight = [
+    "What makes Solana's consensus unique?",
+    "What are Solana's transaction speeds like?",
+  ];
 
 const GetStartedSection: React.FC = () => {
   const [leftMessage, setLeftMessage] = useState('');
@@ -31,22 +33,23 @@ const GetStartedSection: React.FC = () => {
           clearInterval(interval);
           // Reset typing after a delay
           setTimeout(() => {
-            setIndex((oldIndex) => (oldIndex + 1) % questions.length);
+            setIndex((oldIndex) => (oldIndex + 1) % questionsLeft.length); // Adjust for each side
             setMessage('');
           }, 3000);
         }
       }, 50);
-      return interval; // Return the interval ID
+      return interval;
     };
-  
-    const leftInterval = typeMessage(setLeftMessage, setTypingIndexLeft, questions[typingIndexLeft]);
-    const rightInterval = typeMessage(setRightMessage, setTypingIndexRight, questions[typingIndexRight]);
-  
+
+    const leftInterval = typeMessage(setLeftMessage, setTypingIndexLeft, questionsLeft[typingIndexLeft]);
+    const rightInterval = typeMessage(setRightMessage, setTypingIndexRight, questionsRight[typingIndexRight]);
+
     return () => {
       clearInterval(leftInterval);
       clearInterval(rightInterval);
     };
   }, [typingIndexLeft, typingIndexRight]);
+
 
   return (
     <div className={`relative w-full rounded-md pt-12 h-[503px] bg-[#121417] ${spaceGrotesk.className}`}>
@@ -73,7 +76,7 @@ const GetStartedSection: React.FC = () => {
 
       {/* Chat Messages */}
       <motion.div 
-        className="absolute w-[381px] h-[102px] left-[400px] top-[262px] bg-[#0B0C0F] rounded-tr-[50px] rounded-bl-[50px] rounded-br-[50px] flex items-center p-6 gap-4 z-10"
+        className="absolute w-[300px] h-[80px] left-[400px] top-[262px] bg-[#0B0C0F] rounded-tr-[50px] rounded-bl-[50px] rounded-br-[50px] flex items-center p-6 gap-4 z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
@@ -81,11 +84,11 @@ const GetStartedSection: React.FC = () => {
       </motion.div>
 
       <motion.div 
-        className="absolute w-[428px] h-[102px] left-[500px] top-[313px] bg-[#0B0C0F] rounded-tl-[50px] rounded-br-[50px] rounded-bl-[50px] flex items-center p-6 gap-4 z-10"
+        className="absolute w-[300px] h-[80px] left-[500px] top-[313px] bg-[#0B0C0F] rounded-tl-[50px] rounded-br-[50px] rounded-bl-[50px] flex items-center p-6 gap-4 z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
-        <span className="text-white text-[18px] leading-[150%] capitalize">{rightMessage}</span>
+        <span className="text-white text-[12px] leading-[150%] capitalize">{rightMessage}</span>
       </motion.div>
     </div>
   );
