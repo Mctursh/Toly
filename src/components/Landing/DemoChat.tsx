@@ -28,7 +28,7 @@ const DemoChatComponent: React.FC = () => {
   const [showLoader, setShowLoader] = useState<boolean>(false);
   
   const demoQuestion = "How does Solana handle scalability?";
-  const demoAnswer = "Solana uses Proof of History (PoH) combined with Tower BFT for exceptional scalability.";
+  const demoAnswer = "Solana uses Proof of History (PoH) combined with Tower BFT for exceptional scalability. Let me know if you'd like me to elaborate.";
 
   useEffect(() => {
     let intervalId: number | NodeJS.Timeout | undefined; // Using union type for both environments
@@ -225,38 +225,71 @@ const DemoChatComponent: React.FC = () => {
           {/* Animated Messages */}
           {showMessages && (
             <>
+            <div className="flex items-center mb-2 left-[220px]">
               <motion.div 
-                className="w-[200px] h-[40px] mb-2 bg-[#0B0C0F]  rounded-tl-[25px] rounded-br-[25px] rounded-bl-[25px] flex items-center px-2 gap-1 z-10"
+                className="w-[200px] h-[60px] mb-2 bg-[#0B0C0F]  rounded-tl-[25px] rounded-br-[25px] rounded-bl-[25px] flex items-center px-2 gap-1 z-10"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
               >
                 <span className="text-white text-[10px] leading-[150%] capitalize">{demoQuestion}</span>
               </motion.div>
-
+              <div className="w-6 h-6 ml-2">
+                  <Image 
+                    src="/gm.png" 
+                    alt="Good morning" 
+                    width={24}
+                    height={24}
+                    className="rounded-full"
+                  />
+                </div>
+            </div>
               {showLoader ? (
                 <motion.div 
+                  className="w-[200px] h-[40px] bg-[#61BDFF]/20 rounded-tl-[25px] rounded-br-[25px] rounded-bl-[25px] relative overflow-hidden z-10"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="w-[50px] h-[50px] mx-auto mb-2"
                 >
-                  <Image 
-                    src="/wen.png" 
-                    alt="Loading" 
-                    width={50}
-                    height={50}
-                    className="animate-spin"
-                  />
+                  <motion.div 
+                    className="w-full h-full flex items-center justify-center"
+                    animate={{
+                      x: [0, '100%', '0%'],
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "linear"
+                    }}
+                  >
+                    <Image 
+                      src="/wen.png" 
+                      alt="Loading" 
+                      width={20}
+                      height={20}
+                      className="inline-block"
+                    />
+                  </motion.div>
                 </motion.div>
               ) : (
+                <div className="flex items-center">
+                  <div className="w-6 h-6 mr-2">
+                    <Image 
+                      src="/dyor.png" 
+                      alt="Do Your Own Research" 
+                      width={24}
+                      height={24}
+                      className="rounded-full"
+                    />
+                  </div>
                 <motion.div 
-                  className="w-[200px] h-[40px] bg-[#61BDFF] rounded-tr-[25px] rounded-bl-[25px] rounded-br-[25px] flex items-center px-2 gap-1 z-10"
+                  className="w-[200px] h-[60px] bg-[#61BDFF] rounded-tr-[25px] rounded-bl-[25px] rounded-br-[25px] flex items-center px-2 gap-1 z-10"
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 }}
                 >
                   <span className="text-black text-[10px] leading-[150%] capitalize">{demoAnswer}</span>
                 </motion.div>
+                </div>
               )}
             </>
           )}
