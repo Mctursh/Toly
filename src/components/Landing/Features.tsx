@@ -97,7 +97,7 @@ const FeaturesSection: React.FC = () => {
   ];
 
   return (
-    <div className="w-[1210px] max-w-full mx-auto flex flex-row items-start gap-[24px]">
+    <div className="w-[1210px] max-w-full mx-auto mb-12 flex flex-row items-start gap-[24px]">
       {cards.map((card, index) => (
         <Card key={index} {...card} />
       ))}
