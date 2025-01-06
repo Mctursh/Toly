@@ -49,7 +49,7 @@ const GetStartedSection: React.FC = () => {
   }, [typingIndexLeft, typingIndexRight]);
 
   return (
-    <div className={`relative w-full h-[503px] bg-[#121417] ${spaceGrotesk.className}`}>
+    <div className={`relative w-full rounded-md pt-12 h-[503px] bg-[#121417] ${spaceGrotesk.className}`}>
       {/* Title and Description */}
       <div className="absolute w-[693px] h-[105px] left-1/2 top-[100px] -translate-x-1/2 flex flex-col justify-center items-center gap-2">
         <h2 className="w-full text-[#FAFAFA] text-[30px] leading-[130%] font-bold text-center capitalize tracking-[-0.02em]">
@@ -65,15 +65,15 @@ const GetStartedSection: React.FC = () => {
         <Image 
           src="/dyor.png"
           alt="Solana"
-          width={280}
-          height={280}
+          width={200}
+          height={200}
           className="object-cover rounded-[500px]"
         />
       </div>
 
       {/* Chat Messages */}
       <motion.div 
-        className="absolute w-[381px] h-[102px] left-[475px] top-[262px] bg-[#0B0C0F] rounded-tr-[50px] rounded-bl-[50px] rounded-br-[50px] flex items-center p-6 gap-4 z-10"
+        className="absolute w-[381px] h-[102px] left-[400px] top-[262px] bg-[#0B0C0F] rounded-tr-[50px] rounded-bl-[50px] rounded-br-[50px] flex items-center p-6 gap-4 z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
@@ -81,7 +81,7 @@ const GetStartedSection: React.FC = () => {
       </motion.div>
 
       <motion.div 
-        className="absolute w-[428px] h-[102px] left-[1016px] top-[313px] bg-[#0B0C0F] rounded-tl-[50px] rounded-br-[50px] rounded-bl-[50px] flex items-center p-6 gap-4 z-10"
+        className="absolute w-[428px] h-[102px] left-[500px] top-[313px] bg-[#0B0C0F] rounded-tl-[50px] rounded-br-[50px] rounded-bl-[50px] flex items-center p-6 gap-4 z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
