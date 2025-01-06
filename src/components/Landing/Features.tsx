@@ -11,6 +11,7 @@ interface CardProps {
   title: string;
   description: string;
   imageUrl: string;
+  style?: React.CSSProperties; // Add this line
 }
 
 const Card: React.FC<CardProps> = ({ title, description, imageUrl }) => {
@@ -97,9 +98,19 @@ const FeaturesSection: React.FC = () => {
   ];
 
   return (
-    <div className="w-[1210px] max-w-full mx-auto mb-24 flex flex-row items-start gap-[24px]">
+    <div className="w-[1210px] max-w-full mx-auto mb-24 flex flex-row items-start gap-[24px] sm:gap-[16px] sm:flex-col sm:w-full sm:items-center">
       {cards.map((card, index) => (
-        <Card key={index} {...card} />
+        <Card 
+          key={index} 
+          {...card} 
+          // Add responsive classes to adjust card size for smaller screens
+          style={{ 
+            width: '100%', 
+            maxWidth: '387.33px', 
+            height: 'auto', 
+            minHeight: '371px' 
+          }}
+        />
       ))}
     </div>
   );
