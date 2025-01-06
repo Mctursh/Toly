@@ -58,7 +58,7 @@ const GetStartedSection: React.FC = () => {
         <h2 className="w-full text-[#FAFAFA] max-sm:text-[18px] text-[30px] leading-[130%] font-bold text-center capitalize tracking-[-0.02em]">
           Let’s Get Started With Toly
         </h2>
-        <p className="w-[593px] text-[#9097A6] text-[18px] max-sm:text-[12px] leading-[160%] text-center">
+        <p className="w-[593px] text-[#9097A6] max-sm:w-[393px] text-[18px] max-sm:text-[12px] leading-[160%] text-center">
           Embarking on an exciting journey: Discover the world of Solana by letting Toly unleash its true potential
         </p>
       </div>
@@ -68,27 +68,25 @@ const GetStartedSection: React.FC = () => {
         <Image 
           src="/dyor.png"
           alt="Solana"
-          width={200}
-          height={200}
-          className="object-cover rounded-[500px]"
+          className="object-cover rounded-[500px] w-[200px] h-[200px] max-sm:w-[120px] max-sm:h-[120px]"
         />
       </div>
 
       {/* Chat Messages */}
       <motion.div 
-        className="absolute w-[300px] h-[80px] left-[260px] max-sm:left[60px] top-[262px] bg-[#0B0C0F] rounded-tr-[50px] rounded-bl-[50px] rounded-br-[50px] flex items-center p-6 gap-4 z-10"
+        className="absolute w-[300px] h-[80px] left-[260px] max-sm:w-[200px] max-sm:h-[40px] max-sm:left[10px] top-[262px] bg-[#0B0C0F] rounded-tr-[50px] rounded-bl-[50px] rounded-br-[50px] flex items-center p-6 gap-4 z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
-        <span className="text-white text-[14px] leading-[150%] capitalize">{leftMessage}</span>
+        <span className="text-white text-[14px] max-sm:[10px] leading-[150%] capitalize">{leftMessage}</span>
       </motion.div>
 
       <motion.div 
-        className="absolute w-[300px] h-[80px] left-[630px] max-sm:left-[300px] top-[313px] bg-[#0B0C0F] rounded-tl-[50px] rounded-br-[50px] rounded-bl-[50px] flex items-center p-6 gap-4 z-10"
+        className="absolute w-[300px] h-[80px] left-[630px] max-sm:w-[200px] max-sm:h-[40px] max-sm:left-[200px] top-[313px] bg-[#0B0C0F] rounded-tl-[50px] rounded-br-[50px] rounded-bl-[50px] flex items-center p-6 gap-4 z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
-        <span className="text-white text-[14px] leading-[150%] capitalize">{rightMessage}</span>
+        <span className="text-white text-[14px] max-sm:[10px] leading-[150%] capitalize">{rightMessage}</span>
       </motion.div>
     </div>
   );
