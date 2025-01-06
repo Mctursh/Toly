@@ -52,7 +52,7 @@ const GetStartedSection: React.FC = () => {
 
 
   return (
-    <div className={`relative w-full rounded-lg mt-12 h-[503px] bg-[#121417] ${spaceGrotesk.className}`}>
+    <div className={`relative w-full rounded-lg h-[503px] bg-[#121417] ${spaceGrotesk.className}`}>
       {/* Title and Description */}
       <div className="absolute w-[693px] h-[105px] left-1/2 top-[100px] -translate-x-1/2 flex flex-col justify-center items-center gap-2">
         <h2 className="w-full text-[#FAFAFA] text-[30px] leading-[130%] font-bold text-center capitalize tracking-[-0.02em]">
