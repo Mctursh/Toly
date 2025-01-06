@@ -27,8 +27,8 @@ const DemoChatComponent: React.FC = () => {
   const [showMessages, setShowMessages] = useState<boolean>(false);
   const [showLoader, setShowLoader] = useState<boolean>(false);
   
-  const demoQuestion = "How does Solana handle scalability?";
-  const demoAnswer = "Solana uses Proof of History (PoH) combined with Tower BFT for exceptional scalability. Let me know if you'd like me to elaborate.";
+  const demoQuestion = "Who is the founder of Solana?";
+  const demoAnswer = "Anatoly Yakovenko and Raj Goal founded Solana in 2018.";
 
   useEffect(() => {
     let intervalId: number | NodeJS.Timeout | undefined; // Using union type for both environments
@@ -206,7 +206,7 @@ const DemoChatComponent: React.FC = () => {
           </div>
 
           {/* Feature Cards */}
-          <div className="grid grid-cols-1 gap-4 mt-4">
+          <div className="grid grid-cols-1 gap-4 mt-4 mb-4">
             {[
               { title: "DYOR", description: "Analysis of wallets, tokens..." },
               { title: "Latest", description: "Real-time insights..." },
@@ -235,7 +235,7 @@ const DemoChatComponent: React.FC = () => {
               </motion.div>
               <div className="w-6 h-6 ml-2">
                   <Image 
-                    src="/gm.png" 
+                    src="/logo.png" 
                     alt="Good morning" 
                     width={24}
                     height={24}
