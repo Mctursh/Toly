@@ -34,9 +34,9 @@ const HeroSection = () => {
         </div>
 
         {/* Main Content Section */}
-        <div className="w-full max-w-[1000px] flex flex-col items-center gap-[10px] text-center px-4">
+        <div className="w-full max-w-[944px] flex flex-col items-center gap-[10px] text-center px-4">
           <motion.h1 
-            className={`font-bold text-4xl md:text-[52px] leading-tight md:leading-[63px] tracking-[-0.02em] text-[#FAFAFA] capitalize ${inter.className}`}
+            className={`w-full max-w-[934px] font-bold text-4xl md:text-[52px] leading-tight md:leading-[63px] tracking-[-0.02em] text-[#FAFAFA] capitalize ${inter.className} whitespace-normal`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
@@ -44,7 +44,7 @@ const HeroSection = () => {
           </motion.h1>
           
           <motion.p 
-            className={`max-w-[820px] font-normal text-base md:text-[18px] leading-[160%] text-[#9097A6] mt-6 ${spaceGrotesk.className}`}
+            className={`w-full max-w-[820px] font-normal text-base md:text-[18px] leading-[160%] text-[#9097A6] mt-6 ${spaceGrotesk.className}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
