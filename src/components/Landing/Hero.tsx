@@ -20,16 +20,6 @@ const HeroSection = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
-        {/* Introducing Section */}
-        {/* <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-12 bg-[rgba(255,255,255,0.05)] rounded-full px-8 py-3 border-2 border-[#61BDFF]"
-        >
-          <span className="text-2xl font-normal text-[#FAFAFA]">
-            ✨ Introducing Toly AI
-          </span>
-        </motion.div> */}
         <div className="w-full max-w-[280px] h-[45px] flex flex-row justify-center items-center p-[20px_24px] gap-[12px] rounded-full border-2 border-[#61BDFF]">
           <motion.div 
             className="flex justify-center items-center gap-[8px]"
@@ -106,7 +96,7 @@ const HeroSection = () => {
 
         {/* Get Started Button */}
         <motion.button
-          className="mt-12 px-8 py-4 bg-[#6FCB71] capitalize rounded-full text-black font-bold text-lg hover:bg-[#5FB761] transition-colors"
+          className="mt-12 px-8 py-3 bg-[#6FCB71] capitalize rounded-full text-black font-bold text-lg hover:bg-[#5FB761] transition-colors"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
