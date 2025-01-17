@@ -21,6 +21,15 @@ const HeroSection = () => {
         animate={{ opacity: 1 }}
       >
         {/* Introducing Section */}
+        {/* <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-12 bg-[rgba(255,255,255,0.05)] rounded-full px-8 py-3 border-2 border-[#61BDFF]"
+        >
+          <span className="text-2xl font-normal text-[#FAFAFA]">
+            ✨ Introducing Toly AI
+          </span>
+        </motion.div> */}
         <div className="w-full max-w-[280px] h-[45px] flex flex-row justify-center items-center p-[20px_24px] gap-[12px] rounded-full border-2 border-[#61BDFF]">
           <motion.div 
             className="flex justify-center items-center gap-[8px]"

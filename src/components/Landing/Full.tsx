@@ -44,8 +44,8 @@ const HomePage = () => {
         </section>
 
         {/* Footer */}
-        <footer className="relative w-full bg-black py-16 px-4 lg:px-0">
-          <div className="max-w-[1280px] mx-auto">
+        <footer>
+          <div>
             <Footer />
           </div>
         </footer>
