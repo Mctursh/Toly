@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ['latin'] });
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen w-full overflow-x-hidden bg-black pt-32">
+    <section className="relative min-h-screen w-full overflow-x-hidden bg-black pt-24">
       {/* Background Grid Pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(20,20,20,.9)_2px,transparent_2px),linear-gradient(90deg,rgba(20,20,20,.9)_2px,transparent_2px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_70%,transparent_100%)] opacity-30" />
 
@@ -21,7 +21,7 @@ const HeroSection = () => {
         animate={{ opacity: 1 }}
       >
         {/* Introducing Section */}
-        <div className="w-full max-w-[266px] h-[55px] flex flex-row justify-center items-center p-[40px_24px] gap-[24px] rounded-[24px] border-2 border-[#61BDFF]">
+        <div className="w-full max-w-[350px] h-[55px] flex flex-row justify-center items-center p-[40px_24px] gap-[24px] rounded-[24px] border-2 border-[#61BDFF]">
           <motion.div 
             className="flex justify-center items-center gap-[8px]"
             initial={{ opacity: 0, y: 20 }}
@@ -34,7 +34,7 @@ const HeroSection = () => {
         </div>
 
         {/* Main Content Section */}
-        <div className="w-full max-w-[944px] flex flex-col items-center gap-[10px] text-center px-4">
+        <div className="w-full max-w-[1000px] flex flex-col items-center gap-[10px] text-center px-4">
           <motion.h1 
             className={`font-bold text-4xl md:text-[52px] leading-tight md:leading-[63px] tracking-[-0.02em] text-[#FAFAFA] capitalize ${inter.className}`}
             initial={{ opacity: 0, y: 20 }}
@@ -97,11 +97,11 @@ const HeroSection = () => {
 
         {/* Get Started Button */}
         <motion.button
-          className="mt-12 px-8 py-4 bg-[#6FCB71] rounded-full text-black font-bold text-lg hover:bg-[#5FB761] transition-colors"
+          className="mt-12 px-8 py-4 bg-[#6FCB71] capitalize rounded-full text-black font-bold text-lg hover:bg-[#5FB761] transition-colors"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          Get Started
+          get started
         </motion.button>
       </motion.div>
     </section>
