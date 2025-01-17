@@ -35,8 +35,8 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ text, position }) => (
 
 const GetStartedSection = () => {
   return (
-    <section className="relative w-full min-h-[503px] bg-[#121417] py-24">
-      <div className="relative max-w-7xl mx-auto px-4">
+    <div className="relative w-full min-h-[503px]">
+      <div className="relative w-full max-w-[969px] mx-auto"> {/* Updated to match design width */}
         {/* Header Content */}
         <motion.div 
           className="flex flex-col items-center gap-2 mb-16"
@@ -57,10 +57,10 @@ const GetStartedSection = () => {
         </motion.div>
 
         {/* Interactive Chat Area */}
-        <div className="relative w-full max-w-[800px] h-[280px] mx-auto">
+        <div className="relative w-full h-[280px]">
           {/* Center Avatar */}
           <motion.div 
-            className="absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] w-[280px] h-[280px] z-10"
+            className="absolute left-[calc(50%-280px/2)] top-0 w-[280px] h-[280px] z-10"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
           >
@@ -83,7 +83,7 @@ const GetStartedSection = () => {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
