@@ -76,7 +76,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
           <div className="w-3 h-3 rounded-full bg-green-500" />
         </div>
         <div className="flex-1 text-center">
-          <span className="text-white/50 text-sm">toly.ai assistant</span>
+          <span className="text-white/50 text-sm">toly.ai</span>
         </div>
       </div>
 
