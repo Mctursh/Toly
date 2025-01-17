@@ -1,131 +1,107 @@
+"use client"
 import React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Space_Grotesk } from 'next/font/google';
+import ChatInterface from './ChatInterface';
 
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
 
-const ChatMessage = () => (
-  <div className="flex gap-4 mb-4">
-    <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
-      <Image
-        src="/logo.png"
-        alt="AI Assistant"
-        width={32}
-        height={32}
-        className="w-full h-full object-cover"
-      />
-    </div>
-    <div className="flex-1">
-      <div className="bg-gray-800 rounded-lg p-3 text-gray-200 text-sm">
-        Looking into AI-powered blockchain analysis tools can help improve your trading and investment strategies.
-      </div>
-    </div>
-  </div>
-);
-
-const ChatInterface = () => (
-  <div className="bg-[#0B0C0F] rounded-xl border-4 border-[#6FCB71] w-full h-full overflow-hidden">
-    {/* Sidebar */}
-    <div className="flex h-full">
-      <div className="w-64 bg-[#141518] border-r border-gray-800 flex flex-col">
-        {/* Sidebar Header */}
-        <div className="p-4 border-b border-gray-800">
-          <div className="bg-[#1E1F24] rounded-lg p-2 text-gray-400 text-sm">
-            🔍 Search conversations...
-          </div>
-        </div>
-        
-        {/* Sidebar Menu */}
-        <div className="flex-1 overflow-y-auto py-4 space-y-2">
-          {['Market Analysis', 'Wallet Insights', 'Token Metrics', 'Trade History', 'Smart Contracts'].map((item) => (
-            <div 
-              key={item}
-              className="px-4 py-2 text-gray-400 hover:bg-[#1E1F24] hover:text-gray-200 cursor-pointer transition-colors"
-            >
-              {item}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col">
-        {/* Chat Header */}
-        <div className="p-4 border-b border-gray-800 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-[#C44FE2] flex items-center justify-center">
-              <span className="text-sm font-medium">AI</span>
-            </div>
-            <span className="text-gray-200">Analysis Assistant</span>
-          </div>
-        </div>
-
-        {/* Chat Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
-          <ChatMessage />
-          <ChatMessage />
-        </div>
-
-        {/* Chat Input */}
-        <div className="p-4 border-t border-gray-800">
-          <div className="flex items-center gap-4">
-            <div className="flex-1 bg-[#1E1F24] rounded-lg p-3 text-gray-400">
-              Ask about blockchain analysis...
-            </div>
-            <button className="bg-[#C44FE2] text-white px-4 py-2 rounded-lg hover:bg-[#B33FD1] transition-colors">
-              Send
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-);
+// Pre-defined messages for this section
+const preloadedMessages = [
+  {
+    user: true,
+    text: "What makes Solana's consensus mechanism unique?"
+  },
+  {
+    user: false,
+    text: "Solana uses a proof-of-stake consensus mechanism combined with proof-of-history. This unique approach helps achieve high throughput and low transaction costs. Would you like me to explain more about how it works?"
+  },
+  {
+    user: true,
+    text: "Yes, please tell me more about proof-of-history"
+  },
+  {
+    user: false,
+    text: "Proof-of-History (PoH) is a sequence of computations that creates a digital record proving that an event occurred at a specific moment in time. Think of it as a cryptographic clock that helps order transactions without all nodes having to agree on time."
+  }
+];
 
 const SecondFeatureSection = () => {
   return (
-    <div className="relative w-full">
-      <motion.div 
-        className="absolute w-[1237px] h-[452px] left-[383px] top-[1895px] flex flex-row items-center gap-[77px]"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
+    <div className="w-full max-w-7xl mx-auto px-4 lg:px-8 py-24">
+      <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20">
         {/* Left Text Section */}
-        <div className="flex flex-col justify-center items-start gap-6 w-[445px]">
+        <motion.div 
+          className="flex flex-col justify-center items-start gap-6 w-full lg:w-[445px]"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+        >
           <h2 
-            className="w-full text-[30px] font-bold leading-[130%] tracking-[-0.02em] text-[#FAFAFA] capitalize"
+            className="text-2xl lg:text-[30px] font-bold leading-[130%] tracking-[-0.02em] text-[#FAFAFA] capitalize"
             style={{ fontFamily: 'Inter' }}
           >
             Your AI companion exploring the solana blockchain to bring you
           </h2>
           
-          <p className={`w-full text-lg leading-[160%] text-[#9097A6] ${spaceGrotesk.className}`}>
+          <p className={`text-base lg:text-lg leading-[160%] text-[#9097A6] ${spaceGrotesk.className}`}>
             Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
           </p>
-        </div>
+        </motion.div>
 
         {/* Right Section - Purple Background with Chat Interface */}
-        <div className="relative w-[715px] h-[452px] bg-[#C44FE2] rounded-3xl">
+        <motion.div 
+          className="relative w-full lg:w-[715px] aspect-video bg-[#C44FE2] rounded-3xl overflow-hidden"
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+        >
           {/* Cat Image */}
-          <div className="absolute w-[196px] h-[196px] right-[-60px] top-[272px]">
+          <motion.div 
+            className="absolute w-48 h-48 lg:w-[196px] lg:h-[196px] -right-16 bottom-0"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 0.8, scale: 1 }}
+            transition={{ delay: 0.3 }}
+          >
             <Image
               src="/logo.png"
               alt="Toly Cat"
               width={196}
               height={196}
-              className="rounded-full object-cover opacity-80"
+              className="rounded-full object-cover"
               priority
             />
-          </div>
+          </motion.div>
 
           {/* Chat Interface */}
-          <div className="absolute w-[559px] h-[476px] left-[calc(50%-559px/2)] top-[calc(50%-476px/2+98px)]">
-            <ChatInterface />
+          <div className="absolute w-[85%] h-[90%] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/3">
+            <ChatInterface 
+              variant="purple"
+              preloadedMessages={preloadedMessages}
+              suggestions={[
+                {
+                  title: "Learn about Solana",
+                  description: "Explore consensus mechanisms"
+                },
+                {
+                  title: "Transaction Analysis",
+                  description: "Understand blockchain activity"
+                },
+                {
+                  title: "Network Stats",
+                  description: "View current metrics"
+                },
+                {
+                  title: "Developer Tools",
+                  description: "Access development resources"
+                }
+              ]}
+              initialPrompt="Tell me about Solana's technology"
+            />
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
     </div>
   );
 };
