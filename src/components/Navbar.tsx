@@ -168,7 +168,7 @@ const Navbar: React.FC = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <span className={`text-lg font-medium text-[#6FCB71] ${spaceGrotesk.className}`}>
+                    <span className={`text-lg font-medium capitalize text-[#6FCB71] ${spaceGrotesk.className}`}>
                       get in touch
                     </span>
                   </motion.button>
