@@ -4,6 +4,9 @@ import Navbar from '../Navbar';
 import GetStartedSection from '../Landing/GetStarted';
 import Footer from '../Landing/Footer';
 import { Space_Grotesk } from 'next/font/google';
+import CatolyHero from './CatolyHero';
+import RightContentSection from './RightContentSection';
+import TwoColumnSection from './TwoColumnSection';
 
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
 
@@ -16,15 +19,18 @@ const CatolyPage = () => {
       {/* Content wrapper with proper spacing */}
       <div className="flex flex-col w-full">
         {/* First Section */}
-        <section className="relative w-full min-h-screen pt-20">
-
+        <section className="relative w-full min-h-screen">
+            <CatolyHero />
         </section>
 
         {/* Second Section */}
-        <section className="relative w-full min-h-screen px-4 lg:px-0">
-          <div className="max-w-[1280px] mx-auto">
+        <section className="relative w-full min-h-screen">
+            <RightContentSection />
+        </section>
 
-          </div>
+        {/* Third Section */}
+        <section className="relative w-full">
+            <TwoColumnSection />
         </section>
 
         {/* Get Started Section */}
