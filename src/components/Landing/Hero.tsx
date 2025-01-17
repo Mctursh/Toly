@@ -214,25 +214,15 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { AnimationControls, motion, useAnimation, useScroll, useTransform } from 'framer-motion';
+import { motion, useAnimation, useScroll, useTransform } from 'framer-motion';
 import Link from 'next/link';
 import { Space_Grotesk } from 'next/font/google';
 
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
 
-interface MousePosition {
-  x: number;
-  y: number;
-}
-
 interface FloatingElementProps {
   children: React.ReactNode;
   delay?: number;
-}
-
-interface GradientCircleProps {
-  color: string;
-  order: number;
 }
 
 const FloatingElement: React.FC<FloatingElementProps> = ({ children, delay = 0 }) => {
@@ -253,290 +243,440 @@ const FloatingElement: React.FC<FloatingElementProps> = ({ children, delay = 0 }
   );
 };
 
-const GradientCircle: React.FC<GradientCircleProps> = ({ color, order }) => {
-  const controls: AnimationControls = useAnimation();
-  
-  useEffect(() => {
-    controls.start({
-      scale: [1, 1.2, 1],
-      opacity: [0.3, 0.6, 0.3],
-      transition: {
-        duration: 4,
-        repeat: Infinity,
-        ease: "easeInOut",
-        delay: order * 0.5,
-      },
-    });
-  }, [controls, order]);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={controls}
-      className={`w-[200px] md:w-[304px] h-[200px] md:h-[304px] rounded-full flex-none order-${order}`}
-      style={{ 
-        background: `radial-gradient(circle, ${color} 0%, rgba(0,0,0,0) 70%)`,
-        mixBlendMode: 'screen',
-        filter: 'blur(8px)',
-      }}
-    />
-  );
-};
-
 const HeroSection = () => {
   const { scrollY } = useScroll();
-  const [mousePosition, setMousePosition] = useState<MousePosition>({ x: 0, y: 0 });
-  
   const parallaxY = useTransform(scrollY, [0, 500], [0, -150]);
-  const parallaxRotate = useTransform(scrollY, [0, 500], [0, 15]);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent): void => {
-      setMousePosition({
-        x: (e.clientX - window.innerWidth / 2) / 50,
-        y: (e.clientY - window.innerHeight / 2) / 50,
-      });
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
 
   return (
-    <div className={`relative w-full min-h-screen overflow-hidden bg-black ${spaceGrotesk.className}`}>
-      {/* Interactive Background Grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(20,20,20,.9)_2px,transparent_2px),linear-gradient(90deg,rgba(20,20,20,.9)_2px,transparent_2px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_70%,transparent_100%)] opacity-30" />
-
-      {/* Animated Gradient Circles */}
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full md:w-[1924px] h-[304px] flex items-center gap-2 md:gap-5 z-0 overflow-x-auto scrollbar-hide">
-        {[
-          { color: "#73B0D0", order: 0 },
-          { color: "#C44FE2", order: 1 },
-          { color: "#47F8C3", order: 2 },
-          { color: "#599DB0", order: 3 },
-          { color: "#C44FE2", order: 4 },
-          { color: "#47F8C3", order: 5 },
-        ].map((circle, index) => (
-          <GradientCircle key={index} {...circle} />
-        ))}
-      </div>
-
+    <div className={`relative min-h-screen ${spaceGrotesk.className}`}>
       {/* Main Content Container */}
       <motion.div 
-        className="relative z-10 px-4 md:px-8 pt-[120px] md:pt-[130px]"
-        style={{ y: parallaxY }}
+        className="flex flex-col items-center py-32 px-[324px] gap-7 isolate"
+        style={{ 
+          y: parallaxY,
+          width: '1920px',
+          height: '746px',
+          position: 'absolute',
+          left: 'calc(50% - 1920px/2 + 2px)',
+          top: 'calc(50% - 746px/2 - 1130.5px)'
+        }}
       >
-        {/* Top Row */}
-        <div className="flex justify-between items-start mb-12 md:mb-16 overflow-hidden">
-          <FloatingElement delay={0.2}>
-            <motion.div
-              className="hidden md:block"
-              animate={{
-                filter: ["hue-rotate(0deg)", "hue-rotate(360deg)"],
-              }}
-              transition={{ duration: 10, repeat: Infinity }}
-            >
-              {/* Your left SVG here with glow effect */}
-              <motion.svg
-                initial={{ opacity: 0, x: -100 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
-                className="hidden md:block"
-                width="259"
-                height="123"
-                viewBox="0 0 259 123"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                style={{
-                  filter: "drop-shadow(0 0 8px rgba(89,157,176,0.6))"
-                }}
-              >
-                <path d="M217.133 51.6053C214.61 52.7314 210.552 54.2029 210.552 54.2029C210.552 54.2029 131 174 91 96C51 18 -20.7048 54.2029 -20.7048 54.2029C-28.916 54.2029 -33.0577 44.8227 -27.3719 39.3389L10.6105 2.71303C12.3756 1.0082 14.7229 0.0383183 17.1766 0L249.343 0C257.626 0 261.681 9.46674 255.923 14.9794C255.923 14.9794 236.158 43.1135 217.133 51.6053Z" 
-                  fill="url(#paint0_linear_152_101)"
-                />
-                <defs>
-                  <linearGradient 
-                    id="paint0_linear_152_101" 
-                    x1="-29.9839" 
-                    y1="807.443" 
-                    x2="265.982" 
-                    y2="804.73" 
-                    gradientUnits="userSpaceOnUse"
-                  >
-                    <stop stopColor="#599DB0"/>
-                    <stop offset="1" stopColor="#47F8C3"/>
-                  </linearGradient>
-                </defs>
-              </motion.svg>
-            </motion.div>
-          </FloatingElement>
+        {/* Introducing Section */}
+        <motion.div
+          className="flex justify-center items-center p-10 w-[266px] h-[55px] rounded-3xl"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <div className="flex justify-center items-center gap-2">
+            <span className="text-2xl font-normal text-[#FAFAFA] text-center capitalize">
+              ✨ Introducing Toly AI
+            </span>
+          </div>
+        </motion.div>
 
-          {/* Center Image */}
-          <FloatingElement>
-            <motion.div
-              whileHover={{ scale: 1.1, rotate: [0, -5, 5, 0] }}
-              transition={{ duration: 0.5 }}
+        {/* Main Heading Section */}
+        <div className="flex justify-center items-center w-[944px] h-[116px]">
+          <div className="relative w-[944px] h-[116px]">
+            <motion.h1 
+              className="absolute w-[934px] h-[63px] left-0 top-0 font-bold text-[52px] leading-[63px] tracking-[-0.02em] capitalize text-[#FAFAFA]"
+              style={{ fontFamily: 'Inter' }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
             >
-              <Image
-                src="/wencat.png"
-                alt="Wen Cat"
-                width={100}
-                height={100}
-                quality={100}
-                className="w-[100px] h-[100px] md:w-[200px] md:h-[200px] object-contain hover:cursor-pointer"
-                style={{
-                  filter: "drop-shadow(0 0 4px rgba(111,203,113,0.3))",
-                }}
-                priority
-              />
-            </motion.div>
-          </FloatingElement>
-
-          {/* Right SVG */}
-          <FloatingElement delay={0.4}>
-              <motion.svg
-                initial={{ opacity: 0, x: 100 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
-                className="hidden md:block mr-16"
-                width="184" 
-                height="84" 
-                viewBox="0 0 184 84" 
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                style={{
-                  filter: "drop-shadow(0 0 8px rgba(119,140,191,0.4))"
-                }}
-              >
-                <path 
-                  d="M163.305 40.0965C162.4 41.4603 161.033 42.4527 159.456 42.8923L8.69875 83.2877C3.34579 84.722 -0.980103 79.3776 1.76862 74.8095L20.1142 44.2323C21.0066 42.856 22.3652 41.8476 23.941 41.392L175.291 0.837743C180.691 -0.609181 184.973 4.79747 182.178 9.37817L163.305 40.0965Z" 
-                  fill="url(#paint0_linear_152_103)"
-                />
-                <defs>
-                  <linearGradient 
-                    id="paint0_linear_152_103" 
-                    x1="8.75139" 
-                    y1="64.3678" 
-                    x2="178.776" 
-                    y2="18.8098" 
-                    gradientUnits="userSpaceOnUse"
-                  >
-                    <stop stopColor="#778CBF"/>
-                    <stop offset="1" stopColor="#5DCDC9"/>
-                  </linearGradient>
-                </defs>
-              </motion.svg>
-            </FloatingElement>
+              The Intelligent meme-Based AI Agent
+            </motion.h1>
+            <motion.p 
+              className="absolute w-[820px] h-[29px] left-[57px] top-[87.5px] font-normal text-lg leading-[160%] text-[#9097A6]"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+            >
+              Toly is here to help with insights on transactions, tokens, wallets and all activities on the Solana Blockchain
+            </motion.p>
+          </div>
         </div>
 
-        {/* Content and Right Image Row */}
-        <div className="flex flex-col lg:flex-row justify-between items-start gap-8 lg:gap-0">
-          <motion.div 
-            className="w-full lg:w-[1024px] flex flex-col gap-6 lg:gap-10 px-4 lg:ml-[300px]"
-            style={{
-              x: mousePosition.x * -1,
-              y: mousePosition.y * -1,
-            }}
-          >
-            <div className="flex flex-col gap-4 lg:gap-6">
-              <motion.h1 
-                className="text-3xl md:text-4xl lg:text-[52px] leading-normal lg:leading-[65px] font-medium text-[#FAFAFA] capitalize text-center lg:text-left"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.8,
-                  ease: [0.25, 0.1, 0.25, 1],
-                }}
-              >
-                <span className="relative">
-                <span className="relative z-10">Your AI companion exploring the solana blockchain</span>
-                    <motion.span
-                      className="absolute -inset-1 bg-gradient-to-r from-[#61BDFF] to-[#B3D9FF] opacity-25 blur rounded-lg"
-                      animate={{
-                        opacity: [0.2, 0.4, 0.2],
-                      }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    />
-                  </span>
-              </motion.h1>
-
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="relative z-10 w-full lg:w-[678px] text-base lg:text-lg leading-[160%] text-[#9097A6] text-center lg:text-left"
-              >
-                Toly is here to help with insights on transactions, tokens, wallets and all activities on the Solana Blockchain
-              </motion.p>
-            </div>
-
-            {/* Interactive Button */}
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="mx-auto lg:mx-0"
-            >
-                <Link href="/auth/signup">
-                  <motion.button
-                    className="relative group flex justify-center items-center w-[205px] h-16 bg-[#61BDFF] border border-[#61BDFF]/20 rounded-full overflow-hidden"
-                    whileHover="hover"
-                  >
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-[#61BDFF] to-[#B3D9FF]"
-                      animate={{
-                        x: ['-100%', '100%'],
-                      }}
-                      transition={{
-                        duration: 3,
-                        repeat: Infinity,
-                        ease: "linear",
-                      }}
-                    />
-                    <span className="relative z-10 text-lg font-medium text-[#0B0C0F] capitalize">
-                      let's get started
-                    </span>
-                  </motion.button>
-                </Link>
-            </motion.div>
-          </motion.div>
-
-          {/* Animated Side Cat */}
+        {/* Feature Buttons Section */}
+        <div className="absolute w-[634px] h-[55px] left-[638px] top-[402px]">
+          {/* Research Button */}
           <motion.div
-            className="hidden lg:block relative w-[596px] h-[642px] lg:mr-[154px]"
-            style={{
-              x: mousePosition.x,
-              y: mousePosition.y,
-              rotate: parallaxRotate,
-            }}
+            className="absolute flex justify-center items-center p-10 gap-6 w-[189.66px] h-[55px] rounded-3xl"
+            style={{ left: 'calc(50% - 189.66px/2 - 227.17px)', top: 'calc(50% - 55px/2 + 56.5px)' }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            <FloatingElement delay={0.6}>
-              <Image
-                src="/sidecat.png"
-                alt="Side Cat"
-                width={596}
-                height={596}
-                className="w-full h-auto object-contain hover:cursor-pointer"
-                style={{
-                  filter: "drop-shadow(0 0 12px rgba(111,203,113,0.3))",
-                }}
-                priority
-              />
-            </FloatingElement>
+            <span className="text-2xl font-bold text-[#FAFAFA] text-center capitalize">
+              RESEARCH
+            </span>
+          </motion.div>
+
+          {/* Insights Button */}
+          <motion.div
+            className="absolute flex justify-center items-center p-10 gap-6 w-[189.66px] h-[55px] rounded-3xl"
+            style={{ 
+              left: 'calc(50% - 189.66px/2 - 5px)', 
+              top: 'calc(50% - 55px/2 + 56.5px)',
+              filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))'
+            }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <span className="text-2xl font-bold text-[#FAFAFA] text-center capitalize">
+              INSIGHTS
+            </span>
+          </motion.div>
+
+          {/* Analysis Button */}
+          <motion.div
+            className="absolute flex justify-center items-center p-10 gap-6 w-[189.66px] h-[55px] rounded-3xl"
+            style={{ left: 'calc(50% - 189.66px/2 + 217.17px)', top: 'calc(50% - 55px/2 + 56.5px)' }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <span className="text-2xl font-bold text-[#FAFAFA] text-center capitalize">
+              ANALYSIS
+            </span>
           </motion.div>
         </div>
+
       </motion.div>
-      {/* Add CSS for scrollbar hiding */}
-      <style jsx global>{`
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-        .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-      `}</style>
+
+      {/* Background Effects */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(20,20,20,.9)_2px,transparent_2px),linear-gradient(90deg,rgba(20,20,20,.9)_2px,transparent_2px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_70%,transparent_100%)] opacity-30" />
     </div>
   );
 };
 
 export default HeroSection;
+
+// "use client"
+// import React, { useEffect, useState } from 'react';
+// import Image from 'next/image';
+// import { AnimationControls, motion, useAnimation, useScroll, useTransform } from 'framer-motion';
+// import Link from 'next/link';
+// import { Space_Grotesk } from 'next/font/google';
+
+// const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
+
+// interface MousePosition {
+//   x: number;
+//   y: number;
+// }
+
+// interface FloatingElementProps {
+//   children: React.ReactNode;
+//   delay?: number;
+// }
+
+// interface GradientCircleProps {
+//   color: string;
+//   order: number;
+// }
+
+// const FloatingElement: React.FC<FloatingElementProps> = ({ children, delay = 0 }) => {
+//   return (
+//     <motion.div
+//       animate={{
+//         y: [0, -15, 0],
+//         rotate: [-1, 1, -1],
+//       }}
+//       transition={{
+//         duration: 6,
+//         repeat: Infinity,
+//         delay,
+//       }}
+//     >
+//       {children}
+//     </motion.div>
+//   );
+// };
+
+// const GradientCircle: React.FC<GradientCircleProps> = ({ color, order }) => {
+//   const controls: AnimationControls = useAnimation();
+  
+//   useEffect(() => {
+//     controls.start({
+//       scale: [1, 1.2, 1],
+//       opacity: [0.3, 0.6, 0.3],
+//       transition: {
+//         duration: 4,
+//         repeat: Infinity,
+//         ease: "easeInOut",
+//         delay: order * 0.5,
+//       },
+//     });
+//   }, [controls, order]);
+
+//   return (
+//     <motion.div
+//       initial={{ opacity: 0 }}
+//       animate={controls}
+//       className={`w-[200px] md:w-[304px] h-[200px] md:h-[304px] rounded-full flex-none order-${order}`}
+//       style={{ 
+//         background: `radial-gradient(circle, ${color} 0%, rgba(0,0,0,0) 70%)`,
+//         mixBlendMode: 'screen',
+//         filter: 'blur(8px)',
+//       }}
+//     />
+//   );
+// };
+
+// const HeroSection = () => {
+//   const { scrollY } = useScroll();
+//   const [mousePosition, setMousePosition] = useState<MousePosition>({ x: 0, y: 0 });
+  
+//   const parallaxY = useTransform(scrollY, [0, 500], [0, -150]);
+//   const parallaxRotate = useTransform(scrollY, [0, 500], [0, 15]);
+
+//   useEffect(() => {
+//     const handleMouseMove = (e: MouseEvent): void => {
+//       setMousePosition({
+//         x: (e.clientX - window.innerWidth / 2) / 50,
+//         y: (e.clientY - window.innerHeight / 2) / 50,
+//       });
+//     };
+
+//     window.addEventListener('mousemove', handleMouseMove);
+//     return () => window.removeEventListener('mousemove', handleMouseMove);
+//   }, []);
+
+//   return (
+//     <div className={`relative w-full min-h-screen overflow-hidden bg-black ${spaceGrotesk.className}`}>
+//       {/* Interactive Background Grid */}
+//       <div className="absolute inset-0 bg-[linear-gradient(rgba(20,20,20,.9)_2px,transparent_2px),linear-gradient(90deg,rgba(20,20,20,.9)_2px,transparent_2px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_70%,transparent_100%)] opacity-30" />
+
+//       {/* Animated Gradient Circles */}
+//       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full md:w-[1924px] h-[304px] flex items-center gap-2 md:gap-5 z-0 overflow-x-auto scrollbar-hide">
+//         {[
+//           { color: "#73B0D0", order: 0 },
+//           { color: "#C44FE2", order: 1 },
+//           { color: "#47F8C3", order: 2 },
+//           { color: "#599DB0", order: 3 },
+//           { color: "#C44FE2", order: 4 },
+//           { color: "#47F8C3", order: 5 },
+//         ].map((circle, index) => (
+//           <GradientCircle key={index} {...circle} />
+//         ))}
+//       </div>
+
+//       {/* Main Content Container */}
+//       <motion.div 
+//         className="relative z-10 px-4 md:px-8 pt-[120px] md:pt-[130px]"
+//         style={{ y: parallaxY }}
+//       >
+//         {/* Top Row */}
+//         <div className="flex justify-between items-start mb-12 md:mb-16 overflow-hidden">
+//           <FloatingElement delay={0.2}>
+//             <motion.div
+//               className="hidden md:block"
+//               animate={{
+//                 filter: ["hue-rotate(0deg)", "hue-rotate(360deg)"],
+//               }}
+//               transition={{ duration: 10, repeat: Infinity }}
+//             >
+//               {/* Your left SVG here with glow effect */}
+//               <motion.svg
+//                 initial={{ opacity: 0, x: -100 }}
+//                 animate={{ opacity: 1, x: 0 }}
+//                 transition={{ duration: 0.6 }}
+//                 className="hidden md:block"
+//                 width="259"
+//                 height="123"
+//                 viewBox="0 0 259 123"
+//                 fill="none"
+//                 xmlns="http://www.w3.org/2000/svg"
+//                 style={{
+//                   filter: "drop-shadow(0 0 8px rgba(89,157,176,0.6))"
+//                 }}
+//               >
+//                 <path d="M217.133 51.6053C214.61 52.7314 210.552 54.2029 210.552 54.2029C210.552 54.2029 131 174 91 96C51 18 -20.7048 54.2029 -20.7048 54.2029C-28.916 54.2029 -33.0577 44.8227 -27.3719 39.3389L10.6105 2.71303C12.3756 1.0082 14.7229 0.0383183 17.1766 0L249.343 0C257.626 0 261.681 9.46674 255.923 14.9794C255.923 14.9794 236.158 43.1135 217.133 51.6053Z" 
+//                   fill="url(#paint0_linear_152_101)"
+//                 />
+//                 <defs>
+//                   <linearGradient 
+//                     id="paint0_linear_152_101" 
+//                     x1="-29.9839" 
+//                     y1="807.443" 
+//                     x2="265.982" 
+//                     y2="804.73" 
+//                     gradientUnits="userSpaceOnUse"
+//                   >
+//                     <stop stopColor="#599DB0"/>
+//                     <stop offset="1" stopColor="#47F8C3"/>
+//                   </linearGradient>
+//                 </defs>
+//               </motion.svg>
+//             </motion.div>
+//           </FloatingElement>
+
+//           {/* Center Image */}
+//           <FloatingElement>
+//             <motion.div
+//               whileHover={{ scale: 1.1, rotate: [0, -5, 5, 0] }}
+//               transition={{ duration: 0.5 }}
+//             >
+//               <Image
+//                 src="/wencat.png"
+//                 alt="Wen Cat"
+//                 width={100}
+//                 height={100}
+//                 quality={100}
+//                 className="w-[100px] h-[100px] md:w-[200px] md:h-[200px] object-contain hover:cursor-pointer"
+//                 style={{
+//                   filter: "drop-shadow(0 0 4px rgba(111,203,113,0.3))",
+//                 }}
+//                 priority
+//               />
+//             </motion.div>
+//           </FloatingElement>
+
+//           {/* Right SVG */}
+//           <FloatingElement delay={0.4}>
+//               <motion.svg
+//                 initial={{ opacity: 0, x: 100 }}
+//                 animate={{ opacity: 1, x: 0 }}
+//                 transition={{ duration: 0.6 }}
+//                 className="hidden md:block mr-16"
+//                 width="184" 
+//                 height="84" 
+//                 viewBox="0 0 184 84" 
+//                 fill="none"
+//                 xmlns="http://www.w3.org/2000/svg"
+//                 style={{
+//                   filter: "drop-shadow(0 0 8px rgba(119,140,191,0.4))"
+//                 }}
+//               >
+//                 <path 
+//                   d="M163.305 40.0965C162.4 41.4603 161.033 42.4527 159.456 42.8923L8.69875 83.2877C3.34579 84.722 -0.980103 79.3776 1.76862 74.8095L20.1142 44.2323C21.0066 42.856 22.3652 41.8476 23.941 41.392L175.291 0.837743C180.691 -0.609181 184.973 4.79747 182.178 9.37817L163.305 40.0965Z" 
+//                   fill="url(#paint0_linear_152_103)"
+//                 />
+//                 <defs>
+//                   <linearGradient 
+//                     id="paint0_linear_152_103" 
+//                     x1="8.75139" 
+//                     y1="64.3678" 
+//                     x2="178.776" 
+//                     y2="18.8098" 
+//                     gradientUnits="userSpaceOnUse"
+//                   >
+//                     <stop stopColor="#778CBF"/>
+//                     <stop offset="1" stopColor="#5DCDC9"/>
+//                   </linearGradient>
+//                 </defs>
+//               </motion.svg>
+//             </FloatingElement>
+//         </div>
+
+//         {/* Content and Right Image Row */}
+//         <div className="flex flex-col lg:flex-row justify-between items-start gap-8 lg:gap-0">
+//           <motion.div 
+//             className="w-full lg:w-[1024px] flex flex-col gap-6 lg:gap-10 px-4 lg:ml-[300px]"
+//             style={{
+//               x: mousePosition.x * -1,
+//               y: mousePosition.y * -1,
+//             }}
+//           >
+//             <div className="flex flex-col gap-4 lg:gap-6">
+//               <motion.h1 
+//                 className="text-3xl md:text-4xl lg:text-[52px] leading-normal lg:leading-[65px] font-medium text-[#FAFAFA] capitalize text-center lg:text-left"
+//                 initial={{ opacity: 0, y: 20 }}
+//                 animate={{ opacity: 1, y: 0 }}
+//                 transition={{
+//                   duration: 0.8,
+//                   ease: [0.25, 0.1, 0.25, 1],
+//                 }}
+//               >
+//                 <span className="relative">
+//                 <span className="relative z-10">Your AI companion exploring the solana blockchain</span>
+//                     <motion.span
+//                       className="absolute -inset-1 bg-gradient-to-r from-[#61BDFF] to-[#B3D9FF] opacity-25 blur rounded-lg"
+//                       animate={{
+//                         opacity: [0.2, 0.4, 0.2],
+//                       }}
+//                       transition={{ duration: 2, repeat: Infinity }}
+//                     />
+//                   </span>
+//               </motion.h1>
+
+//               <motion.p
+//                 initial={{ opacity: 0 }}
+//                 animate={{ opacity: 1 }}
+//                 transition={{ delay: 0.5 }}
+//                 className="relative z-10 w-full lg:w-[678px] text-base lg:text-lg leading-[160%] text-[#9097A6] text-center lg:text-left"
+//               >
+//                 Toly is here to help with insights on transactions, tokens, wallets and all activities on the Solana Blockchain
+//               </motion.p>
+//             </div>
+
+//             {/* Interactive Button */}
+//             <motion.div
+//               whileHover={{ scale: 1.05 }}
+//               whileTap={{ scale: 0.95 }}
+//               className="mx-auto lg:mx-0"
+//             >
+//                 <Link href="/auth/signup">
+//                   <motion.button
+//                     className="relative group flex justify-center items-center w-[205px] h-16 bg-[#61BDFF] border border-[#61BDFF]/20 rounded-full overflow-hidden"
+//                     whileHover="hover"
+//                   >
+//                     <motion.div
+//                       className="absolute inset-0 bg-gradient-to-r from-[#61BDFF] to-[#B3D9FF]"
+//                       animate={{
+//                         x: ['-100%', '100%'],
+//                       }}
+//                       transition={{
+//                         duration: 3,
+//                         repeat: Infinity,
+//                         ease: "linear",
+//                       }}
+//                     />
+//                     <span className="relative z-10 text-lg font-medium text-[#0B0C0F] capitalize">
+//                       let's get started
+//                     </span>
+//                   </motion.button>
+//                 </Link>
+//             </motion.div>
+//           </motion.div>
+
+//           {/* Animated Side Cat */}
+//           <motion.div
+//             className="hidden lg:block relative w-[596px] h-[642px] lg:mr-[154px]"
+//             style={{
+//               x: mousePosition.x,
+//               y: mousePosition.y,
+//               rotate: parallaxRotate,
+//             }}
+//           >
+//             <FloatingElement delay={0.6}>
+//               <Image
+//                 src="/sidecat.png"
+//                 alt="Side Cat"
+//                 width={596}
+//                 height={596}
+//                 className="w-full h-auto object-contain hover:cursor-pointer"
+//                 style={{
+//                   filter: "drop-shadow(0 0 12px rgba(111,203,113,0.3))",
+//                 }}
+//                 priority
+//               />
+//             </FloatingElement>
+//           </motion.div>
+//         </div>
+//       </motion.div>
+//       {/* Add CSS for scrollbar hiding */}
+//       <style jsx global>{`
+//         .scrollbar-hide::-webkit-scrollbar {
+//           display: none;
+//         }
+//         .scrollbar-hide {
+//           -ms-overflow-style: none;
+//           scrollbar-width: none;
+//         }
+//       `}</style>
+//     </div>
+//   );
+// };
+
+// export default HeroSection;
