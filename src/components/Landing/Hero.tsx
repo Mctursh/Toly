@@ -21,13 +21,13 @@ const HeroSection = () => {
         animate={{ opacity: 1 }}
       >
         {/* Introducing Section */}
-        <div className="w-full max-w-[350px] h-[55px] flex flex-row justify-center items-center p-[40px_24px] gap-[24px] rounded-[24px] border-2 border-[#61BDFF]">
+        <div className="w-full max-w-[300px] h-[50px] flex flex-row justify-center items-center p-[30px_24px] gap-[24px] rounded-[24px] border-2 border-[#61BDFF]">
           <motion.div 
             className="flex justify-center items-center gap-[8px]"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <span className={`text-[24px] leading-[30px] font-normal text-[#FAFAFA] text-center capitalize ${spaceGrotesk.className}`}>
+            <span className={`text-[24px] leading-[20px] font-normal text-[#FAFAFA] text-center capitalize ${spaceGrotesk.className}`}>
               ✨ Introducing Toly AI
             </span>
           </motion.div>
@@ -101,7 +101,7 @@ const HeroSection = () => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          get started
+          GET STARTED
         </motion.button>
       </motion.div>
     </section>
