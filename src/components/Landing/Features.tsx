@@ -1,108 +1,134 @@
-"use client"
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { Space_Grotesk } from 'next/font/google';
 import Image from 'next/image';
-import gsap from 'gsap';
+import { Space_Grotesk } from 'next/font/google';
 
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
 
-interface CardProps {
-  title: string;
-  description: string;
-  imageUrl: string;
-}
-
-const Card: React.FC<CardProps> = ({ title, description, imageUrl }) => {
-    const cardRef = useRef<HTMLDivElement | null>(null);
-
-    useEffect(() => {
-        if (cardRef.current) {
-          const tl = gsap.timeline({ repeat: -1, yoyo: true });
-          tl.fromTo(cardRef.current, { rotation: 0 }, { rotation: 2, duration: 2, ease: "power2.out" })
-            .to(cardRef.current, { y: "-=10", ease: "sine.inOut", duration: 1 }, 0)
-            .to(cardRef.current, { y: "+=10", ease: "sine.inOut", duration: 1 }, 1);
-      
-        // Border animation
-        gsap.to(cardRef.current, {
-            duration: 5,
-            repeat: -1,
-            ease: "linear",
-            backgroundSize: "300% 300%",
-            onUpdate: () => {
-            // Calculate the current position based on the timeline's progress
-            const progress = gsap.getProperty(cardRef.current, 'progress') as number; // Cast to number
-            const [start, end] = ["0% 50%", "100% 50%"];
-            const position = gsap.utils.interpolate(start, end, progress); // Use separate start and end values
-            (cardRef.current as HTMLElement).style.backgroundPosition = position as string; // Cast to string for assignment
-            }
-        });
-      
-          // Hover effect
-          const hoverTL = gsap.timeline({ paused: true });
-          hoverTL.to(cardRef.current, { scale: 1.05, duration: 0.3 });
-      
-          // Set up mouse event listeners
-          const cardElement = cardRef.current as HTMLElement;
-          const handleMouseEnter = () => hoverTL.play();
-          const handleMouseLeave = () => hoverTL.reverse();
-      
-          cardElement.addEventListener('mouseenter', handleMouseEnter);
-          cardElement.addEventListener('mouseleave', handleMouseLeave);
-      
-          // Clean up listeners on component unmount
-          return () => {
-            cardElement.removeEventListener('mouseenter', handleMouseEnter);
-            cardElement.removeEventListener('mouseleave', handleMouseLeave);
-          };
-        }
-      }, []);
-
-  return (
-    <motion.div 
-    ref={cardRef}
-        className={`relative w-[387.33px] h-[371px] p-[40px_24px] flex flex-col items-center gap-6 rounded-[24px] ${spaceGrotesk.className}`}
-        style={{
-            background: 'rgba(20,20,20,0.8)', // dark background with slight transparency
-            border: '6px solid transparent',
-            backgroundClip: 'padding-box',
-            borderImage: 'linear-gradient(45deg, #73B0D0, #C44FE2, #47F8C3) 1', // add this for border image
-          }}
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, ease: 'easeOut' }}
-    >
-      <div className="w-[120px] h-[120px] rounded-[500px] overflow-hidden">
-        <Image 
-          src={imageUrl}
-          alt={title}
-          width={120}
-          height={120}
-          className="object-cover w-full h-full"
-        />
+const ChatMessage = () => (
+  <div className="flex gap-4 mb-4">
+    <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
+      <Image
+        src="/logo.png"
+        alt="AI Assistant"
+        width={32}
+        height={32}
+        className="w-full h-full object-cover"
+      />
+    </div>
+    <div className="flex-1">
+      <div className="bg-gray-800 rounded-lg p-3 text-gray-200 text-sm">
+        Hi there! I'm here to help you explore and understand the Solana blockchain. 
+        Feel free to ask me about transactions, tokens, wallets, or any other blockchain activities.
       </div>
-      <div className="flex flex-col items-center gap-2 w-[339.33px]">
-        <h3 className="text-[#FAFAFA] text-[24px] leading-[30px] font-bold text-center capitalize">{title}</h3>
-        <p className="text-[#9097A6] text-[18px] leading-[150%] text-center">{description}</p>
+    </div>
+  </div>
+);
+
+const ChatInterface = () => (
+  <div className="bg-[#0B0C0F] rounded-xl border-4 border-white w-full h-full overflow-hidden">
+    {/* Sidebar */}
+    <div className="flex h-full">
+      <div className="w-64 bg-[#141518] border-r border-gray-800 flex flex-col">
+        {/* Sidebar Header */}
+        <div className="p-4 border-b border-gray-800">
+          <div className="bg-[#1E1F24] rounded-lg p-2 text-gray-400 text-sm">
+            🔍 Search conversations...
+          </div>
+        </div>
+        
+        {/* Sidebar Menu */}
+        <div className="flex-1 overflow-y-auto py-4 space-y-2">
+          {['Recent Chats', 'Token Analysis', 'Wallet Tracking', 'Transaction History', 'Market Updates'].map((item) => (
+            <div 
+              key={item}
+              className="px-4 py-2 text-gray-400 hover:bg-[#1E1F24] hover:text-gray-200 cursor-pointer transition-colors"
+            >
+              {item}
+            </div>
+          ))}
+        </div>
       </div>
-    </motion.div>
-  );
-};
 
-const FeaturesSection: React.FC = () => {
-  const cards = [
-    { title: 'DYOR', description: 'Look into wallets, tokens and transactions for more detailed analysis', imageUrl: '/logo.png' },
-    { title: 'RESEARCH ON THE LATEST', description: 'Ask questions, get real-time insights, and master the skills you need to thrive in the Solana ecosystem.', imageUrl: '/wen.png' },
-    { title: 'ANALYTICS', description: 'Stay ahead of the market by getting detailed insights into top traders, volumes, tokens and strategies', imageUrl: '/dyor.png' },
-  ];
+      {/* Main Chat Area */}
+      <div className="flex-1 flex flex-col">
+        {/* Chat Header */}
+        <div className="p-4 border-b border-gray-800 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center">
+              <span className="text-sm font-medium">AI</span>
+            </div>
+            <span className="text-gray-200">Toly Assistant</span>
+          </div>
+        </div>
 
+        {/* Chat Messages */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          <ChatMessage />
+          <ChatMessage />
+        </div>
+
+        {/* Chat Input */}
+        <div className="p-4 border-t border-gray-800">
+          <div className="flex items-center gap-4">
+            <div className="flex-1 bg-[#1E1F24] rounded-lg p-3 text-gray-400">
+              Type your message...
+            </div>
+            <button className="bg-[#6FCB71] text-black px-4 py-2 rounded-lg hover:bg-[#5FB761] transition-colors">
+              Send
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const FeatureSection = () => {
   return (
-    <div className="w-[1210px] max-w-full mx-auto mb-24 flex flex-row items-start gap-[24px] max-sm:flex-col max-sm:pl-20">
-      {cards.map((card, index) => (
-        <Card key={index} {...card} />
-      ))}
+    <div className="relative w-full min-h-screen">
+      <motion.div 
+        className="absolute w-[1210px] h-[452px] left-[384px] top-[1188px] flex flex-row items-center gap-[78px]"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        {/* Left Section - Green Background with Chat Interface */}
+        <div className="relative w-[715px] h-[452px] bg-[#6FCB71] rounded-3xl overflow-hidden">
+          {/* Cat Image */}
+          <div className="absolute w-[245px] h-[245px] left-[-76px] top-[251px]">
+            <Image
+              src="/logo.png"
+              alt="Toly Cat"
+              width={245}
+              height={245}
+              className="rounded-full object-cover"
+              priority
+            />
+          </div>
+
+          {/* Chat Interface */}
+          <div className="absolute w-[559px] h-[476px] left-[calc(50%-559px/2)] top-[calc(50%-476px/2+98px)]">
+            <ChatInterface />
+          </div>
+        </div>
+
+        {/* Right Section - Text Content */}
+        <div className="flex flex-col justify-center items-start gap-6 w-[417px]">
+          <h2 
+            className="w-full text-[30px] font-bold leading-[130%] tracking-[-0.02em] text-[#FAFAFA] capitalize"
+            style={{ fontFamily: 'Inter' }}
+          >
+            Your AI Companion Exploring The Solana Blockchain To Bring You
+          </h2>
+          
+          <p className={`w-full text-lg leading-[160%] text-[#9097A6] ${spaceGrotesk.className}`}>
+            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
+          </p>
+        </div>
+      </motion.div>
     </div>
   );
 };
 
-export default FeaturesSection;
+export default FeatureSection;
