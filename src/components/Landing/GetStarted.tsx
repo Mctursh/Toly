@@ -1,93 +1,102 @@
-"use client"
-import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import React from 'react';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 import { Space_Grotesk } from 'next/font/google';
 
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
 
-const questionsLeft = [
-    "Toly, what is proof of history?",
-    "How does Solana handle scalability?",
-  ];
-  
-  const questionsRight = [
-    "What makes Solana's consensus unique?",
-    "What can I build on Solana?",
-  ];
+const ChatBubble = ({ text, position }: { text: string; position: 'left' | 'right' }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5 }}
+    className={`
+      absolute flex flex-row items-start p-6 gap-4 bg-[#0B0C0F]
+      ${position === 'left' 
+        ? 'left-[475px] top-[262px] w-[381px] rounded-[50px_50px_0px_50px]' 
+        : 'left-[1016px] top-[313px] w-[428px] rounded-[50px_50px_50px_0px]'
+      }
+    `}
+  >
+    <p className={`
+      text-white font-medium text-lg leading-[150%] capitalize flex-grow
+      ${spaceGrotesk.className}
+    `}>
+      {text}
+    </p>
+  </motion.div>
+);
 
-const GetStartedSection: React.FC = () => {
-  const [leftMessage, setLeftMessage] = useState('');
-  const [rightMessage, setRightMessage] = useState('');
-  const [typingIndexLeft, setTypingIndexLeft] = useState(0);
-  const [typingIndexRight, setTypingIndexRight] = useState(0);
-
-  useEffect(() => {
-    const typeMessage = (setMessage: React.Dispatch<React.SetStateAction<string>>, setIndex: React.Dispatch<React.SetStateAction<number>>, message: string) => {
-      let index = 0;
-      const interval = setInterval(() => {
-        if (index <= message.length) {
-          setMessage(message.slice(0, index));
-          index++;
-        } else {
-          clearInterval(interval);
-          // Reset typing after a delay
-          setTimeout(() => {
-            setIndex((oldIndex) => (oldIndex + 1) % questionsLeft.length); // Adjust for each side
-            setMessage('');
-          }, 3000);
-        }
-      }, 50);
-      return interval;
-    };
-
-    const leftInterval = typeMessage(setLeftMessage, setTypingIndexLeft, questionsLeft[typingIndexLeft]);
-    const rightInterval = typeMessage(setRightMessage, setTypingIndexRight, questionsRight[typingIndexRight]);
-
-    return () => {
-      clearInterval(leftInterval);
-      clearInterval(rightInterval);
-    };
-  }, [typingIndexLeft, typingIndexRight]);
-
-
+const GetStartedSection = () => {
   return (
-    <div className={`relative w-[80%] mx-auto mt-24 h-[503px] rounded-lg bg-[#121417] ${spaceGrotesk.className}`}>
-      {/* Title and Description */}
-      <div className="absolute w-[693px] max-sm:w-[400px] h-[105px] left-1/2 top-[100px] -translate-x-1/2 flex flex-col justify-center items-center gap-2">
-        <h2 className="w-full text-[#FAFAFA] max-sm:text-[24px] text-[30px] leading-[130%] font-bold text-center capitalize tracking-[-0.02em]">
-          Let’s Get Started With Toly
+    <div className="relative w-[1920px] h-[503px] left-[calc(50%-1920px/2)] top-[2629px] bg-[#121417]">
+      {/* Header Content */}
+      <motion.div 
+        className="absolute w-[693px] h-[105px] left-[calc(50%-693px/2-0.5px)] top-[100px] flex flex-col justify-center items-center gap-2"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <h2 
+          className="w-full text-[30px] font-bold leading-[130%] text-center tracking-[-0.02em] capitalize text-[#FAFAFA]"
+          style={{ fontFamily: 'Inter' }}
+        >
+          Let's Get Started With Toly
         </h2>
-        <p className="w-[593px] text-[#9097A6] max-sm:w-[393px] text-[18px] max-sm:text-[12px] leading-[160%] text-center">
-          Embarking on an exciting journey: Discover the world of Solana by letting Toly unleash its true potential
+        
+        <p className={`w-[593px] text-lg leading-[160%] text-center text-[#9097A6] ${spaceGrotesk.className}`}>
+          Embarking on an Exciting Journey: Discovering the World of Toly and Unleashing Its Full Potential
         </p>
-      </div>
+      </motion.div>
 
-      {/* Image */}
-      <div className="absolute w-[280px] h-[280px] max-sm:w-[220px] max-sm:h-[220px] max-sm:top-[220px] left-1/2 max-sm:ml-[40px] top-[245px] -translate-x-1/2">
-        <Image 
-          src="/dyor.png"
-          alt="Solana"
-          className="object-cover rounded-[500px] w-[200px] h-[200px] max-sm:w-[120px] max-sm:h-[120px]"
+      {/* Chat Section */}
+      <div className="absolute w-[969px] h-[280px] left-[calc(50%-969px/2-0.5px)] top-[245px]">
+        {/* Center Cat Image */}
+        <motion.div 
+          className="absolute w-[280px] h-[280px] left-[calc(50%-280px/2-25px)] top-0"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <Image
+            src="/logo.png"
+            alt="Toly Cat"
+            width={280}
+            height={280}
+            className="rounded-full object-cover"
+            priority
+          />
+        </motion.div>
+
+        {/* Chat Bubbles */}
+        <ChatBubble 
+          text="What Makes Solana's Consensus Mechanism Unique?"
+          position="left"
+        />
+        
+        <ChatBubble 
+          text="What Makes Solana's Consensus Mechanism Unique?"
+          position="right"
         />
       </div>
 
-      {/* Chat Messages */}
-      <motion.div 
-        className="absolute w-[300px] h-[80px] left-[260px] max-sm:w-[200px] max-sm:h-[40px] max-sm:left-[10px] max-sm:top-[230px] top-[262px] bg-[#0B0C0F] rounded-tr-[50px] rounded-bl-[50px] rounded-br-[50px] flex items-center p-6 gap-4 z-10"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+      {/* Optional: Add animated dots or lines connecting the bubbles */}
+      <svg 
+        className="absolute left-0 top-[200px] w-full"
+        height="100"
+        style={{ pointerEvents: 'none' }}
       >
-        <span className="text-white text-[14px] max-sm:text-[10px] leading-[150%] capitalize">{leftMessage}</span>
-      </motion.div>
-
-      <motion.div 
-        className="absolute w-[300px] h-[80px] left-[650px] max-sm:w-[200px] max-sm:h-[40px] max-sm:left-[200px] max-sm:top-[275px] top-[313px] bg-[#0B0C0F] rounded-tl-[50px] rounded-br-[50px] rounded-bl-[50px] flex items-center p-6 gap-4 z-10"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-      >
-        <span className="text-white text-[14px] max-sm:[10px] leading-[150%] capitalize">{rightMessage}</span>
-      </motion.div>
+        <motion.path
+          d="M 500 50 L 1400 50"
+          stroke="#61BDFF"
+          strokeWidth="2"
+          strokeDasharray="5,5"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 1.5, ease: "easeInOut" }}
+          fill="none"
+        />
+      </svg>
     </div>
   );
 };
