@@ -21,13 +21,13 @@ const HeroSection = () => {
         animate={{ opacity: 1 }}
       >
         {/* Introducing Section */}
-        <div className="w-full max-w-[300px] h-[50px] flex flex-row justify-center items-center p-[30px_24px] gap-[24px] rounded-[24px] border-2 border-[#61BDFF]">
+        <div className="w-full max-w-[280px] h-[45px] flex flex-row justify-center items-center p-[20px_24px] gap-[12px] rounded-full border-2 border-[#61BDFF]">
           <motion.div 
             className="flex justify-center items-center gap-[8px]"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <span className={`text-[24px] leading-[20px] font-normal text-[#FAFAFA] text-center capitalize ${spaceGrotesk.className}`}>
+            <span className={`text-[20px] leading-[24px] font-normal text-[#FAFAFA] text-center capitalize ${spaceGrotesk.className}`}>
               ✨ Introducing Toly AI
             </span>
           </motion.div>
@@ -36,7 +36,7 @@ const HeroSection = () => {
         {/* Main Content Section */}
         <div className="w-full max-w-[944px] flex flex-col items-center gap-[10px] text-center px-4">
           <motion.h1 
-            className={`w-full max-w-[934px] font-bold text-4xl md:text-[52px] leading-tight md:leading-[63px] tracking-[-0.02em] text-[#FAFAFA] capitalize ${inter.className} whitespace-normal`}
+            className={`w-full max-w-[944px] font-bold text-4xl md:text-[52px] leading-tight md:leading-[63px] tracking-[-0.02em] text-[#FAFAFA] capitalize ${inter.className} whitespace-normal`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
