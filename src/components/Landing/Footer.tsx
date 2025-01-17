@@ -29,7 +29,7 @@ const Footer = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-32">
+        <div className="flex flex-col items-center justify-center gap-8 md:gap-32">
           {/* Navigation Links */}
           <nav className="flex flex-wrap md:flex-nowrap items-center justify-center gap-4 md:gap-8">
             {links.map((link) => (
