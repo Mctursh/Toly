@@ -17,7 +17,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ text, position }) => (
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     className={`
-      absolute flex flex-row items-center p-6 bg-[#0B0C0F]
+      absolute flex flex-row items-center p-6 bg-[#0B0C0F] z-20
       ${position === 'left' 
         ? 'left-0 top-[20px] w-[380px] rounded-[50px_50px_0_50px] transform -translate-x-1/4' 
         : 'right-0 top-[60px] w-[380px] rounded-[50px_50px_50px_0] transform translate-x-1/4'
@@ -60,16 +60,17 @@ const GetStartedSection = () => {
         <div className="relative w-full max-w-[800px] h-[280px] mx-auto">
           {/* Center Avatar */}
           <motion.div 
-            className="absolute left-1/2 -translate-x-1/2 w-[280px] h-[280px] z-10"
+            className="absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] w-[280px] h-[280px] z-10"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
           >
-            <div className="relative w-full h-full rounded-full overflow-hidden bg-[#6FCB71]">
+            <div className="relative w-full h-full">
+              <div className="absolute inset-0 rounded-full bg-[#6FCB71]" />
               <Image
                 src="/dyor.png"
                 alt="Toly Cat"
                 fill
-                className="object-cover"
+                className="object-cover rounded-full"
                 priority
               />
             </div>
