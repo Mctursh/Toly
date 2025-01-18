@@ -9,7 +9,7 @@ const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
 
 const FeatureSection = () => {
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 lg:px-8 py-24">
+    <div className="w-full max-w-7xl mx-auto px-4 lg:px-8 py-24 pb-0">
       <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20">
         {/* Left Section - Green Background with Chat Interface */}
         <motion.div 

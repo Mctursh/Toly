@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ['latin'] });
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen w-full overflow-x-hidden bg-black pt-24">
+    <section className="relative min-h-screen w-full overflow-x-hidden bg-black pt-32">
       {/* Background Grid Pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(20,20,20,.9)_2px,transparent_2px),linear-gradient(90deg,rgba(20,20,20,.9)_2px,transparent_2px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_70%,transparent_100%)] opacity-30" />
 

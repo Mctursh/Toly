@@ -63,7 +63,7 @@ const CatolyHero = () => {
             {/* Cat Image */}
             <div className="relative w-full h-full">
               <Image
-                src="/gm.png"
+                src="/logo.png"
                 alt="Catoly GM Cat"
                 fill
                 className="object-contain p-4"
