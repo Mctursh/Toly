@@ -31,12 +31,12 @@ const CatolyHero = () => {
 
           {/* Heading */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
-            Your AI Companion Exploring The Solana Blockchain To Bring
+          Enhanced DeFi Interactions
           </h1>
 
           {/* Description */}
           <p className="text-lg text-[#9097A6] leading-relaxed">
-            Toly is here to help with insights on transactions, tokens, wallets and all activities on the Solana Blockchain
+            Unlock the full potential of decentralized finance with Catoly Token. Our innovative approach combines AI capabilities with blockchain technology to provide unmatched trading insights.
           </p>
 
           {/* CTA Button */}

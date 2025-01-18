@@ -18,11 +18,11 @@ const RightContentSection = () => {
       >
         <div className="flex flex-col gap-6">
           <h2 className={`${inter.className} text-[30px] font-bold leading-[36px] tracking-[-0.02em] text-[#FAFAFA] capitalize`}>
-            Your AI companion exploring the solana blockchain to bring
+          Seamless Integration & Smart Analytics
           </h2>
 
           <p className={`${spaceGrotesk.className} text-lg leading-[160%] text-[#9097A6]`}>
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          Experience a new era of blockchain interaction where AI meets DeFi. Catoly Token powers intelligent analysis, providing you with real-time insights and predictive analytics.
           </p>
 
           <Link href="/token">

@@ -52,11 +52,11 @@ const FeatureSection = () => {
             className="text-2xl lg:text-[30px] font-bold leading-[130%] tracking-[-0.02em] text-[#FAFAFA] capitalize"
             style={{ fontFamily: 'Inter' }}
           >
-            Your AI Companion Exploring The Solana Blockchain To Bring You
+            Advanced AI-Powered Blockchain Analysis
           </h2>
           
           <p className={`text-base lg:text-lg leading-[160%] text-[#9097A6] ${spaceGrotesk.className}`}>
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
+          Experience real-time insights and deep analysis of the Solana blockchain with our intelligent AI assistant. Get detailed information about transactions, tokens, and market trends instantly.
           </p>
         </motion.div>
       </div>

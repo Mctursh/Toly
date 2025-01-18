@@ -42,11 +42,11 @@ const SecondFeatureSection = () => {
             className="text-2xl lg:text-[30px] font-bold leading-[130%] tracking-[-0.02em] text-[#FAFAFA] capitalize"
             style={{ fontFamily: 'Inter' }}
           >
-            Your AI companion exploring the solana blockchain to bring you
+            Smart Trading Intelligence & Market Insights
           </h2>
           
           <p className={`text-base lg:text-lg leading-[160%] text-[#9097A6] ${spaceGrotesk.className}`}>
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
+          Stay ahead of the market with our AI-driven analytics engine. Monitor market trends and track wallet activities.
           </p>
         </motion.div>
 
