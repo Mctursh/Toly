@@ -1,7 +1,7 @@
 "use client"
 const AnimatedSphere = () => {
     return (
-    <div className="relative w-[500px] h-[500px] max-w-full animated-sphere">
+    <div className="relative w-[500px] h-[500px] max-w-full">
         <div className="absolute inset-0 rounded-full overflow-hidden">
           {/* Base sphere with color switching layers */}
           <div className="relative w-full h-full">
@@ -18,7 +18,7 @@ const AnimatedSphere = () => {
                 }}
               >
                 <img 
-                  src="/sidecat.png" 
+                  src="/dyor.png" 
                   alt="Left half" 
                   className="w-full h-full object-cover grayscale"
                 />
@@ -32,7 +32,7 @@ const AnimatedSphere = () => {
                 }}
               >
                 <img 
-                  src="/sidecat.png" 
+                  src="/dyor.png" 
                   alt="Right half" 
                   className="w-full h-full object-cover"
                 />
@@ -55,7 +55,7 @@ const AnimatedSphere = () => {
                 }}
               >
                 <img 
-                  src="/sidecat.png"
+                  src="/dyor.png"
                   alt="Left half" 
                   className="w-full h-full object-cover"
                 />
@@ -69,7 +69,7 @@ const AnimatedSphere = () => {
                 }}
               >
                 <img 
-                  src="/sidecat.png" 
+                  src="/dyor.png" 
                   alt="Right half" 
                   className="w-full h-full object-cover grayscale"
                 />
@@ -99,104 +99,93 @@ const AnimatedSphere = () => {
     );
   };
   
+  // Add animations
   if (typeof document !== 'undefined') {
-    // Check if styles already exist to prevent duplicates
-    const existingStyle = document.getElementById('animated-sphere-styles');
-    if (!existingStyle) {
-      const styleSheet = document.createElement('style');
-      styleSheet.id = 'animated-sphere-styles';  // Add an ID to identify it
-      styleSheet.textContent = `
-        /* Scope all animations to a specific class */
-        .animated-sphere {
-          position: relative;
-          width: 100%;
-          height: 100%;
-        }
+    const styleSheet = document.createElement('style');
+    styleSheet.textContent = `
+      @keyframes colorSwitch {
+        0% { opacity: 0; }
+        24.99% { opacity: 0; }
+        25% { opacity: 1; }
+        74.99% { opacity: 1; }
+        75% { opacity: 0; }
+      }
   
-        .animated-sphere @keyframes colorSwitch {
-          0% { opacity: 0; }
-          24.99% { opacity: 0; }
-          25% { opacity: 1; }
-          74.99% { opacity: 1; }
-          75% { opacity: 0; }
-        }
+      .radar-sweep {
+        animation: radarSweep 4s linear infinite;
+      }
   
-        .animated-sphere .radar-sweep {
-          animation: radarSweep 4s linear infinite;
-        }
+      .radar-sweep::before {
+        content: '';
+        position: absolute;
+        width: 50%;
+        height: 100%;
+        top: 0;
+        left: 50%;
+        transform-origin: left;
+        background: linear-gradient(90deg, 
+            rgba(75, 85, 99, 0) 0%,
+            rgba(34, 197, 94, 0.4) 50%,
+            rgba(75, 85, 99, 0) 100%
+        );
+        filter: blur(5px);
+        pointer-events: none;
+      }
   
-        .animated-sphere .radar-sweep::before {
-          content: '';
-          position: absolute;
-          width: 50%;
-          height: 100%;
-          top: 0;
+      .glow-container::before {
+        content: '';
+        position: absolute;
+        inset: -2px;
+        background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), 
+          rgba(96, 165, 200, 0.3) 0%,
+          rgba(96, 165, 200, 0) 60%
+        );
+        animation: moveGlow 4s linear infinite;
+      }
+  
+      @keyframes moveGlow {
+        0% { --x: 50%; --y: 0%; }
+        25% { --x: 100%; --y: 50%; }
+        50% { --x: 50%; --y: 100%; }
+        75% { --x: 0%; --y: 50%; }
+        100% { --x: 50%; --y: 0%; }
+      }
+  
+      @keyframes radarSweep {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+  
+      /* Particle animations */
+      .particles div {
+        animation: particleFade 1s ease-out infinite;
+      }
+  
+      ${[...Array(8)].map((_, i) => `
+        .particle-${i} {
           left: 50%;
-          transform-origin: left;
-          background: linear-gradient(90deg, 
-              rgba(75, 85, 99, 0) 0%,
-              rgba(34, 197, 94, 0.4) 50%,
-              rgba(75, 85, 99, 0) 100%
-          );
-          filter: blur(5px);
-          pointer-events: none;
+          top: 50%;
+          transform: rotate(${i * 45}deg) translateY(${20 + (i % 3) * 10}px);
+          animation-delay: ${i * 0.5}s !important;
         }
+      `).join('')}
   
-        .animated-sphere .glow-container::before {
-          content: '';
-          position: absolute;
-          inset: -2px;
-          background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), 
-            rgba(96, 165, 200, 0.3) 0%,
-            rgba(96, 165, 200, 0) 60%
-          );
-          animation: moveGlow 4s linear infinite;
+      @keyframes particleFade {
+        0% {
+          opacity: 0;
+          transform: scale(0);
         }
-  
-        .animated-sphere @keyframes moveGlow {
-          0% { --x: 50%; --y: 0%; }
-          25% { --x: 100%; --y: 50%; }
-          50% { --x: 50%; --y: 100%; }
-          75% { --x: 0%; --y: 50%; }
-          100% { --x: 50%; --y: 0%; }
+        20% {
+          opacity: 0.8;
+          transform: scale(1);
         }
-  
-        .animated-sphere @keyframes radarSweep {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
+        100% {
+          opacity: 0;
+          transform: scale(1.5);
         }
-  
-        /* Particle animations */
-        .animated-sphere .particles div {
-          animation: particleFade 1s ease-out infinite;
-        }
-  
-        ${[...Array(8)].map((_, i) => `
-          .animated-sphere .particle-${i} {
-            left: 50%;
-            top: 50%;
-            transform: rotate(${i * 45}deg) translateY(${20 + (i % 3) * 10}px);
-            animation-delay: ${i * 0.5}s !important;
-          }
-        `).join('')}
-  
-        .animated-sphere @keyframes particleFade {
-          0% {
-            opacity: 0;
-            transform: scale(0);
-          }
-          20% {
-            opacity: 0.8;
-            transform: scale(1);
-          }
-          100% {
-            opacity: 0;
-            transform: scale(1.5);
-          }
-        }
-      `;
-      document.head.appendChild(styleSheet);
-    }
+      }
+    `;
+    document.head.appendChild(styleSheet);
   }
   
   export default AnimatedSphere;
