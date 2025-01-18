@@ -17,15 +17,15 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ text, position }) => (
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     className={`
-      absolute flex flex-row items-center p-4 md:p-6 bg-[#0B0C0F] z-20
+      absolute flex flex-row items-center p-3 md:p-6 bg-[#0B0C0F] z-20
       ${position === 'left' 
-        ? 'left-0 top-[20px] w-[280px] md:w-[380px] rounded-[30px_30px_0_30px] md:rounded-[50px_50px_0_50px] transform -translate-x-1/4' 
-        : 'right-0 top-[60px] w-[280px] md:w-[380px] rounded-[30px_30px_30px_0] md:rounded-[50px_50px_50px_0] transform translate-x-1/4'
+        ? 'left-0 top-[20px] w-[200px] md:w-[380px] rounded-[20px_20px_0_20px] md:rounded-[50px_50px_0_50px] transform -translate-x-1/4' 
+        : 'right-0 top-[60px] w-[200px] md:w-[380px] rounded-[20px_20px_20px_0] md:rounded-[50px_50px_50px_0] transform translate-x-1/4'
       }
     `}
   >
     <p className={`
-      text-white font-medium text-sm md:text-[18px] leading-[150%] capitalize
+      text-white font-medium text-xs md:text-[18px] leading-[150%] capitalize
       ${spaceGrotesk.className}
     `}>
       What Makes Solana's Consensus Mechanism Unique?
