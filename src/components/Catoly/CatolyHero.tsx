@@ -66,7 +66,7 @@ const CatolyHero = () => {
                 src="/logo.png"
                 alt="Catoly GM Cat"
                 fill
-                className="object-contain p-4"
+                className="object-contain p-4 rounded-full"
                 priority
               />
             </div>

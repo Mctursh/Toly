@@ -30,7 +30,7 @@ const HomePage = () => {
           </div>
         </section>
 
-        <section className="relative w-full min-h-screen px-4 lg:px-0">
+        <section className="relative w-full px-4 lg:px-0">
           <div className="max-w-[1280px] mx-auto">
             <SecondFeatureSection />
           </div>
