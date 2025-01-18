@@ -1,7 +1,7 @@
 "use client"
 const AnimatedSphere = () => {
     return (
-    <div className="relative w-[500px] h-[500px] max-w-full">
+    <div className="relative w-[300px] h-[300px] lg:w-[500px] lg:h-[500px] max-w-full">
         <div className="absolute inset-0 rounded-full overflow-hidden">
           {/* Base sphere with color switching layers */}
           <div className="relative w-full h-full">

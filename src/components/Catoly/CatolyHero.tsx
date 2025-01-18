@@ -25,7 +25,7 @@ const CatolyHero = () => {
             className="inline-flex items-center justify-center px-6 py-2 rounded-full bg-black border border-[#00EE05]/20 hover:bg-[#00EE05]/10 transition-colors"
           >
             <span className="text-[#00EE05] text-sm uppercase">
-              ABOUT US
+              $CATOLY
             </span>
           </Link>
 
@@ -52,7 +52,7 @@ const CatolyHero = () => {
 
         {/* Right Image */}
             <motion.div 
-            className="relative w-full lg:w-[500px] h-[500px] flex items-center justify-center"
+            className="relative w-[300px] h-[300px] lg:w-[500px] lg:h-[500px] flex items-center justify-center"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}

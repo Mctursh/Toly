@@ -29,11 +29,11 @@ const preloadedMessages = [
 
 const SecondFeatureSection = () => {
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 lg:px-8 py-24">
+    <div className="w-full max-w-7xl mx-auto px-4 lg:px-8 py-24 pb-4">
       <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20">
         {/* Left Text Section */}
         <motion.div 
-          className="flex flex-col justify-center items-start gap-6 w-full lg:w-[445px]"
+          className="flex flex-col justify-center items-start gap-6 w-full lg:w-[417px] order-2 lg:order-1" // Added order classes
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
@@ -52,7 +52,7 @@ const SecondFeatureSection = () => {
 
         {/* Right Section - Purple Background with Chat Interface */}
         <motion.div 
-          className="relative w-full lg:w-[715px] aspect-video bg-[#C44FE2] rounded-3xl overflow-hidden"
+          className="relative w-full lg:w-[715px] h-[500px] lg:aspect-video bg-[#C44FE2] rounded-3xl overflow-hidden order-1 lg:order-2" // Added height and order classes
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
