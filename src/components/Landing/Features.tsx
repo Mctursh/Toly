@@ -13,14 +13,14 @@ const FeatureSection = () => {
       <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20">
         {/* Left Section - Green Background with Chat Interface */}
         <motion.div 
-          className="relative w-full lg:w-[715px] aspect-video bg-[#6FCB71] rounded-3xl overflow-hidden"
+          className="relative w-full lg:w-[715px] h-[500px] lg:aspect-video bg-[#6FCB71] rounded-3xl overflow-hidden"
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
         >
           {/* Cat Image */}
           <motion.div 
-            className="absolute w-48 h-56 lg:w-[245px] lg:h-[245px] -left-16 bottom-0"
+            className="absolute w-48 h-48 lg:w-[245px] lg:h-[245px] -left-16 bottom-0"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.3 }}

@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Space_Grotesk } from 'next/font/google';
+import AnimatedSphere from './AnimatedSphere';
 
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
 
@@ -56,20 +57,9 @@ const CatolyHero = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <div className="relative w-full h-full">
+          <div>
             {/* Green Circle Background */}
-            <div className="absolute inset-0 rounded-full bg-[#6FCB71]" />
-            
-            {/* Cat Image */}
-            <div className="relative w-full h-full">
-              <Image
-                src="/logo.png"
-                alt="Catoly GM Cat"
-                fill
-                className="object-contain p-4 rounded-full"
-                priority
-              />
-            </div>
+            <AnimatedSphere />
           </div>
         </motion.div>
       </div>

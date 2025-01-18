@@ -24,7 +24,7 @@ const CatolyPage = () => {
         </section>
 
         {/* Second Section */}
-        <section className="relative w-full min-h-screen">
+        <section className="relative w-full">
             <RightContentSection />
         </section>
 
