@@ -18,7 +18,7 @@ const AnimatedSphere = () => {
                 }}
               >
                 <img 
-                  src="/sideguy.png" 
+                  src="/sidecat.png" 
                   alt="Left half" 
                   className="w-full h-full object-cover grayscale"
                 />
@@ -32,7 +32,7 @@ const AnimatedSphere = () => {
                 }}
               >
                 <img 
-                  src="/sideguy.png" 
+                  src="/sidecat.png" 
                   alt="Right half" 
                   className="w-full h-full object-cover"
                 />
@@ -55,7 +55,7 @@ const AnimatedSphere = () => {
                 }}
               >
                 <img 
-                  src="/sideguy.png"
+                  src="/sidecat.png"
                   alt="Left half" 
                   className="w-full h-full object-cover"
                 />
@@ -69,7 +69,7 @@ const AnimatedSphere = () => {
                 }}
               >
                 <img 
-                  src="/sideguy.png" 
+                  src="/sidecat.png" 
                   alt="Right half" 
                   className="w-full h-full object-cover grayscale"
                 />
