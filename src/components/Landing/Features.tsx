@@ -20,7 +20,7 @@ const FeatureSection = () => {
         >
           {/* Cat Image */}
           <motion.div 
-            className="absolute w-48 h-48 lg:w-[245px] lg:h-[245px] -left-16 bottom-0"
+            className="absolute w-48 h-56 lg:w-[245px] lg:h-[245px] -left-16 bottom-0"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.3 }}
