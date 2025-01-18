@@ -9,11 +9,11 @@ const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
 
 const AboutSection = () => {
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 lg:px-8 py-24 pb-4">
+    <div className="w-full max-w-7xl mx-auto px-4 lg:px-8 py-40 pb-6">
       <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20">
         {/* Left Section - Purple Background with Interactive Element */}
         <motion.div 
-          className="relative w-full lg:w-[715px] h-[500px] lg:aspect-video bg-[#C44FE2] rounded-3xl overflow-hidden"
+          className="relative w-full lg:w-[715px] h-[400px] lg:aspect-video bg-[#C44FE2] rounded-3xl overflow-hidden"
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
