@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { Space_Grotesk } from 'next/font/google';
 import { Inter } from 'next/font/google';
+import { LoginButton } from '@/components/Auth/LoginModal';
 
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
 const inter = Inter({ subsets: ['latin'] });
@@ -96,14 +97,17 @@ const HeroSection = () => {
         </div>
 
         {/* Get Started Button */}
-        <motion.button
+      <div className="mt-8">
+        <LoginButton />
+      </div>
+        {/* <motion.button
         onClick={() => router.push('/auth/signup')}
           className="mt-8 px-8 py-4 bg-[#6FCB71] capitalize rounded-full text-black font-bold text-lg hover:bg-[#5FB761] transition-colors"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
           GET STARTED
-        </motion.button>
+        </motion.button> */}
       </motion.div>
     </section>
   );
