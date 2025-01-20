@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 
 
 export const metadata: Metadata = {
-    title: 'Chat - Toly.ai',
+    title: 'Toly | Chat With Toly About Solana',
     description: 'Ask Toly Something...',
   };
 

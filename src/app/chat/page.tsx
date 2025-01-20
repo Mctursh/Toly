@@ -1,14 +1,6 @@
-// app/chat/page.tsx
-import React from 'react';
-import Dashboard from '@/components/Dashboard/Dashboard';
+"use client"
+import ChatPage from '@/components/Chat/Full';
 
-export default function ChatPage() {
-  return (
-    <main className="min-h-screen">
-      <Dashboard 
-        username="Davis"
-        profileImage="/dyor.png"  // Optional, will use default if not provided
-      />
-    </main>
-  );
+export default function Home() {
+  return <ChatPage />
 }

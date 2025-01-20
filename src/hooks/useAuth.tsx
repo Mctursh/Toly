@@ -23,6 +23,8 @@ export function useAuth() {
   const [serverVerified, setServerVerified] = useState(false);
 
   const clearError = () => setError(null);
+const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000';
+
 
   // Verify with backend when authenticated
   useEffect(() => {
@@ -31,7 +33,7 @@ export function useAuth() {
         setIsVerifying(true);
         try {
           const token = await getAccessToken();
-          const response = await fetch('http://localhost:3000/auth/me', {
+          const response = await fetch(`${API_URL}/auth/me`, {
             headers: {
               'Authorization': `Bearer ${token}`
             }
@@ -63,22 +65,26 @@ export function useAuth() {
 
   const login = useCallback(async () => {
     try {
-      clearError();
-      console.log('Initiating login...');
       await privyLogin();
+      // Check whitelist status and redirect accordingly
+      const token = await getAccessToken();
+      const response = await fetch(`${API_URL}/whitelist/check-status`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const data = await response.json();
       
-      const redirectPath = sessionStorage.getItem('redirectAfterLogin');
-      if (redirectPath) {
-        sessionStorage.removeItem('redirectAfterLogin');
-        router.push(redirectPath);
+      if (data.isWhitelisted) {
+        router.push('/chat');
+      } else {
+        router.push('/whitelist');
       }
-    } catch (err) {
-      const error = err as Error;
+    } catch (error) {
       console.error('Login failed:', error);
-      setError({ message: error.message });
       throw error;
     }
-  }, [privyLogin, router]);
+  }, [privyLogin, getAccessToken, router]);
 
   const logout = useCallback(async () => {
     try {
