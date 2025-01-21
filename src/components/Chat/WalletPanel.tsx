@@ -21,13 +21,14 @@ import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
   
         // const token = await getAccessToken();
         const walletAddress = primaryWallet?.address
+        // const walletAddress = '3wRBJjPEmdk4b2NBEojeMKyuUCKLspKyViYUQMwJUsqt'
   
         if (!walletAddress) {
           throw new Error('No wallet address found');
         }
   
         const response = await fetch(
-          `${API_URL}/das/spl-portfolio/${walletAddress}?detailed=true&network=devnet`,
+          `${API_URL}/das/spl-portfolio/${walletAddress}?detailed=true&network=mainnet`,
           {
             headers: {
               // 'Authorization': `Bearer ${token}`
@@ -115,20 +116,20 @@ import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
                         }}
                       />
                     </div>
-                    <div>
+                    <div className='flex flex-col gap-y-1'>
                       <div className="flex items-center gap-2">
-                        <p className="text-sm font-medium">{token.name}</p>
-                        <span className="text-xs text-[#9097A6]">{token.symbol}</span>
+                        <p className="text-sm font-medium nowrap">{token.name.length > 12 ? `${token.name.substring(0, 12)}...` : token.name}</p>
+                        {/* <span className="text-xs text-[#9097A6]">{token.symbol}</span> */}
                       </div>
                       <div className="flex items-center gap-2 text-xs text-[#9097A6]">
-                        <span>{token.balance} tokens</span>
-                        <span>•</span>
-                        <span>{token.percentOfPortfolio}</span>
+                        <span>{token.balance}</span>
+                        {/* <span>•</span> */}
+                        {/* <span>{token.percentOfPortfolio}</span> */}
                       </div>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-sm font-medium">
+                  <div className="flex flex-col gap-y-1 text-right">
+                    <p className="text-sm font-medium nowrap">
                       {token.value.toLocaleString(undefined, {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2
@@ -138,7 +139,7 @@ import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
                       ${token.pricePerToken.toLocaleString(undefined, {
                         minimumFractionDigits: 6,
                         maximumFractionDigits: 6
-                      })} / token
+                      })}
                     </p>
                   </div>
                 </div>
