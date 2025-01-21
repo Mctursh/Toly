@@ -90,10 +90,10 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
     >
       {/* Message Bubble */}
       <div className="relative group">
-        <div className={`max-w-[80%] p-4 rounded-lg ${
+        <div className={`max-w-[80%] p-4 ${
           message.role === 'user' 
-            ? 'bg-[#6FCB71] text-black' 
-            : 'bg-[#121417] text-white'
+            ? 'bg-[#6FCB71] text-black ml-auto rounded-3xl rounded-br-[0]' 
+            : 'bg-[#121417] text-white mr-auto rounded-3xl rounded-bl-[0]'
         }`}>
           {message.isLoading ? (
             <div className="flex justify-center">
@@ -103,7 +103,7 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
             <>
               {renderContent()}
               {/* Timestamp and Actions */}
-              <div className="flex items-center gap-2 opacity-0 group-hover:opacity-60 transition-opacity absolute bottom-1 right-2">
+              {/* <div className="flex items-center gap-2 opacity-0 group-hover:opacity-60 transition-opacity absolute bottom-1 right-2">
                 <span className="text-xs">
                   {formatMessageTime(new Date(message.timestamp))}
                 </span>
@@ -115,7 +115,7 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
                     <FaTrash size={12} />
                   </button>
                 )}
-              </div>
+              </div> */}
             </>
           )}
         </div>

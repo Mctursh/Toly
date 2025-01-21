@@ -18,6 +18,7 @@ import {
 import { FaCog, FaHistory } from 'react-icons/fa';
 import type { IconType } from 'react-icons';
 import { Conversation } from '@/types/chat';
+import Http from '@/services/httpService';
 
 interface NavigationItem {
   name: string;
@@ -42,7 +43,8 @@ export const Sidebar: FC<SidebarProps> = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4600';
+  // const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 
   const navigationItems: NavigationItem[] = [
     { name: 'Explore', icon: FaMagnifyingGlass, href: '/explore' },
@@ -84,16 +86,15 @@ export const Sidebar: FC<SidebarProps> = ({
     try {
       const token = await getAccessToken();
       
-      const response = await fetch(`${API_URL}/chat/conversations`, {
-        method: 'POST',
+      const response = await Http.post(`${API_URL}/chat/conversations`,{}, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
       });
 
-      if (!response.ok) throw new Error('Failed to create conversation');
+      // if (!response.) throw new Error('Failed to create conversation');
       
-      const newConversation = await response.json();
+      const newConversation = await response.data
       setConversations(prev => [newConversation, ...prev]);
       router.push(`/chat/${newConversation.threadId}`);
     } catch (err) {
@@ -161,7 +162,7 @@ export const Sidebar: FC<SidebarProps> = ({
               className="w-full flex items-center gap-3 px-4 py-3.5 text-[#9097A6] hover:bg-white/5 rounded-xl transition-colors duration-200"
             >
               <item.icon className="text-xl" />
-              <span className="font-medium">{item.name}</span>
+              <span className="font-medium text-nowrap">{item.name}</span>
             </button>
           ))}
         </nav>
