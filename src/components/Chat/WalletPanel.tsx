@@ -1,63 +1,66 @@
 // components/WalletPanel.tsx
   "use client";
   
-  import React, { FC, useEffect, useState } from 'react';
-  import { usePrivy } from '@privy-io/react-auth';
-  import { PortfolioResponse } from '@/types/portfolio';
+import React, { FC, useCallback, useEffect, useState } from 'react';
+import { PortfolioResponse } from '@/types/portfolio';
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
+import { LoadingOrNotFound } from './LoadingOrNotFound';
+import TokenItem from './TokenItem';
   
-  const WalletPanel: FC = () => {
-    const { user, primaryWallet } = useDynamicContext();
+const WalletPanel: FC = () => {
+    const { primaryWallet } = useDynamicContext();
     const [portfolio, setPortfolio] = useState<PortfolioResponse | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
   
     const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4600';
   
-    const fetchPortfolio = async () => {
+    const fetchPortfolio = useCallback(async () => {
       try {
         setLoading(true);
         setError(null);
   
-        // const token = await getAccessToken();
-        const walletAddress = primaryWallet?.address
-        // const walletAddress = '3wRBJjPEmdk4b2NBEojeMKyuUCKLspKyViYUQMwJUsqt'
-  
-        if (!walletAddress) {
-          throw new Error('No wallet address found');
-        }
-  
-        const response = await fetch(
-          `${API_URL}/das/spl-portfolio/${walletAddress}?detailed=true&network=mainnet`,
-          {
-            headers: {
-              // 'Authorization': `Bearer ${token}`
-            }
+        // const walletAddress = primaryWallet?.address;
+        const walletAddress = '3wRBJjPEmdk4b2NBEojeMKyuUCKLspKyViYUQMwJUsqt';
+        
+        const url = `${API_URL}/das/portfolio/${walletAddress}?detailed=true&network=mainnet`;
+     
+
+        // Most like going to be a cors issue so add credential to server with apikey infact for all the endpoints
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
           }
-        );
-  
+        });
+        
         if (!response.ok) {
-          throw new Error('Failed to fetch portfolio');
+          const errorText = await response.text();
+          console.error('Error response:', errorText);
+          throw new Error(`Failed to fetch portfolio: ${response.status} - ${errorText}`);
         }
   
-        const data: PortfolioResponse = await response.json();
+        const data = await response.json();
+
         setPortfolio(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to fetch portfolio');
-        console.error('Portfolio fetch error:', err);
+        const errorMessage = err instanceof Error ? err.message : 'Failed to fetch portfolio';
+        console.error('Full error:', err);
+        setError(errorMessage);
       } finally {
         setLoading(false);
       }
-    };
+    }, [API_URL]); // Add API_URL as dependency
   
     useEffect(() => {
-      if (primaryWallet?.address) {
-        fetchPortfolio();
-      }
-    }, [primaryWallet?.address]);
+      // conditional should only call if primary wallet is available
+      fetchPortfolio();
+    }, [fetchPortfolio]);
+
   
     return (
-      <div className="w-[300px] bg-[#121417] h-full border-r border-white/5">
+      <div className="w-[300px] bg-[#121417] h-full">
         <div className="p-4">
           {/* Header with Total Value */}
           <div className="flex flex-col gap-2 mb-6">
@@ -74,13 +77,13 @@ import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
               <div className="bg-[#0B0C0F] p-4 rounded-lg border border-white/5">
                 <p className="text-sm text-[#9097A6]">Total Value</p>
                 <p className="text-xl font-bold">
-                  {portfolio.summary.totalValue.toLocaleString(undefined, {
+                  ${portfolio.totalValueUsd.toLocaleString(undefined, {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2
-                  })} {portfolio.summary.primaryCurrency}
+                  })} USD
                 </p>
                 <p className="text-xs text-[#9097A6] mt-1">
-                  {portfolio.summary.tokenCount} Token{portfolio.summary.tokenCount !== 1 ? 's' : ''}
+                  {portfolio.tokenPortfolio.tokens.length} Token{portfolio.tokenPortfolio.tokens.length !== 1 ? 's' : ''}
                 </p>
               </div>
             )}
@@ -94,56 +97,25 @@ import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
           )}
   
           {/* Loading State */}
-          {loading ? (
-            <div className="flex justify-center items-center h-40">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#6FCB71]" />
-            </div>
-          ) : (
+          <LoadingOrNotFound loading={loading} />
+          {!loading && (
             <div className="space-y-4">
-              {portfolio?.detail.tokens.map((token, index) => (
-                <div 
-                  key={index}
-                  className="flex items-center justify-between p-3 bg-[#0B0C0F] rounded-lg border border-white/5 hover:border-white/10 transition-colors duration-200"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="relative w-10 h-10">
-                      <img 
-                        src={token.image}
-                        alt={token.name}
-                        className="w-full h-full rounded-full object-cover"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src = '/default-token.png';
-                        }}
-                      />
-                    </div>
-                    <div className='flex flex-col gap-y-1'>
-                      <div className="flex items-center gap-2">
-                        <p className="text-sm font-medium nowrap">{token.name.length > 12 ? `${token.name.substring(0, 12)}...` : token.name}</p>
-                        {/* <span className="text-xs text-[#9097A6]">{token.symbol}</span> */}
-                      </div>
-                      <div className="flex items-center gap-2 text-xs text-[#9097A6]">
-                        <span>{token.balance}</span>
-                        {/* <span>•</span> */}
-                        {/* <span>{token.percentOfPortfolio}</span> */}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-y-1 text-right">
-                    <p className="text-sm font-medium nowrap">
-                      {token.value.toLocaleString(undefined, {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                      })} {token.currency}
-                    </p>
-                    <p className="text-xs text-[#9097A6]">
-                      ${token.pricePerToken.toLocaleString(undefined, {
-                        minimumFractionDigits: 6,
-                        maximumFractionDigits: 6
-                      })}
-                    </p>
-                  </div>
-                </div>
-              ))}
+               {portfolio?.nativeBalance && (
+                <TokenItem
+                  token={{
+                    type: 'native',
+                    name: 'Solana',
+                    symbol: 'SOL',
+                    image: 'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png', // Hard coded das should return the png -server bug
+                    ...portfolio.nativeBalance
+                  }}
+                />
+              )}
+
+
+               {portfolio?.tokenPortfolio?.tokens.map((token, index) => (
+                <TokenItem key={index} token={{type: 'token', ...token}}/>
+                ))}
             </div>
           )}
         </div>
