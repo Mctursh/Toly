@@ -23,6 +23,7 @@ import {
 import { Email } from '@privy-io/react-auth'; 
 import Http from '@/services/httpService';
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
+import CollapsibleWalletPanel from './CollapsibleWalletPanel';
 
 interface DashboardProps {
   username?: string | Email;
@@ -336,7 +337,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
       />
       
       <div className="flex-1 flex">
-        <WalletPanel />
+      <CollapsibleWalletPanel />
         
         <div className="flex-1 flex flex-col h-screen relative">
           {/* Header */}
