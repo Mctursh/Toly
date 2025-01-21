@@ -12,7 +12,7 @@ import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
   
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4600';
+    const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4600';
   
     const fetchPortfolio = async () => {
       try {
