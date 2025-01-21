@@ -38,7 +38,7 @@ export const Sidebar: FC<SidebarProps> = ({
   currentThreadId 
 }) => {
   const router = useRouter();
-  const { getAccessToken } = usePrivy();
+  // const { getAccessToken } = usePrivy();
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -59,13 +59,13 @@ export const Sidebar: FC<SidebarProps> = ({
   const fetchConversations = async (page = 1, limit = 20) => {
     try {
       setLoading(true);
-      const token = await getAccessToken();
+      // const token = await getAccessToken();
       
       const response = await fetch(
         `${API_URL}/chat/conversations?page=${page}&limit=${limit}`,
         {
           headers: {
-            'Authorization': `Bearer ${token}`
+            // 'Authorization': `Bearer ${token}`
           }
         }
       );
@@ -84,11 +84,11 @@ export const Sidebar: FC<SidebarProps> = ({
 
   const createNewConversation = async () => {
     try {
-      const token = await getAccessToken();
+      // const token = await getAccessToken();
       
       const response = await Http.post(`${API_URL}/chat/conversations`,{}, {
         headers: {
-          'Authorization': `Bearer ${token}`
+          // 'Authorization': `Bearer ${token}`
         }
       });
 
@@ -105,12 +105,12 @@ export const Sidebar: FC<SidebarProps> = ({
 
   const switchConversation = async (threadId: string) => {
     try {
-      const token = await getAccessToken();
+      // const token = await getAccessToken();
       
       await fetch(`${API_URL}/chat/conversations/${threadId}/switch`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${token}`
+          // 'Authorization': `Bearer ${token}`
         }
       });
 
@@ -121,7 +121,7 @@ export const Sidebar: FC<SidebarProps> = ({
   };
 
   useEffect(() => {
-    fetchConversations();
+    // fetchConversations();
   }, []);
 
   return (

@@ -22,6 +22,7 @@ import {
 } from '@/types/chat';
 import { Email } from '@privy-io/react-auth'; 
 import Http from '@/services/httpService';
+import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
 
 interface DashboardProps {
   username?: string | Email;
@@ -35,7 +36,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   username = "Anonymous",
   profileImage = '/dyor.png'
 }) => {
-  const { user, getAccessToken, logout } = usePrivy();
+  const { user } = useDynamicContext();
   const router = useRouter();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
@@ -79,13 +80,13 @@ export const Dashboard: React.FC<DashboardProps> = ({
         setIsFetchingMore(true);
       }
       
-      const token = await getAccessToken();
+      // const token = await getAccessToken();
       
       const response = await fetch(
         `${API_URL}/chat/conversations/${currentThreadId}?page=${pageNum}&limit=${PAGE_SIZE}`, 
         {
           headers: {
-            'Authorization': `Bearer ${token}`
+            // 'Authorization': `Bearer ${token}`
           }
         }
       );
@@ -145,11 +146,11 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
   const handleDeleteMessage = async (messageId: string) => {
     try {
-      const token = await getAccessToken();
+      // const token = await getAccessToken();
       const response = await fetch(`${API_URL}/chat/messages/${messageId}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${token}`
+          // 'Authorization': `Bearer ${token}`
         }
       });
 
@@ -193,7 +194,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
       }));
       setInputValue('');
 
-      const token = await getAccessToken();
+      // const token = await getAccessToken();
       // const response = await fetch(`${API_URL}/chat/conversations/${currentThreadId}/messages`, {
       //   method: 'POST',
       //   headers: {
@@ -212,7 +213,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
       },
       {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          // 'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
       }
@@ -266,7 +267,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
   const handleLogout = async () => {
     try {
-      await logout();
+      // await logout();
       router.push('/');
     } catch (error) {
       console.error('Logout failed:', error);

@@ -4,32 +4,33 @@
   import React, { FC, useEffect, useState } from 'react';
   import { usePrivy } from '@privy-io/react-auth';
   import { PortfolioResponse } from '@/types/portfolio';
+import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
   
   const WalletPanel: FC = () => {
-    const { user, getAccessToken } = usePrivy();
+    const { user, primaryWallet } = useDynamicContext();
     const [portfolio, setPortfolio] = useState<PortfolioResponse | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
   
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4600';
   
     const fetchPortfolio = async () => {
       try {
         setLoading(true);
         setError(null);
   
-        const token = await getAccessToken();
-        const walletAddress = user?.wallet?.address;
+        // const token = await getAccessToken();
+        const walletAddress = primaryWallet?.address
   
         if (!walletAddress) {
           throw new Error('No wallet address found');
         }
   
         const response = await fetch(
-          `${API_URL}/das/spl-portfolio/${walletAddress}?detailed=true&network=mainnet`,
+          `${API_URL}/das/spl-portfolio/${walletAddress}?detailed=true&network=devnet`,
           {
             headers: {
-              'Authorization': `Bearer ${token}`
+              // 'Authorization': `Bearer ${token}`
             }
           }
         );
@@ -49,10 +50,10 @@
     };
   
     useEffect(() => {
-      if (user?.wallet?.address) {
+      if (primaryWallet?.address) {
         fetchPortfolio();
       }
-    }, [user?.wallet?.address]);
+    }, [primaryWallet?.address]);
   
     return (
       <div className="w-[300px] bg-[#121417] h-full border-r border-white/5">
@@ -62,9 +63,9 @@
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold">Portfolio</h2>
               <div className="flex items-center gap-2">
-                <div className={`w-2 h-2 rounded-full ${user?.wallet?.address ? 'bg-green-500' : 'bg-red-500'}`} />
+                <div className={`w-2 h-2 rounded-full ${primaryWallet?.address ? 'bg-green-500' : 'bg-red-500'}`} />
                 <span className="text-sm text-[#9097A6]">
-                  {user?.wallet?.address ? 'Connected' : 'Not Connected'}
+                  {primaryWallet?.address ? 'Connected' : 'Not Connected'}
                 </span>
               </div>
             </div>

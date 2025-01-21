@@ -6,6 +6,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { Space_Grotesk } from 'next/font/google';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { DynamicWidget } from '@dynamic-labs/sdk-react-core';
 
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
 
@@ -32,31 +33,38 @@ export function LoginButton() {
     }
   };
 
-  if (!ready) {
-    return (
-      <motion.button
-        className="mt-8 px-8 py-4 bg-gray-600 capitalize rounded-full text-black font-bold text-lg"
-      >
-        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-      </motion.button>
-    );
-  }
+  // if (!ready) {
+  //   return (
+  //     <motion.button
+  //       className="mt-8 px-8 py-4 bg-gray-600 capitalize rounded-full text-black font-bold text-lg"
+  //     >
+  //       <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+  //     </motion.button>
+  //   );
+  // }
 
   return (
-    <motion.button
-      onClick={handleAuth}
-      disabled={isLoading}
-      className="mt-8 px-8 py-4 bg-[#6FCB71] capitalize rounded-full text-black font-bold text-lg hover:bg-[#5FB761] transition-colors"
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-    >
-      {isLoading ? (
-        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-black"></div>
-      ) : (
-        <span className={spaceGrotesk.className}>
-          {isAuthenticated ? 'LOGOUT' : 'GET STARTED'}
-        </span>
-      )}
-    </motion.button>
+    <div className="mt-8 px-8 py-4 bg-[#6FCB71] capitalize rounded-full text-black font-bold text-lg hover:bg-[#5FB761] transition-colors">
+
+      <DynamicWidget buttonClassName='no-style' innerButtonComponent={
+        <motion.button
+          onClick={handleAuth}
+          disabled={isLoading}
+          // className="mt-8 px-8 py-4 bg-[#6FCB71] capitalize rounded-full text-black font-bold text-lg hover:bg-[#5FB761] transition-colors"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          {isLoading ? (
+            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-black"></div>
+          ) : (
+    
+            <span className={spaceGrotesk.className}>
+              {isAuthenticated ? 'LOGOUT' : 'GET STARTED'}
+            </span>
+          )}
+        </motion.button>
+    
+      } />
+    </div>
   );
 }
