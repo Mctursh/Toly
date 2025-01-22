@@ -210,13 +210,13 @@ export const Dashboard: React.FC<DashboardProps> = ({
       
       // const data: AIResponse = await response.json();
       
-      const response = await Http.post(`/chat/conversations/1/messages`, {
+      const response = await Http.post(`${API_URL}/chat/conversations/1/messages`, {
         content: inputValue,
       },
       {
         headers: {
-          // 'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
         },
       }
     )

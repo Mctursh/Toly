@@ -19,6 +19,7 @@ import { FaCog, FaHistory } from 'react-icons/fa';
 import type { IconType } from 'react-icons';
 import { Conversation } from '@/types/chat';
 import Http from '@/services/httpService';
+import LoadingOrNotFound from './LoadingOrNotFound';
 
 interface NavigationItem {
   name: string;
@@ -171,15 +172,8 @@ export const Sidebar: FC<SidebarProps> = ({
         <div className="mt-10 px-6">
           <h3 className="text-[#9097A6] mb-4 px-4">Recent chats</h3>
           
-          {loading ? (
-            <div className="flex justify-center py-4">
-              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#92C7FF]" />
-            </div>
-          ) : error ? (
-            <div className="px-4 py-3 text-sm text-red-500">
-              {error}
-            </div>
-          ) : (
+          <LoadingOrNotFound loading={loading} borderColor='blue' text='No recent chats' />
+          {!loading && (
             <div className="space-y-2">
               {conversations.map((conversation) => (
                 <button

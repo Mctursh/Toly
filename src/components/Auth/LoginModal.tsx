@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
 import { Space_Grotesk } from 'next/font/google';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { DynamicWidget, useDynamicContext } from '@dynamic-labs/sdk-react-core';
 
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
@@ -14,6 +14,7 @@ export function LoginButton() {
   const { ready, isAuthenticated, login, logout } = useAuth();
   const { user, handleLogOut } = useDynamicContext()
   const [isLoading, setIsLoading] = useState(false);
+  const pathname = usePathname();
   const router = useRouter();
 
   const handleAuth = async () => {
@@ -34,6 +35,28 @@ export function LoginButton() {
     }
   };
 
+  const handleChat = async () => {
+    try {
+      setIsLoading(true);
+      if (handleLogOut) {
+        await handleLogOut();
+      }
+      
+      // Try with full pathname
+      const fullPath = `${pathname === '/' ? '' : pathname}/chat`;
+      console.log('Attempting navigation to:', fullPath);
+      router.push(fullPath);
+      
+      // If that doesn't work, try forcing a hard navigation
+      setTimeout(() => {
+        window.location.href = '/chat';
+      }, 100);
+    } catch (error) {
+      console.error('Error:', error);
+      window.location.href = '/chat';
+    }
+  };
+
   // if (!ready) {
   //   return (
   //     <motion.button
@@ -48,20 +71,20 @@ export function LoginButton() {
 
   return (
     <div className="">
-      {
-        user ?
+      {/* {
+        user ? */}
         <motion.button
-        onClick={logOut}
-        // disabled={isLoading}
-        className="mt-8 px-8 py-4 bg-[#6FCB71] capitalize rounded-full text-black font-bold text-lg hover:bg-[#5FB761] transition-colors"
+        onClick={handleChat}
+        disabled={isLoading}
+        className="mt-8 px-8 py-4 bg-[#6FCB71] capitalize rounded-full text-black font-bold text-lg hover:bg-[#5FB761] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
-          <span className={spaceGrotesk.className}>
-              LOGOUT
-          </span>
+        <span className={spaceGrotesk.className}>
+          {isLoading ? 'Loading...' : 'GET STARTED'}
+        </span>
       </motion.button>
-        :
+        {/* :
         <div className="no-style mt-8 px-8 py-4 bg-[#6FCB71] capitalize rounded-full text-black font-bold text-lg hover:bg-[#5FB761] transition-colors">
 
           <DynamicWidget innerButtonComponent={
@@ -79,7 +102,7 @@ export function LoginButton() {
         
           } />
         </div>
-      }
+      } */}
     </div>
   );
 }
