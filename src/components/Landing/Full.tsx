@@ -12,12 +12,12 @@ const familjenGrotesk = Familjen_Grotesk({ subsets: ['latin'] });
 
 const HomePage = () => {
   return (
-    <main className={`relative min-h-screen bg-black overflow-x-hidden ${familjenGrotesk.className}`}>
+    <main className={`relative min-h-screen overflow-x-hidden ${familjenGrotesk.className}`}>
       {/* Fixed navbar always on top */}
       <Navbar />
 
       {/* Content wrapper with proper spacing */}
-      <div className="flex flex-col w-full">
+      <div className="flex flex-col w-full bg-black">
         {/* Hero Section */}
         <section className="relative w-full min-h-screen pt-28">
           <HeroSection />
