@@ -27,7 +27,7 @@ import CollapsibleWalletPanel from './CollapsibleWalletPanel';
 
 interface DashboardProps {
   username?: string | Email;
-  profileImage?: string;
+  profileImage?: string; 
 }
 
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
@@ -192,6 +192,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           timestamp: new Date(),
           isLoading: true
         }],
+        error: null
       }));
       setInputValue('');
 
@@ -241,7 +242,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
       setChatState(prev => ({
         ...prev,
         messages: prev.messages.filter(m => m.id !== 'temp-loading'),
-        error: 'Failed to send message'
+        error: 'Failed, please try again'
       }));
     }
   };

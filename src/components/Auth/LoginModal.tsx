@@ -62,9 +62,9 @@ export function LoginButton() {
           </span>
       </motion.button>
         :
-        <div className="mt-8 px-8 py-4 bg-[#6FCB71] capitalize rounded-full text-black font-bold text-lg hover:bg-[#5FB761] transition-colors">
+        <div className="no-style mt-8 px-8 py-4 bg-[#6FCB71] capitalize rounded-full text-black font-bold text-lg hover:bg-[#5FB761] transition-colors">
 
-          <DynamicWidget buttonClassName='no-style' innerButtonComponent={
+          <DynamicWidget innerButtonComponent={
             <motion.button
               // onClick={handleAuth}
               // disabled={isLoading}

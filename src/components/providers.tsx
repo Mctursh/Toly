@@ -10,7 +10,6 @@ import Cookies from 'js-cookie';
 import { useCallback } from "react";
 import { CookieAuthData } from "@/types/chat";
 
-
 export default function Providers({ children }: { children: React.ReactNode }) {
 
   const router = useRouter();
@@ -32,12 +31,18 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     Cookies.remove('dynamic-auth');
   }, []);
 
+  const cssOverrides = `
+  .dynamic-widget-container {
+    all: initial;
+  }
+`;
+
   return (
     <DynamicContextProvider
       settings={{
         environmentId: process.env.NEXT_PUBLIC_DYNAMIC_APP_ID || '',
         walletConnectors: [SolanaWalletConnectors],
-        // cssOverrides,
+        cssOverrides,
         events: {
           onAuthSuccess: (args) => {
             const data: CookieAuthData = {
