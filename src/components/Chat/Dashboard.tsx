@@ -1,6 +1,5 @@
 // app/chat/page.tsx
 "use client";
-
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Space_Grotesk } from 'next/font/google';
@@ -42,8 +41,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   
-  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(window.innerWidth >= 1024);
-  const [isWalletPanelOpen, setIsWalletPanelOpen] = useState<boolean>(window.innerWidth >= 1024);
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
+  const [isWalletPanelOpen, setIsWalletPanelOpen] = useState<boolean>(true);
   const [inputValue, setInputValue] = useState<string>('');
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState<boolean>(false);
@@ -58,7 +57,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [isFetchingMore, setIsFetchingMore] = useState<boolean>(false);
   const PAGE_SIZE = 20;
-  
   const [chatState, setChatState] = useState<ChatState>({
     messages: [],
     isLoading: false,
@@ -66,6 +64,23 @@ export const Dashboard: React.FC<DashboardProps> = ({
   });
 
   const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000';
+
+  useEffect(() => {
+    
+    const handleResize = () => {
+      if (window.innerWidth < 1024) {
+        setIsSidebarOpen(false);
+        setIsWalletPanelOpen(false);
+      } else {
+        setIsSidebarOpen(true);
+        setIsWalletPanelOpen(true);
+      }
+    };
+  
+    handleResize(); // Initial check
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>): void => {
     const rect = e.currentTarget.getBoundingClientRect();
