@@ -216,7 +216,7 @@ const HeroSection: React.FC = () => {
       className="relative min-h-screen w-full overflow-x-hidden bg-black pt-32"
       onMouseMove={handleMouseMove}
     >
-      {/* Base Grid Pattern */}
+      {/* Base Grid Pattern - Updated with larger grid */}
       <div 
         className="absolute inset-0 h-[40vh]"
         style={{
@@ -224,7 +224,7 @@ const HeroSection: React.FC = () => {
             linear-gradient(90deg, transparent 49.5%, rgba(111, 203, 113, 0.9) 49.5%, rgba(111, 203, 113, 0.9) 50.5%, transparent 50.5%),
             linear-gradient(0deg, transparent 49.5%, rgba(111, 203, 113, 0.9) 49.5%, rgba(111, 203, 113, 0.9) 50.5%, transparent 50.5%)
           `,
-          backgroundSize: '100px 100px',
+          backgroundSize: '200px 200px', // Increased from 100px to 200px
           WebkitMaskImage: `
             linear-gradient(to bottom, 
               rgba(0,0,0,1) 0%,
@@ -247,13 +247,13 @@ const HeroSection: React.FC = () => {
         }}
       />
       
-      {/* Hover Effect Layer */}
+      {/* Hover Effect Layer - Updated with larger radius */}
       <div 
         className="absolute inset-0 pointer-events-none h-[40vh]"
         style={{
           background: `
-            radial-gradient(circle 4px at ${mousePosition.x}px ${mousePosition.y}px, rgb(111, 203, 113), transparent 6px)
-          `,
+            radial-gradient(circle 8px at ${mousePosition.x}px ${mousePosition.y}px, rgb(111, 203, 113), transparent 12px)
+          `, // Increased circle size
           opacity: 0.8,
           WebkitMaskImage: `
             linear-gradient(to bottom, 
