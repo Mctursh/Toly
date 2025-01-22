@@ -96,7 +96,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
         setIsWalletPanelOpen(false);
       } else {
         setIsSidebarOpen(true);
-        setIsWalletPanelOpen(true);
+        setIsWalletPanelOpen(false);
       }
     };
   
@@ -632,11 +632,44 @@ onClick={handleLogout}
 
         {/* Collapsible Wallet Panel - Right Side */}
         <div 
+            className={`fixed lg:relative right-0 h-screen bg-[#121417] transition-all duration-300 ease-in-out border-l border-white/5 z-40
+              ${isWalletPanelOpen ? 'w-80 translate-x-0' : 'w-16 translate-x-0'}`}
+          >
+            {/* Toggle button - Updated with wallet icon */}
+            <button
+              onClick={() => setIsWalletPanelOpen(!isWalletPanelOpen)}
+              className={`absolute ${isWalletPanelOpen ? '-left-4' : 'left-4'} top-8 z-10 h-8 w-8 flex items-center justify-center 
+                border-[1px] border-white/5 rounded-full bg-[#121417] text-white hover:bg-[#1a1d21] 
+                transition-colors duration-200`}
+              aria-label={isWalletPanelOpen ? 'Collapse wallet panel' : 'Expand wallet panel'}
+            >
+              <FaWallet size={16} className="text-[#6FCB71]" />
+            </button>
+
+            {/* Wallet Panel Content */}
+            <div 
+              className={`h-full transition-all duration-300 ${
+                isWalletPanelOpen 
+                  ? 'opacity-100 visible' 
+                  : 'opacity-0 invisible'
+              }`}
+            >
+              <WalletPanel />
+            </div>
+
+            {/* Collapsed State - Removed arrows, always show wallet icon */}
+            {!isWalletPanelOpen && (
+              <div className="flex h-full w-full flex-col items-center p-4 text-white">
+                <FaWallet size={24} className="text-[#6FCB71]" />
+              </div>
+            )}
+          </div>
+        {/* <div 
           className={`fixed lg:relative right-0 h-screen bg-[#121417] transition-all duration-300 ease-in-out border-l border-white/5 z-40
             ${isWalletPanelOpen ? 'w-80 translate-x-0' : 'w-0 translate-x-full lg:translate-x-0 lg:w-16'}`}
-        >
+        > */}
           {/* Toggle button - Updated for mobile */}
-          <button
+          {/* <button
             onClick={() => setIsWalletPanelOpen(!isWalletPanelOpen)}
             className={`absolute ${isWalletPanelOpen ? '-left-4 lg:-left-4' : 'left-4'} top-8 z-10 h-8 w-8 flex items-center justify-center 
               border-[1px] border-white/5 rounded-full bg-[#121417] text-white hover:bg-[#1a1d21] 
@@ -648,10 +681,8 @@ onClick={handleLogout}
             ) : (
               <ChevronLeft className="h-5 w-5" />
             )}
-          </button>
-
-          {/* Wallet Panel Content */}
-          <div 
+          </button> */}
+          {/* <div 
             className={`h-full transition-all duration-300 ${
               isWalletPanelOpen 
                 ? 'opacity-100 visible' 
@@ -659,15 +690,15 @@ onClick={handleLogout}
             }`}
           >
             <WalletPanel />
-          </div>
+          </div> */}
 
           {/* Collapsed State Icon */}
-          {!isWalletPanelOpen && (
+          {/* {!isWalletPanelOpen && (
             <div className="hidden lg:flex h-full w-full flex-col items-center p-4 text-white">
               <FaWallet size={24} className="text-[#6FCB71]" />
             </div>
           )}
-        </div>
+        </div> */}
         
         {/* Centralized Modals */}
         <AnimatePresence>
