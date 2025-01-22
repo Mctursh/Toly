@@ -1,28 +1,29 @@
 // // app/chat/page.tsx
 // "use client";
 
-// import React, { useState, useEffect, useRef } from 'react';
-// import { motion, AnimatePresence } from 'framer-motion';
-// import { Familjen_Grotesk } from 'next/font/google';
-// import { Inter } from 'next/font/google';
-// import { FaPaperPlane, FaChevronDown } from "react-icons/fa6";
-// import { usePrivy } from '@privy-io/react-auth';
-// import { useRouter } from 'next/navigation';
-// import { Messages } from './Messages';
-// import { EmojiSuggestions } from './EmojiSuggestions';
-// import { ConfirmationModal } from './ConfirmationModal';
-// import Sidebar from './Sidebar';
-// import WalletPanel from './WalletPanel';
-// import { 
-//   type Message, 
-//   type ChatState, 
-//   type AIResponse, 
-//   type Coordinates,
-//   type DeleteMessageConfirmation 
-// } from '@/types/chat';
-// import { Email } from '@privy-io/react-auth'; 
-// import Http from '@/services/httpService';
-// import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Space_Grotesk } from 'next/font/google';
+import { Inter } from 'next/font/google';
+import { FaPaperPlane, FaChevronDown } from "react-icons/fa6";
+import { usePrivy } from '@privy-io/react-auth';
+import { useRouter } from 'next/navigation';
+import { Messages } from './Messages';
+import { EmojiSuggestions } from './EmojiSuggestions';
+import { ConfirmationModal } from './ConfirmationModal';
+import Sidebar from './Sidebar';
+import WalletPanel from './WalletPanel';
+import { 
+  type Message, 
+  type ChatState, 
+  type AIResponse, 
+  type Coordinates,
+  type DeleteMessageConfirmation 
+} from '@/types/chat';
+import { Email } from '@privy-io/react-auth'; 
+import Http from '@/services/httpService';
+import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
+import CollapsibleWalletPanel from './CollapsibleWalletPanel';
 
 // interface DashboardProps {
 //   username?: string | Email;
@@ -335,8 +336,8 @@
 //         currentThreadId={currentThreadId || undefined}
 //       />
       
-//       <div className="flex-1 flex">
-//         <WalletPanel />
+      <div className="flex-1 flex">
+      <CollapsibleWalletPanel />
         
 //         <div className="flex-1 flex flex-col h-screen relative">
 //           {/* Header */}
