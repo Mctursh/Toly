@@ -361,7 +361,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
       <h1 className={`text-3xl font-semibold mb-4 ${familjenGrotesk.className}`}>
         Welcome to Toly AI!
       </h1>
-      <p className="text-base text-[#9097A6] max-w-[280px] mx-auto">
+      <p className="text-base text-[#9097A6] max-w-[450px] mx-auto">
         Toly is here to help with insights on transactions, tokens, wallets and all activities on the 
         <span className="text-[#6FCB71]"> Solana Blockchain</span>! What is on your mind today?
       </p>
