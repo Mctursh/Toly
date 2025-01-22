@@ -2,7 +2,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Space_Grotesk } from 'next/font/google';
+import { Familjen_Grotesk } from 'next/font/google';
 import { Inter } from 'next/font/google';
 import { FaPaperPlane, FaChevronDown, FaBars, FaWallet } from "react-icons/fa6";
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -23,13 +23,14 @@ import {
 import { Email } from '@privy-io/react-auth';
 import Http from '@/services/httpService';
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
+import ActionModal from './ActionModal';
 
 interface DashboardProps {
   username?: string | Email;
   profileImage?: string;
 }
 
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
+const familjenGrotesk = Familjen_Grotesk({ subsets: ['latin'] });
 const inter = Inter({ subsets: ['latin'] });
 
 export const Dashboard: React.FC<DashboardProps> = ({ 
@@ -62,6 +63,12 @@ export const Dashboard: React.FC<DashboardProps> = ({
     isLoading: false,
     error: null
   });
+  const [isActionModalOpen, setIsActionModalOpen] = useState(false);
+  const [activeActionTab, setActiveActionTab] = useState('Create');
+
+  const handlePromptSelect = (promptText: string) => {
+    setInputValue(promptText);
+  };
 
   const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000';
 
@@ -297,7 +304,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
         <img src="/logo.png" alt="Bot" className="w-8 h-8 rounded-full rotate-12 relative z-10" />
       </div>
       
-      <h1 className={`text-3xl font-semibold mb-4 ${spaceGrotesk.className}`}>
+      <h1 className={`text-3xl font-semibold mb-4 ${familjenGrotesk.className}`}>
         Welcome to Toly AI!
       </h1>
       <p className="text-base text-[#9097A6] max-w-[280px] mx-auto">
@@ -308,7 +315,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   );
 
   return (
-    <div className={`flex h-screen overflow-hidden bg-black text-white ${spaceGrotesk.className}`}>
+    <div className={`flex h-screen overflow-hidden bg-black text-white ${familjenGrotesk.className}`}>
       {/* Sidebar - Hidden on mobile by default */}
       <div 
         className={`fixed lg:relative z-50 transition-transform duration-300 ease-in-out
@@ -360,10 +367,10 @@ export const Dashboard: React.FC<DashboardProps> = ({
             <div className="relative profile-dropdown ml-auto">
               <button
                 onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
-                className="flex items-center gap-4 px-6 py-3 bg-[#121417] border-2 border-[#61BDFF]/20 rounded-full hover:border-[#61BDFF]/40 transition-colors duration-200"
+                className="flex items-center gap-4 px-6 py-3 bg-[#121417] border-2 border-[#6FCB71]/20 rounded-full hover:border-[#6FCB71]/40 transition-colors duration-200"
               >
                 <div className="relative">
-                  <div className="absolute inset-0 bg-[#61BDFF]/10 rounded-full blur-sm" />
+                  <div className="absolute inset-0 bg-[#6FCB71]/10 rounded-full blur-sm" />
                   <img src="/logo.png" alt="Profile" className="w-8 h-8 rounded-full relative z-10" />
                 </div>
                 <span className="font-medium">
@@ -408,13 +415,31 @@ onClick={handleLogout}
                 <WelcomeScreen />
                 
                 <div className="flex flex-wrap justify-center gap-4 mt-12 mb-8">
-                  <button className="px-8 py-4 bg-[#121417] rounded-xl border border-[#92C7FF]/20 hover:bg-[#92C7FF]/5 text-white">
+                  <button 
+                    className="px-8 py-4 bg-[#121417] rounded-xl border border-[#92C7FF]/20 hover:bg-[#92C7FF]/5 text-white"
+                    onClick={() => {
+                      setActiveActionTab('Create');
+                      setIsActionModalOpen(true);
+                    }}
+                  >
                     Create
                   </button>
-                  <button className="px-8 py-4 bg-[#121417] rounded-xl border border-[#92C7FF]/20 hover:bg-[#92C7FF]/5 text-white">
+                  <button 
+                    className="px-8 py-4 bg-[#121417] rounded-xl border border-[#92C7FF]/20 hover:bg-[#92C7FF]/5 text-white"
+                    onClick={() => {
+                      setActiveActionTab('Deploy');
+                      setIsActionModalOpen(true);
+                    }}
+                  >
                     Deploy
                   </button>
-                  <button className="px-8 py-4 bg-[#121417] rounded-xl border border-[#92C7FF]/20 hover:bg-[#92C7FF]/5 text-white">
+                  <button 
+                    className="px-8 py-4 bg-[#121417] rounded-xl border border-[#92C7FF]/20 hover:bg-[#92C7FF]/5 text-white"
+                    onClick={() => {
+                      setActiveActionTab('Trade');
+                      setIsActionModalOpen(true);
+                    }}
+                  >
                     Trade
                   </button>
                 </div>
@@ -549,12 +574,12 @@ onClick={handleLogout}
           className={`fixed lg:relative right-0 h-screen bg-[#121417] transition-all duration-300 ease-in-out border-l border-white/5 z-40
             ${isWalletPanelOpen ? 'w-80 translate-x-0' : 'w-0 translate-x-full lg:translate-x-0 lg:w-16'}`}
         >
-          {/* Toggle button */}
+          {/* Toggle button - Updated for mobile */}
           <button
             onClick={() => setIsWalletPanelOpen(!isWalletPanelOpen)}
-            className={`absolute -left-4 top-8 z-10 h-8 w-8 items-center justify-center 
+            className={`absolute ${isWalletPanelOpen ? '-left-4 lg:-left-4' : 'left-4'} top-8 z-10 h-8 w-8 flex items-center justify-center 
               border-[1px] border-white/5 rounded-full bg-[#121417] text-white hover:bg-[#1a1d21] 
-              transition-colors duration-200 lg:flex hidden`}
+              transition-colors duration-200`}
             aria-label={isWalletPanelOpen ? 'Collapse wallet panel' : 'Expand wallet panel'}
           >
             {isWalletPanelOpen ? (
@@ -596,6 +621,12 @@ onClick={handleLogout}
           message="Are you sure you want to delete this message?"
         />
       </div>
+      <ActionModal 
+        isOpen={isActionModalOpen}
+        onClose={() => setIsActionModalOpen(false)}
+        initialTab={activeActionTab}
+        onPromptSelect={handlePromptSelect}
+      />
     </div>
   );
 };
@@ -606,7 +637,7 @@ export default Dashboard;
 
 // import React, { useState, useEffect, useRef } from 'react';
 // import { motion, AnimatePresence } from 'framer-motion';
-// import { Space_Grotesk } from 'next/font/google';
+// import { Familjen_Grotesk } from 'next/font/google';
 // import { Inter } from 'next/font/google';
 // import { FaPaperPlane, FaChevronDown } from "react-icons/fa6";
 // import { usePrivy } from '@privy-io/react-auth';
@@ -633,7 +664,7 @@ export default Dashboard;
 //   profileImage?: string;
 // }
 
-// const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
+// const familjenGrotesk = Familjen_Grotesk({ subsets: ['latin'] });
 // const inter = Inter({ subsets: ['latin'] });
 
 // export const Dashboard: React.FC<DashboardProps> = ({ 
@@ -921,7 +952,7 @@ export default Dashboard;
 //         <img src="/logo.png" alt="Bot" className="w-8 h-8 rounded-full rotate-12 relative z-10" />
 //       </div>
       
-//       <h1 className={`text-3xl font-semibold mb-4 ${spaceGrotesk.className}`}>
+//       <h1 className={`text-3xl font-semibold mb-4 ${familjenGrotesk.className}`}>
 //         Welcome to Toly AI
 //       </h1>
 //       <p className="text-base text-[#9097A6] max-w-[280px] mx-auto">
@@ -932,7 +963,7 @@ export default Dashboard;
 //   );
 
 //   return (
-//     <div className={`flex h-screen overflow-hidden bg-black text-white ${spaceGrotesk.className}`}>
+//     <div className={`flex h-screen overflow-hidden bg-black text-white ${familjenGrotesk.className}`}>
 //       <Sidebar 
 //         isSidebarOpen={isSidebarOpen} 
 //         toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -956,10 +987,10 @@ export default Dashboard;
 //             <div className="relative profile-dropdown">
 //               <button
 //                 onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
-//                 className="ml-auto flex items-center gap-4 px-6 py-3 bg-[#121417] border-2 border-[#61BDFF]/20 rounded-full hover:border-[#61BDFF]/40 transition-colors duration-200"
+//                 className="ml-auto flex items-center gap-4 px-6 py-3 bg-[#121417] border-2 border-[#6FCB71]/20 rounded-full hover:border-[#6FCB71]/40 transition-colors duration-200"
 //               >
 //                 <div className="relative">
-//                   <div className="absolute inset-0 bg-[#61BDFF]/10 rounded-full blur-sm" />
+//                   <div className="absolute inset-0 bg-[#6FCB71]/10 rounded-full blur-sm" />
 //                   <img src="/logo.png" alt="Profile" className="w-8 h-8 rounded-full relative z-10" />
 //                 </div>
 //                 <span className="font-medium">
@@ -1394,10 +1425,10 @@ export default Dashboard;
 //           <div className="ml-auto relative profile-dropdown">
 //             <button
 //               onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
-//               className="flex items-center gap-4 px-6 py-3 bg-[#121417] border-2 border-[#61BDFF]/20 rounded-full hover:border-[#61BDFF]/40 transition-colors"
+//               className="flex items-center gap-4 px-6 py-3 bg-[#121417] border-2 border-[#6FCB71]/20 rounded-full hover:border-[#6FCB71]/40 transition-colors"
 //             >
 //               <div className="relative">
-//                 <div className="absolute inset-0 bg-[#61BDFF]/10 rounded-full blur-sm" />
+//                 <div className="absolute inset-0 bg-[#6FCB71]/10 rounded-full blur-sm" />
 //                 <img 
 //                   src={profileImage} 
 //                   alt="Profile" 

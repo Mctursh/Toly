@@ -55,7 +55,7 @@ const SigninPage: React.FC = () => {
             className="mt-0"
           >
             <div className="relative">
-              <div className="absolute inset-0 bg-[#61BDFF]/20 rounded-full blur-lg" />
+              <div className="absolute inset-0 bg-[#6FCB71]/20 rounded-full blur-lg" />
               <Image
                 src="/wen.png"
                 alt="Wen"
@@ -111,7 +111,7 @@ const SigninPage: React.FC = () => {
                 y2="85"
                 gradientUnits="userSpaceOnUse"
               >
-                <stop stopColor="#61BDFF" />
+                <stop stopColor="#6FCB71" />
                 <stop offset="1" stopColor="#C44FE2" />
               </linearGradient>
             </defs>
@@ -136,7 +136,7 @@ const SigninPage: React.FC = () => {
                       placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
                       value={formData[field as keyof FormData]}
                       onChange={handleInputChange}
-                      className={`w-full h-16 px-6 bg-black/40 rounded-2xl text-lg text-[#9097A6]  ${familjenGrotesk.className} outline-none focus:ring-2 focus:ring-[#61BDFF]/20`}
+                      className={`w-full h-16 px-6 bg-black/40 rounded-2xl text-lg text-[#9097A6]  ${familjenGrotesk.className} outline-none focus:ring-2 focus:ring-[#6FCB71]/20`}
                     />
                   </motion.div>
                 ))}
@@ -144,7 +144,7 @@ const SigninPage: React.FC = () => {
 
               <motion.button
                     type="submit"
-                    className="flex justify-center items-center w-full h-16 bg-[#61BDFF] rounded-full mt-4"
+                    className="flex justify-center items-center w-full h-16 bg-[#6FCB71] rounded-full mt-4"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     >
@@ -155,7 +155,7 @@ const SigninPage: React.FC = () => {
 
                     <p className={`text-center text-[#9097A6]  ${familjenGrotesk.className} mt-4`}>
                     Don&apos;t have an account?{' '}
-                    <Link href="/auth/signup" className="text-[#61BDFF]">
+                    <Link href="/auth/signup" className="text-[#6FCB71]">
                         Sign Up
                     </Link>
                     </p>
