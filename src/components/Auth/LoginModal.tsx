@@ -44,7 +44,7 @@ export function LoginButton() {
   // }
 
   return (
-    <div className="mt-8 px-8 py-4 bg-[#6FCB71] capitalize rounded-full text-black font-bold text-lg hover:bg-[#5FB761] transition-colors">
+    <div className="mt-4 px-8 py-4 bg-[#6FCB71] capitalize rounded-full text-black font-bold text-lg hover:bg-[#5FB761] transition-colors">
 
       <DynamicWidget buttonClassName='no-style' innerButtonComponent={
         <motion.button

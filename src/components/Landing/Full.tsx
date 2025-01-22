@@ -19,7 +19,7 @@ const HomePage = () => {
       {/* Content wrapper with proper spacing */}
       <div className="flex flex-col w-full bg-black">
         {/* Hero Section */}
-        <section className="relative w-full min-h-screen pt-28">
+        <section className="relative w-full min-h-screen">
           <HeroSection />
         </section>
 

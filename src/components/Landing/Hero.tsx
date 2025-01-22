@@ -225,26 +225,38 @@ const HeroSection: React.FC = () => {
             linear-gradient(0deg, transparent 49.5%, rgba(111, 203, 113, 0.9) 49.5%, rgba(111, 203, 113, 0.9) 50.5%, transparent 50.5%)
           `,
           backgroundSize: '200px 200px', // Increased from 100px to 200px
-          WebkitMaskImage: `
-            linear-gradient(to bottom, 
-              rgba(0,0,0,1) 0%,
-              rgba(0,0,0,0.7) 15%,
-              rgba(0,0,0,0.4) 25%,
-              rgba(0,0,0,0) 40%
-            ),
-            radial-gradient(ellipse 80% 80% at 50% 50%, #000 70%, transparent 100%)
-          `,
-          maskImage: `
-            linear-gradient(to bottom, 
-              rgba(0,0,0,1) 0%,
-              rgba(0,0,0,0.7) 15%,
-              rgba(0,0,0,0.4) 25%,
-              rgba(0,0,0,0) 40%
-            ),
-            radial-gradient(ellipse 80% 80% at 50% 50%, #000 70%, transparent 100%)
-          `,
-          opacity: 0.4
+          WebkitMaskImage: `linear-gradient(to bottom, 
+          rgba(0,0,0,1) 0%,
+          rgba(0,0,0,0.7) 15%,
+          rgba(0,0,0,0.4) 25%,
+          rgba(0,0,0,0) 40%)`,
+        maskImage: `linear-gradient(to bottom, 
+          rgba(0,0,0,1) 0%,
+          rgba(0,0,0,0.7) 15%,
+          rgba(0,0,0,0.4) 25%,
+          rgba(0,0,0,0) 40%)`,
+        opacity: 0.4
         }}
+        //   WebkitMaskImage: `
+        //     linear-gradient(to bottom, 
+        //       rgba(0,0,0,1) 0%,
+        //       rgba(0,0,0,0.7) 15%,
+        //       rgba(0,0,0,0.4) 25%,
+        //       rgba(0,0,0,0) 40%
+        //     ),
+        //     radial-gradient(ellipse 80% 80% at 50% 50%, #000 70%, transparent 100%)
+        //   `,
+        //   maskImage: `
+        //     linear-gradient(to bottom, 
+        //       rgba(0,0,0,1) 0%,
+        //       rgba(0,0,0,0.7) 15%,
+        //       rgba(0,0,0,0.4) 25%,
+        //       rgba(0,0,0,0) 40%
+        //     ),
+        //     radial-gradient(ellipse 80% 80% at 50% 50%, #000 70%, transparent 100%)
+        //   `,
+        //   opacity: 0.4
+        // }}
       />
       
       {/* Hover Effect Layer - Updated with larger radius */}
@@ -282,7 +294,7 @@ const HeroSection: React.FC = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
-        <div className="w-full max-w-[280px] h-[45px] flex flex-row justify-center items-center p-[20px_24px] gap-[12px] rounded-full border-2 border-[#6FCB71]">
+        <div className="w-full max-w-[280px] h-[45px] flex flex-row justify-center items-center mt-[40px] p-[20px_24px] gap-[12px] rounded-full border-2 border-[#6FCB71]">
           <motion.div 
             className="flex justify-center items-center gap-[8px]"
             initial={{ opacity: 0, y: 20 }}
