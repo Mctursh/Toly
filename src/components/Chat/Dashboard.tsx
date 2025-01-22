@@ -298,7 +298,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const WelcomeScreen = () => (
     <div className="max-w-3xl mx-auto text-center">
       <div className="flex justify-center items-end mb-4 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#92C7FF]/10 via-transparent to-transparent blur-3xl" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#6FCB71]/10 via-transparent to-transparent blur-3xl" />
         <img src="/logo.png" alt="Bot" className="w-8 h-8 rounded-full -rotate-12 relative z-10" />
         <img src="/logo.png" alt="Bot" className="w-12 h-12 rounded-full mx-[-8px] relative z-20" />
         <img src="/logo.png" alt="Bot" className="w-8 h-8 rounded-full rotate-12 relative z-10" />
@@ -309,7 +309,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
       </h1>
       <p className="text-base text-[#9097A6] max-w-[280px] mx-auto">
         Toly is here to help with insights on transactions, tokens, wallets and all activities on the 
-        <span className="text-[#92C7FF]"> Solana Blockchain</span>! What is on your mind today?
+        <span className="text-[#6FCB71]"> Solana Blockchain</span>! What is on your mind today?
       </p>
     </div>
   );
@@ -325,6 +325,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           isSidebarOpen={isSidebarOpen}
           toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
           currentThreadId={currentThreadId || undefined}
+          onPromptSelect={handlePromptSelect}
         />
       </div>
       
@@ -416,7 +417,7 @@ onClick={handleLogout}
                 
                 <div className="flex flex-wrap justify-center gap-4 mt-12 mb-8">
                   <button 
-                    className="px-8 py-4 bg-[#121417] rounded-xl border border-[#92C7FF]/20 hover:bg-[#92C7FF]/5 text-white"
+                    className="px-8 py-4 bg-[#121417] rounded-xl border border-[#6FCB71]/20 hover:bg-[#6FCB71]/5 text-white"
                     onClick={() => {
                       setActiveActionTab('Create');
                       setIsActionModalOpen(true);
@@ -425,7 +426,7 @@ onClick={handleLogout}
                     Create
                   </button>
                   <button 
-                    className="px-8 py-4 bg-[#121417] rounded-xl border border-[#92C7FF]/20 hover:bg-[#92C7FF]/5 text-white"
+                    className="px-8 py-4 bg-[#121417] rounded-xl border border-[#6FCB71]/20 hover:bg-[#6FCB71]/5 text-white"
                     onClick={() => {
                       setActiveActionTab('Deploy');
                       setIsActionModalOpen(true);
@@ -434,7 +435,7 @@ onClick={handleLogout}
                     Deploy
                   </button>
                   <button 
-                    className="px-8 py-4 bg-[#121417] rounded-xl border border-[#92C7FF]/20 hover:bg-[#92C7FF]/5 text-white"
+                    className="px-8 py-4 bg-[#121417] rounded-xl border border-[#6FCB71]/20 hover:bg-[#6FCB71]/5 text-white"
                     onClick={() => {
                       setActiveActionTab('Trade');
                       setIsActionModalOpen(true);
@@ -449,8 +450,8 @@ onClick={handleLogout}
                   <div className="flex items-center gap-2 bg-[#121417] p-4 rounded-xl border border-white/5">
                     <div className="flex items-center gap-3 flex-1">
                       <div className="relative">
-                        <div className="absolute inset-0 bg-[#92C7FF]/20 rounded-full blur-lg" />
-                        <div className="w-8 h-8 bg-[#92C7FF] rounded-full flex items-center justify-center relative z-10">
+                        <div className="absolute inset-0 bg-[#6FCB71]/20 rounded-full blur-lg" />
+                        <div className="w-8 h-8 bg-[#6FCB71] rounded-full flex items-center justify-center relative z-10">
                           <img src="/dyor.png" alt="Bot" className="w-6 h-6 rounded-full" />
                         </div>
                       </div>
@@ -468,7 +469,7 @@ onClick={handleLogout}
                       onClick={handleSendMessage}
                       disabled={!inputValue.trim() || chatState.isLoading}
                       className={`w-10 h-10 flex items-center justify-center rounded-full transition-colors duration-200
-                        ${inputValue.trim() ? 'bg-[#92C7FF] text-black' : 'bg-[#92C7FF]/20 text-[#92C7FF]'}`}
+                        ${inputValue.trim() ? 'bg-[#6FCB71] text-black' : 'bg-[#6FCB71]/20 text-[#6FCB71]'}`}
                     >
                       <FaPaperPlane size={14} />
                     </button>
@@ -526,8 +527,8 @@ onClick={handleLogout}
                   <div className="flex items-center gap-2 bg-[#121417] p-4 rounded-xl border border-white/5">
                     <div className="flex items-center gap-3 flex-1">
                       <div className="relative">
-                        <div className="absolute inset-0 bg-[#92C7FF]/20 rounded-full blur-lg" />
-                        <div className="w-8 h-8 bg-[#92C7FF] rounded-full flex items-center justify-center relative z-10">
+                        <div className="absolute inset-0 bg-[#6FCB71]/20 rounded-full blur-lg" />
+                        <div className="w-8 h-8 bg-[#6FCB71] rounded-full flex items-center justify-center relative z-10">
                           <img src="/dyor.png" alt="Bot" className="w-6 h-6 rounded-full" />
                         </div>
                       </div>
@@ -554,7 +555,7 @@ onClick={handleLogout}
                       onClick={handleSendMessage}
                       disabled={!inputValue.trim() || chatState.isLoading}
                       className={`w-10 h-10 flex items-center justify-center rounded-full transition-colors duration-200
-                        ${inputValue.trim() ? 'bg-[#92C7FF] text-black' : 'bg-[#92C7FF]/20 text-[#92C7FF]'}`}
+                        ${inputValue.trim() ? 'bg-[#6FCB71] text-black' : 'bg-[#6FCB71]/20 text-[#6FCB71]'}`}
                     >
                       <FaPaperPlane size={14} />
                     </button>
@@ -603,7 +604,7 @@ onClick={handleLogout}
           {/* Collapsed State Icon */}
           {!isWalletPanelOpen && (
             <div className="hidden lg:flex h-full w-full flex-col items-center p-4 text-white">
-              <FaWallet size={24} className="text-[#92C7FF]" />
+              <FaWallet size={24} className="text-[#6FCB71]" />
             </div>
           )}
         </div>
@@ -946,7 +947,7 @@ export default Dashboard;
 //   const WelcomeScreen = () => (
 //     <div className="max-w-3xl mx-auto text-center pt-6">
 //       <div className="flex justify-center items-end mb-4 relative">
-//         <div className="absolute inset-0 bg-gradient-to-b from-[#92C7FF]/10 via-transparent to-transparent blur-3xl" />
+//         <div className="absolute inset-0 bg-gradient-to-b from-[#6FCB71]/10 via-transparent to-transparent blur-3xl" />
 //         <img src="/logo.png" alt="Bot" className="w-8 h-8 rounded-full -rotate-12 relative z-10" />
 //         <img src="/logo.png" alt="Bot" className="w-12 h-12 rounded-full mx-[-8px] relative z-20" />
 //         <img src="/logo.png" alt="Bot" className="w-8 h-8 rounded-full rotate-12 relative z-10" />
@@ -957,7 +958,7 @@ export default Dashboard;
 //       </h1>
 //       <p className="text-base text-[#9097A6] max-w-[280px] mx-auto">
 //         Toly is here to help with insights on transactions, tokens, wallets and all activities on the 
-//         <span className="text-[#92C7FF]"> Solana Blockchain</span>! What is on your mind today?
+//         <span className="text-[#6FCB71]"> Solana Blockchain</span>! What is on your mind today?
 //       </p>
 //     </div>
 //   );
@@ -1073,8 +1074,8 @@ export default Dashboard;
 //                 <div className="flex items-center gap-2 bg-[#121417] p-2 rounded-xl border border-white/5">
 //                   <div className="flex items-center gap-2 flex-1">
 //                     <div className="relative">
-//                       <div className="absolute inset-0 bg-[#92C7FF]/20 rounded-full blur-lg" />
-//                       <div className="w-8 h-8 bg-[#92C7FF] rounded-full flex items-center justify-center relative z-10">
+//                       <div className="absolute inset-0 bg-[#6FCB71]/20 rounded-full blur-lg" />
+//                       <div className="w-8 h-8 bg-[#6FCB71] rounded-full flex items-center justify-center relative z-10">
 //                         <img src="/dyor.png" alt="Bot" className="w-6 h-6 rounded-full" />
 //                       </div>
 //                     </div>
@@ -1101,7 +1102,7 @@ export default Dashboard;
 //                     onClick={handleSendMessage}
 //                     disabled={!inputValue.trim() || chatState.isLoading}
 //                     className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors duration-200
-//                       ${inputValue.trim() ? 'bg-[#92C7FF] text-black' : 'bg-[#92C7FF]/20 text-[#92C7FF]'}`}
+//                       ${inputValue.trim() ? 'bg-[#6FCB71] text-black' : 'bg-[#6FCB71]/20 text-[#6FCB71]'}`}
 //                   >
 //                     <FaPaperPlane size={12} />
 //                   </button>
@@ -1505,7 +1506,7 @@ export default Dashboard;
 //             ) : chatState.messages.length === 0 ? (
 //               <div className="flex flex-col items-center justify-center min-h-[calc(100vh-200px)]">
 //                 <div className="flex justify-center items-end mb-4 relative">
-//                   <div className="absolute inset-0 bg-gradient-to-b from-[#92C7FF]/10 via-transparent to-transparent blur-3xl" />
+//                   <div className="absolute inset-0 bg-gradient-to-b from-[#6FCB71]/10 via-transparent to-transparent blur-3xl" />
 //                   <img src="/logo.png" alt="Bot" className="w-8 h-8 rounded-full -rotate-12 relative z-10" />
 //                   <img src="/logo.png" alt="Bot" className="w-12 h-12 rounded-full mx-[-8px] relative z-20" />
 //                   <img src="/logo.png" alt="Bot" className="w-8 h-8 rounded-full rotate-12 relative z-10" />
@@ -1520,13 +1521,13 @@ export default Dashboard;
 
 //                 {/* Action Buttons */}
 //                 <div className="flex flex-wrap justify-center gap-4 mb-12">
-//                   <button className="px-8 py-4 bg-[#121417] rounded-xl border border-[#92C7FF]/20 hover:bg-[#92C7FF]/5 text-white">
+//                   <button className="px-8 py-4 bg-[#121417] rounded-xl border border-[#6FCB71]/20 hover:bg-[#6FCB71]/5 text-white">
 //                     Create
 //                   </button>
-//                   <button className="px-8 py-4 bg-[#121417] rounded-xl border border-[#92C7FF]/20 hover:bg-[#92C7FF]/5 text-white">
+//                   <button className="px-8 py-4 bg-[#121417] rounded-xl border border-[#6FCB71]/20 hover:bg-[#6FCB71]/5 text-white">
 //                     Deploy
 //                   </button>
-//                   <button className="px-8 py-4 bg-[#121417] rounded-xl border border-[#92C7FF]/20 hover:bg-[#92C7FF]/5 text-white">
+//                   <button className="px-8 py-4 bg-[#121417] rounded-xl border border-[#6FCB71]/20 hover:bg-[#6FCB71]/5 text-white">
 //                     Trade
 //                   </button>
 //                 </div>
@@ -1575,8 +1576,8 @@ export default Dashboard;
 //                 <div className="flex items-center gap-2 bg-[#121417] p-4 rounded-xl border border-white/5">
 //                   <div className="flex items-center gap-3 flex-1">
 //                     <div className="relative">
-//                       <div className="absolute inset-0 bg-[#92C7FF]/20 rounded-full blur-lg" />
-//                       <div className="w-8 h-8 bg-[#92C7FF] rounded-full flex items-center justify-center relative z-10">
+//                       <div className="absolute inset-0 bg-[#6FCB71]/20 rounded-full blur-lg" />
+//                       <div className="w-8 h-8 bg-[#6FCB71] rounded-full flex items-center justify-center relative z-10">
 //                         <img src="/dyor.png" alt="Bot" className="w-6 h-6 rounded-full" />
 //                       </div>
 //                     </div>
@@ -1603,7 +1604,7 @@ export default Dashboard;
 //                     onClick={handleSendMessage}
 //                     disabled={!inputValue.trim() || chatState.isLoading}
 //                     className={`w-10 h-10 flex items-center justify-center rounded-full transition-colors duration-200
-//                       ${inputValue.trim() ? 'bg-[#92C7FF] text-black' : 'bg-[#92C7FF]/20 text-[#92C7FF]'}`}
+//                       ${inputValue.trim() ? 'bg-[#6FCB71] text-black' : 'bg-[#6FCB71]/20 text-[#6FCB71]'}`}
 //                   >
 //                     <FaPaperPlane size={14} />
 //                   </button>
