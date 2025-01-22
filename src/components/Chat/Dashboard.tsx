@@ -24,7 +24,7 @@ import { Email } from '@privy-io/react-auth';
 import Http from '@/services/httpService';
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
 import ActionModal from './ActionModal';
-import { FaCog, FaHistory } from 'react-icons/fa';
+import { FaCog, FaHistory, FaPlus, FaRocket, FaExchangeAlt } from 'react-icons/fa';
 import { ExploreModal, InfoModal } from './NavigationModals';
 import { IconType } from 'react-icons';
 
@@ -505,30 +505,33 @@ onClick={handleLogout}
                 {/* Action Buttons Below Input */}
                 <div className="flex flex-wrap justify-center gap-4 mt-4">
                   <button 
-                    className="px-8 py-4 bg-[#121417] rounded-xl border border-[#6FCB71]/20 hover:bg-[#6FCB71]/5 text-white"
+                    className="px-8 py-4 bg-[#121417] rounded-xl border border-[#6FCB71]/20 hover:bg-[#6FCB71]/5 text-white flex items-center gap-3"
                     onClick={() => {
                       setActiveActionTab('Create');
                       setIsActionModalOpen(true);
                     }}
                   >
+                    <FaPlus className="text-[#6FCB71]" />
                     Create
                   </button>
                   <button 
-                    className="px-8 py-4 bg-[#121417] rounded-xl border border-[#6FCB71]/20 hover:bg-[#6FCB71]/5 text-white"
+                    className="px-8 py-4 bg-[#121417] rounded-xl border border-[#6FCB71]/20 hover:bg-[#6FCB71]/5 text-white flex items-center gap-3"
                     onClick={() => {
                       setActiveActionTab('Deploy');
                       setIsActionModalOpen(true);
                     }}
                   >
+                    <FaRocket className="text-[#6FCB71]" />
                     Deploy
                   </button>
                   <button 
-                    className="px-8 py-4 bg-[#121417] rounded-xl border border-[#6FCB71]/20 hover:bg-[#6FCB71]/5 text-white"
+                    className="px-8 py-4 bg-[#121417] rounded-xl border border-[#6FCB71]/20 hover:bg-[#6FCB71]/5 text-white flex items-center gap-3"
                     onClick={() => {
                       setActiveActionTab('Trade');
                       setIsActionModalOpen(true);
                     }}
                   >
+                    <FaExchangeAlt className="text-[#6FCB71]" />
                     Trade
                   </button>
                 </div>

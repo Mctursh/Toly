@@ -218,7 +218,7 @@ const HeroSection: React.FC = () => {
     >
       {/* Base Grid Pattern */}
       <div 
-        className="absolute inset-0"
+        className="absolute inset-0 h-[40vh]"
         style={{
           background: `
             linear-gradient(90deg, transparent 49.5%, rgba(111, 203, 113, 0.9) 49.5%, rgba(111, 203, 113, 0.9) 50.5%, transparent 50.5%),
@@ -249,7 +249,7 @@ const HeroSection: React.FC = () => {
       
       {/* Hover Effect Layer */}
       <div 
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 pointer-events-none h-[40vh]"
         style={{
           background: `
             radial-gradient(circle 4px at ${mousePosition.x}px ${mousePosition.y}px, rgb(111, 203, 113), transparent 6px)
