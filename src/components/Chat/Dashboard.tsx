@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Familjen_Grotesk } from 'next/font/google';
 import { Inter } from 'next/font/google';
-import { FaPaperPlane, FaChevronDown, FaBars, FaWallet } from "react-icons/fa6";
+import { FaPaperPlane, FaChevronDown, FaBars, FaWallet, FaCircleQuestion, FaChartPie, FaUserTie, FaChartLine, FaMagnifyingGlass } from "react-icons/fa6";
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { usePrivy } from '@privy-io/react-auth';
 import { useRouter } from 'next/navigation';
@@ -24,10 +24,19 @@ import { Email } from '@privy-io/react-auth';
 import Http from '@/services/httpService';
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
 import ActionModal from './ActionModal';
+import { FaCog, FaHistory } from 'react-icons/fa';
+import { ExploreModal, InfoModal } from './NavigationModals';
+import { IconType } from 'react-icons';
 
 interface DashboardProps {
   username?: string | Email;
   profileImage?: string;
+}
+
+interface NavigationItem {
+  name: string;
+  icon: IconType;
+  description: string;
 }
 
 const familjenGrotesk = Familjen_Grotesk({ subsets: ['latin'] });
@@ -65,6 +74,13 @@ export const Dashboard: React.FC<DashboardProps> = ({
   });
   const [isActionModalOpen, setIsActionModalOpen] = useState(false);
   const [activeActionTab, setActiveActionTab] = useState('Create');
+  const [sidebarModal, setSidebarModal] = useState<{
+    type: string | null;
+    name: string | null;
+  }>({
+    type: null,
+    name: null
+  });
 
   const handlePromptSelect = (promptText: string) => {
     setInputValue(promptText);
@@ -295,6 +311,44 @@ export const Dashboard: React.FC<DashboardProps> = ({
     };
   }, []);
 
+  const navigationItems: NavigationItem[] = [
+    { 
+      name: 'Explore', 
+      icon: FaMagnifyingGlass,
+      description: 'Discover all the capabilities of Toly AI, from asset queries to advanced trading operations.'
+    },
+    { 
+      name: 'History', 
+      icon: FaHistory,
+      description: 'View your past interactions and conversations with Toly AI. Track your queries, trades, and operations over time.'
+    },
+    { 
+      name: 'Solana Analytics', 
+      icon: FaChartLine,
+      description: 'Deep dive into Solana blockchain analytics. Monitor network performance, track transactions, and analyze market trends.'
+    },
+    { 
+      name: 'Wallet Audit', 
+      icon: FaWallet,
+      description: 'Comprehensive wallet analysis tool. Review your assets, track portfolio performance, and monitor token movements.'
+    },
+    { 
+      name: 'Send Transactions', 
+      icon: FaPaperPlane,
+      description: 'Easily send tokens and execute transactions on Solana. Support for SOL, SPL tokens, and NFTs with optimal fee estimation.'
+    },
+    { 
+      name: 'Top Performing Traders', 
+      icon: FaUserTie,
+      description: 'Track and analyze the most successful traders on Solana. Learn from their strategies and trading patterns.'
+    },
+    { 
+      name: 'Top Performing Strategies', 
+      icon: FaChartPie,
+      description: 'Explore high-performing trading strategies on Solana. Compare different approaches and their historical success rates.'
+    }
+  ];
+
   const WelcomeScreen = () => (
     <div className="max-w-3xl mx-auto text-center">
       <div className="flex justify-center items-end mb-4 relative">
@@ -316,7 +370,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
   return (
     <div className={`flex h-screen overflow-hidden bg-black text-white ${familjenGrotesk.className}`}>
-      {/* Sidebar - Hidden on mobile by default */}
+      {/* Sidebar */}
       <div 
         className={`fixed lg:relative z-50 transition-transform duration-300 ease-in-out
           ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
@@ -326,6 +380,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
           toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
           currentThreadId={currentThreadId || undefined}
           onPromptSelect={handlePromptSelect}
+          onModalOpen={(type, name) => setSidebarModal({ type, name })}
+          navigationItems={navigationItems} 
         />
       </div>
       
@@ -337,21 +393,21 @@ export const Dashboard: React.FC<DashboardProps> = ({
             onMouseMove={handleMouseMove}
             style={{
               background: `
-                linear-gradient(90deg, transparent 49.5%, rgba(111, 203, 113, 0.8) 49.5%, rgba(111, 203, 113, 0.8) 50.5%, transparent 50.5%),
-                linear-gradient(0deg, transparent 49.5%, rgba(111, 203, 113, 0.8) 49.5%, rgba(111, 203, 113, 0.8) 50.5%, transparent 50.5%)
-              `,
-              backgroundSize: '100px 100px',
-              WebkitMaskImage: `linear-gradient(to bottom, 
-                rgba(0,0,0,0.8) 0%,
-                rgba(0,0,0,0.4) 15%,
-                rgba(0,0,0,0.1) 25%,
-                rgba(0,0,0,0) 30%)`,
-              maskImage: `linear-gradient(to bottom, 
-                rgba(0,0,0,0.8) 0%,
-                rgba(0,0,0,0.4) 15%,
-                rgba(0,0,0,0.1) 25%,
-                rgba(0,0,0,0) 30%)`,
-              opacity: 0.3
+              linear-gradient(90deg, transparent 49.5%, rgba(111, 203, 113, 0.9) 49.5%, rgba(111, 203, 113, 0.9) 50.5%, transparent 50.5%),
+              linear-gradient(0deg, transparent 49.5%, rgba(111, 203, 113, 0.9) 49.5%, rgba(111, 203, 113, 0.9) 50.5%, transparent 50.5%)
+            `,
+            backgroundSize: '100px 100px',
+            WebkitMaskImage: `linear-gradient(to bottom, 
+              rgba(0,0,0,1) 0%,
+              rgba(0,0,0,0.7) 15%,
+              rgba(0,0,0,0.4) 25%,
+              rgba(0,0,0,0) 40%)`,
+            maskImage: `linear-gradient(to bottom, 
+              rgba(0,0,0,1) 0%,
+              rgba(0,0,0,0.7) 15%,
+              rgba(0,0,0,0.4) 25%,
+              rgba(0,0,0,0) 40%)`,
+            opacity: 0.4
             }}
           />
 
@@ -415,38 +471,8 @@ onClick={handleLogout}
               <div className="flex flex-col items-center justify-center min-h-[calc(100vh-300px)]">
                 <WelcomeScreen />
                 
-                <div className="flex flex-wrap justify-center gap-4 mt-12 mb-8">
-                  <button 
-                    className="px-8 py-4 bg-[#121417] rounded-xl border border-[#6FCB71]/20 hover:bg-[#6FCB71]/5 text-white"
-                    onClick={() => {
-                      setActiveActionTab('Create');
-                      setIsActionModalOpen(true);
-                    }}
-                  >
-                    Create
-                  </button>
-                  <button 
-                    className="px-8 py-4 bg-[#121417] rounded-xl border border-[#6FCB71]/20 hover:bg-[#6FCB71]/5 text-white"
-                    onClick={() => {
-                      setActiveActionTab('Deploy');
-                      setIsActionModalOpen(true);
-                    }}
-                  >
-                    Deploy
-                  </button>
-                  <button 
-                    className="px-8 py-4 bg-[#121417] rounded-xl border border-[#6FCB71]/20 hover:bg-[#6FCB71]/5 text-white"
-                    onClick={() => {
-                      setActiveActionTab('Trade');
-                      setIsActionModalOpen(true);
-                    }}
-                  >
-                    Trade
-                  </button>
-                </div>
-
-                {/* Centered Input on Welcome Screen */}
-                <div className="w-full max-w-2xl px-4">
+                {/* Input Field First */}
+                <div className="w-full max-w-2xl px-4 mb-12">
                   <div className="flex items-center gap-2 bg-[#121417] p-4 rounded-xl border border-white/5">
                     <div className="flex items-center gap-3 flex-1">
                       <div className="relative">
@@ -474,6 +500,37 @@ onClick={handleLogout}
                       <FaPaperPlane size={14} />
                     </button>
                   </div>
+                </div>
+
+                {/* Action Buttons Below Input */}
+                <div className="flex flex-wrap justify-center gap-4 mt-4">
+                  <button 
+                    className="px-8 py-4 bg-[#121417] rounded-xl border border-[#6FCB71]/20 hover:bg-[#6FCB71]/5 text-white"
+                    onClick={() => {
+                      setActiveActionTab('Create');
+                      setIsActionModalOpen(true);
+                    }}
+                  >
+                    Create
+                  </button>
+                  <button 
+                    className="px-8 py-4 bg-[#121417] rounded-xl border border-[#6FCB71]/20 hover:bg-[#6FCB71]/5 text-white"
+                    onClick={() => {
+                      setActiveActionTab('Deploy');
+                      setIsActionModalOpen(true);
+                    }}
+                  >
+                    Deploy
+                  </button>
+                  <button 
+                    className="px-8 py-4 bg-[#121417] rounded-xl border border-[#6FCB71]/20 hover:bg-[#6FCB71]/5 text-white"
+                    onClick={() => {
+                      setActiveActionTab('Trade');
+                      setIsActionModalOpen(true);
+                    }}
+                  >
+                    Trade
+                  </button>
                 </div>
               </div>
             ) : (
@@ -608,6 +665,57 @@ onClick={handleLogout}
             </div>
           )}
         </div>
+        
+        {/* Centralized Modals */}
+        <AnimatePresence>
+          {/* Action Modal */}
+          <ActionModal 
+            isOpen={isActionModalOpen}
+            onClose={() => setIsActionModalOpen(false)}
+            initialTab={activeActionTab}
+            onPromptSelect={handlePromptSelect}
+          />
+
+          {/* Explore Modal */}
+          <ExploreModal 
+            isOpen={sidebarModal.type === 'explore'}
+            onClose={() => setSidebarModal({ type: null, name: null })}
+            onPromptSelect={(promptText) => {
+              handlePromptSelect(promptText);
+              setSidebarModal({ type: null, name: null });
+            }}
+          />
+
+          {/* Info Modals */}
+          {navigationItems.map((item) => (
+            item.name.toLowerCase() !== 'explore' && (
+              <InfoModal
+                key={item.name}
+                isOpen={sidebarModal.type === 'info' && sidebarModal.name === item.name.toLowerCase()}
+                onClose={() => setSidebarModal({ type: null, name: null })}
+                title={item.name}
+                description={item.description}
+                icon={<item.icon className="h-6 w-6" />}
+              />
+            )
+          ))}
+
+          {/* Footer Info Modals */}
+          <InfoModal
+            isOpen={sidebarModal.type === 'info' && sidebarModal.name === 'faq'}
+            onClose={() => setSidebarModal({ type: null, name: null })}
+            title="FAQ"
+            description="Get answers to frequently asked questions about using Toly AI."
+            icon={<FaCircleQuestion className="h-6 w-6" />}
+          />
+          <InfoModal
+            isOpen={sidebarModal.type === 'info' && sidebarModal.name === 'settings'}
+            onClose={() => setSidebarModal({ type: null, name: null })}
+            title="Settings"
+            description="Customize your Toly AI experience and manage your preferences."
+            icon={<FaCog className="h-6 w-6" />}
+          />
+        </AnimatePresence>
 
         {/* Delete Message Confirmation Modal */}
         <ConfirmationModal
@@ -622,12 +730,6 @@ onClick={handleLogout}
           message="Are you sure you want to delete this message?"
         />
       </div>
-      <ActionModal 
-        isOpen={isActionModalOpen}
-        onClose={() => setIsActionModalOpen(false)}
-        initialTab={activeActionTab}
-        onPromptSelect={handlePromptSelect}
-      />
     </div>
   );
 };

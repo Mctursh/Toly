@@ -155,7 +155,7 @@ const ActionModal: React.FC<ActionModalProps> = ({
                 onClick={() => handlePromptClick(prompt.promptText)}
                 className="flex items-start gap-4 p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-colors text-left group"
               >
-                <div className="text-[#6FCB71] group-hover:text-[#61BDFF] transition-colors">
+                <div className="text-[#6FCB71] group-hover:text-[#6FCB71] transition-colors">
                   {prompt.icon}
                 </div>
                 <div>
