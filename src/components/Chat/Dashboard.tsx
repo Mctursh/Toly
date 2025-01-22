@@ -361,7 +361,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
       <h1 className={`text-3xl font-semibold mb-4 ${familjenGrotesk.className}`}>
         Welcome to Toly AI!
       </h1>
-      <p className="text-base text-[#9097A6] max-w-[450px] mx-auto">
+      <p className="text-base text-[#9097A6] max-w-[480px] mx-auto">
         Toly is here to help with insights on transactions, tokens, wallets and all activities on the 
         <span className="text-[#6FCB71]"> Solana Blockchain</span>! What is on your mind today?
       </p>
@@ -412,7 +412,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           />
 
           {/* Header */}
-          <div className="flex-shrink-0 flex justify-between items-center p-8 bg-black relative z-10">
+          <div className="flex-shrink-0 flex justify-between items-center p-8 bg-transparent relative z-10">
             <button 
               type="button"
               className="lg:hidden text-white/80 hover:text-white transition-colors duration-200"
@@ -614,7 +614,7 @@ onClick={handleLogout}
                       className={`w-10 h-10 flex items-center justify-center rounded-full transition-colors duration-200
                         ${inputValue.trim() ? 'bg-[#6FCB71] text-black' : 'bg-[#6FCB71]/20 text-[#6FCB71]'}`}
                     >
-                      <FaPaperPlane size={14} />
+                      <FaPaperPlane size={14} className="cursor-pointer"/>
                     </button>
                   </div>
                   
