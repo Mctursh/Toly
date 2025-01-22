@@ -37,7 +37,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   username = "Anonymous",
   profileImage = '/dyor.png'
 }) => {
-  const { user } = useDynamicContext();
+  const { user, handleLogOut } = useDynamicContext();
   const router = useRouter();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
@@ -269,6 +269,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const handleLogout = async () => {
     try {
       // await logout();
+      handleLogOut()
       router.push('/');
     } catch (error) {
       console.error('Logout failed:', error);
@@ -337,7 +338,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
       />
       
       <div className="flex-1 flex">
-      <CollapsibleWalletPanel />
+      {/* <CollapsibleWalletPanel /> */}
+      {/* <WalletPanel /> */}
         
         <div className="flex-1 flex flex-col h-screen relative">
           {/* Header */}

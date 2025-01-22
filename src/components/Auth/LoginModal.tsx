@@ -6,12 +6,13 @@ import { useAuth } from '@/hooks/useAuth';
 import { Space_Grotesk } from 'next/font/google';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { DynamicWidget } from '@dynamic-labs/sdk-react-core';
+import { DynamicWidget, useDynamicContext } from '@dynamic-labs/sdk-react-core';
 
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
 
 export function LoginButton() {
   const { ready, isAuthenticated, login, logout } = useAuth();
+  const { user, handleLogOut } = useDynamicContext()
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -43,28 +44,42 @@ export function LoginButton() {
   //   );
   // }
 
-  return (
-    <div className="mt-8 px-8 py-4 bg-[#6FCB71] capitalize rounded-full text-black font-bold text-lg hover:bg-[#5FB761] transition-colors">
+  const logOut = () => handleLogOut()
 
-      <DynamicWidget buttonClassName='no-style' innerButtonComponent={
+  return (
+    <div className="">
+      {
+        user ?
         <motion.button
-          onClick={handleAuth}
-          disabled={isLoading}
-          // className="mt-8 px-8 py-4 bg-[#6FCB71] capitalize rounded-full text-black font-bold text-lg hover:bg-[#5FB761] transition-colors"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          {isLoading ? (
-            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-black"></div>
-          ) : (
-    
-            <span className={spaceGrotesk.className}>
-              {isAuthenticated ? 'LOGOUT' : 'GET STARTED'}
-            </span>
-          )}
-        </motion.button>
-    
-      } />
+        onClick={logOut}
+        // disabled={isLoading}
+        className="mt-8 px-8 py-4 bg-[#6FCB71] capitalize rounded-full text-black font-bold text-lg hover:bg-[#5FB761] transition-colors"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+          <span className={spaceGrotesk.className}>
+              LOGOUT
+          </span>
+      </motion.button>
+        :
+        <div className="mt-8 px-8 py-4 bg-[#6FCB71] capitalize rounded-full text-black font-bold text-lg hover:bg-[#5FB761] transition-colors">
+
+          <DynamicWidget buttonClassName='no-style' innerButtonComponent={
+            <motion.button
+              // onClick={handleAuth}
+              // disabled={isLoading}
+              // className="mt-8 px-8 py-4 bg-[#6FCB71] capitalize rounded-full text-black font-bold text-lg hover:bg-[#5FB761] transition-colors"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+                <span className={spaceGrotesk.className}>
+                  GET STARTED
+                </span>
+            </motion.button>
+        
+          } />
+        </div>
+      }
     </div>
   );
 }
