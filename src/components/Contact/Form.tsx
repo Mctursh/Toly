@@ -1,17 +1,17 @@
 "use client"
 import React from 'react';
-import { Space_Grotesk, Inter, Manrope } from 'next/font/google';
+import { Familjen_Grotesk, Inter, Manrope } from 'next/font/google';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
+const familjenGrotesk = Familjen_Grotesk({ subsets: ['latin'] });
 const inter = Inter({ subsets: ['latin'] });
 const manrope = Manrope({ subsets: ['latin'] });
 
 const ContactSection = () => {
   return (
-    <section className={`${spaceGrotesk.className} relative w-full min-h-screen py-20`}>
+    <section className={`${familjenGrotesk.className} relative w-full min-h-screen py-32`}>
       <div className="max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row items-start gap-8 lg:gap-[60px] xl:gap-[80px]">
           {/* Left Section - Form */}
@@ -31,7 +31,7 @@ const ContactSection = () => {
                   Hi! Can we help you?
                 </h2>
                 <p className="text-base md:text-lg text-[#9097A6] leading-relaxed">
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  Our team will get back to you within 24 hours.
                 </p>
               </div>
             </div>

@@ -3,16 +3,16 @@ import React from 'react';
 import Navbar from '../Navbar';
 import GetStartedSection from '../Landing/GetStarted';
 import Footer from '../Landing/Footer';
-import { Space_Grotesk } from 'next/font/google';
+import { Familjen_Grotesk } from 'next/font/google';
 import CatolyHero from './CatolyHero';
 import RightContentSection from './RightContentSection';
 import TwoColumnSection from './TwoColumnSection';
 
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
+const familjenGrotesk = Familjen_Grotesk({ subsets: ['latin'] });
 
 const CatolyPage = () => {
   return (
-    <main className={`relative min-h-screen bg-black overflow-x-hidden ${spaceGrotesk.className}`}>
+    <main className={`relative min-h-screen bg-black overflow-x-hidden ${familjenGrotesk.className}`}>
       {/* Fixed navbar always on top */}
       <Navbar />
 

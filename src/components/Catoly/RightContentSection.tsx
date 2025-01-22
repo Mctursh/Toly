@@ -2,9 +2,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Space_Grotesk, Inter } from 'next/font/google';
+import { Familjen_Grotesk, Inter } from 'next/font/google';
 
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
+const familjenGrotesk = Familjen_Grotesk({ subsets: ['latin'] });
 const inter = Inter({ subsets: ['latin'] });
 
 const RightContentSection = () => {
@@ -21,7 +21,7 @@ const RightContentSection = () => {
           Seamless Integration & Smart Analytics
           </h2>
 
-          <p className={`${spaceGrotesk.className} text-lg leading-[160%] text-[#9097A6]`}>
+          <p className={`${familjenGrotesk.className} text-lg leading-[160%] text-[#9097A6]`}>
           Experience a new era of blockchain interaction where AI meets DeFi. Catoly Token powers intelligent analysis, providing you with real-time insights and predictive analytics.
           </p>
 
@@ -31,7 +31,7 @@ const RightContentSection = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <span className={`${spaceGrotesk.className} font-medium text-lg uppercase text-[#0B0C0F]`}>
+              <span className={`${familjenGrotesk.className} font-medium text-lg uppercase text-[#0B0C0F]`}>
                 Buy catoly token
               </span>
             </motion.button>

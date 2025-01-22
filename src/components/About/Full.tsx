@@ -2,13 +2,13 @@
 import Footer from '../Landing/Footer';
 import Navbar from '../Navbar';
 import AboutSection from './About';
-import { Space_Grotesk } from 'next/font/google';
+import { Familjen_Grotesk } from 'next/font/google';
 
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
+const familjenGrotesk = Familjen_Grotesk({ subsets: ['latin'] });
 
 const AboutPage = () => {
     return (
-      <main className={`relative min-h-screen bg-black overflow-x-hidden ${spaceGrotesk.className}`}>
+      <main className={`relative min-h-screen bg-black overflow-x-hidden ${familjenGrotesk.className}`}>
         {/* Fixed navbar always on top */}
         <Navbar />
         <AboutSection />

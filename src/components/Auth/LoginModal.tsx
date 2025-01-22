@@ -3,12 +3,12 @@
 
 import { motion } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
-import { Space_Grotesk } from 'next/font/google';
+import { Familjen_Grotesk } from 'next/font/google';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { DynamicWidget } from '@dynamic-labs/sdk-react-core';
 
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
+const familjenGrotesk = Familjen_Grotesk({ subsets: ['latin'] });
 
 export function LoginButton() {
   const { ready, isAuthenticated, login, logout } = useAuth();
@@ -58,7 +58,7 @@ export function LoginButton() {
             <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-black"></div>
           ) : (
     
-            <span className={spaceGrotesk.className}>
+            <span className={familjenGrotesk.className}>
               {isAuthenticated ? 'LOGOUT' : 'GET STARTED'}
             </span>
           )}

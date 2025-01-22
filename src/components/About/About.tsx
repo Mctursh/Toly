@@ -2,10 +2,10 @@
 import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Space_Grotesk } from 'next/font/google';
+import { Familjen_Grotesk } from 'next/font/google';
 import ChatInterface from '../Landing/ChatInterface';
 
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
+const familjenGrotesk = Familjen_Grotesk({ subsets: ['latin'] });
 
 const AboutSection = () => {
   return (
@@ -95,7 +95,7 @@ const AboutSection = () => {
             Building the Future of AI-Powered DeFi
           </h2>
           
-          <p className={`text-base lg:text-lg leading-[160%] text-[#9097A6] ${spaceGrotesk.className}`}>
+          <p className={`text-base lg:text-lg leading-[160%] text-[#9097A6] ${familjenGrotesk.className}`}>
             Toly.AI combines cutting-edge artificial intelligence with deep blockchain analytics to revolutionize how traders interact with the Solana ecosystem. Our mission is to make complex blockchain data accessible and actionable for everyone.
           </p>
 

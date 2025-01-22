@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Space_Grotesk } from 'next/font/google';
+import { Familjen_Grotesk } from 'next/font/google';
 
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
+const familjenGrotesk = Familjen_Grotesk({ subsets: ['latin'] });
 
 interface FormData {
   email: string;
@@ -34,7 +34,7 @@ const SigninPage: React.FC = () => {
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`text-3xl lg:text-[48px] leading-normal lg:leading-[60px] font-medium text-[#FAFAFA]  ${spaceGrotesk.className} capitalize z-10`}
+            className={`text-3xl lg:text-[48px] leading-normal lg:leading-[60px] font-medium text-[#FAFAFA]  ${familjenGrotesk.className} capitalize z-10`}
           >
             Welcome Back!
           </motion.h1>
@@ -43,7 +43,7 @@ const SigninPage: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className={`w-full lg:w-[561px] text-base lg:text-lg leading-[160%] text-[#9097A6]  ${spaceGrotesk.className}`}
+            className={`w-full lg:w-[561px] text-base lg:text-lg leading-[160%] text-[#9097A6]  ${familjenGrotesk.className}`}
           >
             Toly is here to help with insights on transactions, tokens, wallets and all activities on the Solana Blockchain
           </motion.p>
@@ -136,7 +136,7 @@ const SigninPage: React.FC = () => {
                       placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
                       value={formData[field as keyof FormData]}
                       onChange={handleInputChange}
-                      className={`w-full h-16 px-6 bg-black/40 rounded-2xl text-lg text-[#9097A6]  ${spaceGrotesk.className} outline-none focus:ring-2 focus:ring-[#61BDFF]/20`}
+                      className={`w-full h-16 px-6 bg-black/40 rounded-2xl text-lg text-[#9097A6]  ${familjenGrotesk.className} outline-none focus:ring-2 focus:ring-[#61BDFF]/20`}
                     />
                   </motion.div>
                 ))}
@@ -148,12 +148,12 @@ const SigninPage: React.FC = () => {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     >
-                    <span className={`text-lg font-medium text-black capitalize  ${spaceGrotesk.className}`}>
+                    <span className={`text-lg font-medium text-black capitalize  ${familjenGrotesk.className}`}>
                         Sign In
                     </span>
                     </motion.button>
 
-                    <p className={`text-center text-[#9097A6]  ${spaceGrotesk.className} mt-4`}>
+                    <p className={`text-center text-[#9097A6]  ${familjenGrotesk.className} mt-4`}>
                     Don&apos;t have an account?{' '}
                     <Link href="/auth/signup" className="text-[#61BDFF]">
                         Sign Up

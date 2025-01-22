@@ -4,9 +4,9 @@
 import { useState } from 'react';
 import { useAdmin } from '@/hooks/useAdmin';
 import { motion } from 'framer-motion';
-import { Space_Grotesk } from 'next/font/google';
+import { Familjen_Grotesk } from 'next/font/google';
 
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
+const familjenGrotesk = Familjen_Grotesk({ subsets: ['latin'] });
 
 export default function AdminLogin() {
   const [credentials, setCredentials] = useState({
@@ -48,7 +48,7 @@ export default function AdminLogin() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <h1 className={`text-2xl text-white font-bold mb-6 ${spaceGrotesk.className}`}>
+        <h1 className={`text-2xl text-white font-bold mb-6 ${familjenGrotesk.className}`}>
           Admin Access
         </h1>
 

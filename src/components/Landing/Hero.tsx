@@ -1,20 +1,103 @@
 "use client"
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { Space_Grotesk } from 'next/font/google';
+import { Familjen_Grotesk } from 'next/font/google';
 import { Inter } from 'next/font/google';
 import { LoginButton } from '@/components/Auth/LoginModal';
 
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
+const familjenGrotesk = Familjen_Grotesk({ subsets: ['latin'] });
 const inter = Inter({ subsets: ['latin'] });
 
-const HeroSection = () => {
+interface MousePosition {
+  x: number;
+  y: number;
+}
+
+const HeroSection: React.FC = () => {
   const router = useRouter();
+  const [mousePosition, setMousePosition] = useState<MousePosition>({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>): void => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePosition({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    });
+  };
+
   return (
-    <section className="relative min-h-screen w-full overflow-x-hidden bg-black pt-32">
-      {/* Background Grid Pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(20,20,20,.9)_2px,transparent_2px),linear-gradient(90deg,rgba(20,20,20,.9)_2px,transparent_2px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_70%,transparent_100%)] opacity-30" />
+    <section 
+      className="relative min-h-screen w-full overflow-x-hidden bg-black pt-32"
+      onMouseMove={handleMouseMove}
+    >
+      {/* Base Grid Pattern */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: `
+            linear-gradient(90deg, transparent 49.5%, rgba(111, 203, 113, 0.8) 49.5%, rgba(111, 203, 113, 0.8) 50.5%, transparent 50.5%),
+            linear-gradient(0deg, transparent 49.5%, rgba(111, 203, 113, 0.8) 49.5%, rgba(111, 203, 113, 0.8) 50.5%, transparent 50.5%)
+          `,
+          backgroundSize: '100px 100px',
+          WebkitMaskImage: `
+            linear-gradient(to bottom, 
+              rgba(0,0,0,1) 0%,
+              rgba(0,0,0,0.7) 20%,
+              rgba(0,0,0,0.4) 40%,
+              rgba(0,0,0,0.2) 60%,
+              rgba(0,0,0,0.1) 80%,
+              rgba(0,0,0,0) 100%
+            ),
+            radial-gradient(ellipse 80% 80% at 50% 50%, #000 70%, transparent 100%)
+          `,
+          maskImage: `
+            linear-gradient(to bottom, 
+              rgba(0,0,0,1) 0%,
+              rgba(0,0,0,0.7) 20%,
+              rgba(0,0,0,0.4) 40%,
+              rgba(0,0,0,0.2) 60%,
+              rgba(0,0,0,0.1) 80%,
+              rgba(0,0,0,0) 100%
+            ),
+            radial-gradient(ellipse 80% 80% at 50% 50%, #000 70%, transparent 100%)
+          `,
+          opacity: 0.3
+        }}
+      />
+      
+      {/* Hover Effect Layer */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: `
+            radial-gradient(circle 4px at ${mousePosition.x}px ${mousePosition.y}px, rgb(111, 203, 113), transparent 6px)
+          `,
+          opacity: 0.8,
+          WebkitMaskImage: `
+            linear-gradient(to bottom, 
+              rgba(0,0,0,1) 0%,
+              rgba(0,0,0,0.7) 20%,
+              rgba(0,0,0,0.4) 40%,
+              rgba(0,0,0,0.2) 60%,
+              rgba(0,0,0,0.1) 80%,
+              rgba(0,0,0,0) 100%
+            ),
+            radial-gradient(ellipse 80% 80% at 50% 50%, #000 70%, transparent 100%)
+          `,
+          maskImage: `
+            linear-gradient(to bottom, 
+              rgba(0,0,0,1) 0%,
+              rgba(0,0,0,0.7) 20%,
+              rgba(0,0,0,0.4) 40%,
+              rgba(0,0,0,0.2) 60%,
+              rgba(0,0,0,0.1) 80%,
+              rgba(0,0,0,0) 100%
+            ),
+            radial-gradient(ellipse 80% 80% at 50% 50%, #000 70%, transparent 100%)
+          `
+        }}
+      />
 
       {/* Main Container */}
       <motion.div 
@@ -22,19 +105,19 @@ const HeroSection = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
+        {/* Rest of the component content remains the same */}
         <div className="w-full max-w-[280px] h-[45px] flex flex-row justify-center items-center p-[20px_24px] gap-[12px] rounded-full border-2 border-[#61BDFF]">
           <motion.div 
             className="flex justify-center items-center gap-[8px]"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <span className={`text-[20px] leading-[24px] font-normal text-[#FAFAFA] text-center capitalize ${spaceGrotesk.className}`}>
+            <span className={`text-[20px] leading-[24px] font-normal text-[#FAFAFA] text-center capitalize ${familjenGrotesk.className}`}>
               ✨ Introducing Toly AI
             </span>
           </motion.div>
         </div>
 
-        {/* Main Content Section */}
         <div className="w-full max-w-[944px] flex flex-col items-center gap-[10px] text-center px-4">
           <motion.h1 
             className={`w-full max-w-[944px] font-bold text-4xl md:text-[52px] leading-tight md:leading-[63px] tracking-[-0.02em] text-[#FAFAFA] capitalize ${inter.className} whitespace-normal`}
@@ -45,7 +128,7 @@ const HeroSection = () => {
           </motion.h1>
           
           <motion.p 
-            className={`w-full max-w-[820px] font-normal text-base md:text-[18px] leading-[160%] text-[#9097A6] mt-6 ${spaceGrotesk.className}`}
+            className={`w-full max-w-[820px] font-normal text-base md:text-[18px] leading-[160%] text-[#9097A6] mt-6 ${familjenGrotesk.className}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -54,60 +137,47 @@ const HeroSection = () => {
           </motion.p>
         </div>
 
-        {/* Action Buttons Group */}
         <div className="flex flex-col md:flex-row gap-4 mt-12 w-full max-w-[634px] justify-center">
-          {/* Research Button */}
           <motion.div 
             className="w-full md:w-[189.66px] h-[55px] p-[2px] rounded-[24px] bg-gradient-to-r from-[#73B0D0] via-[#C44FE2] to-[#47F8C3]"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
             <div className="w-full h-full bg-black rounded-[22px] flex justify-center items-center">
-              <span className={`font-bold text-[24px] leading-[30px] text-center text-[#FAFAFA] capitalize ${spaceGrotesk.className}`}>
+              <span className={`font-bold text-[24px] leading-[30px] text-center text-[#FAFAFA] capitalize ${familjenGrotesk.className}`}>
                 RESEARCH
               </span>
             </div>
           </motion.div>
 
-          {/* Insights Button */}
           <motion.div 
             className="w-full md:w-[189.66px] h-[55px] p-[2px] rounded-[24px] bg-gradient-to-r from-[#73B0D0] via-[#C44FE2] to-[#47F8C3] filter drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
             <div className="w-full h-full bg-black rounded-[22px] flex justify-center items-center">
-              <span className={`font-bold text-[24px] leading-[30px] text-center text-[#FAFAFA] capitalize ${spaceGrotesk.className}`}>
+              <span className={`font-bold text-[24px] leading-[30px] text-center text-[#FAFAFA] capitalize ${familjenGrotesk.className}`}>
                 INSIGHTS
               </span>
             </div>
           </motion.div>
 
-          {/* Analysis Button */}
           <motion.div 
             className="w-full md:w-[189.66px] h-[55px] p-[2px] rounded-[24px] bg-gradient-to-r from-[#73B0D0] via-[#C44FE2] to-[#47F8C3]"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
             <div className="w-full h-full bg-black rounded-[22px] flex justify-center items-center">
-              <span className={`font-bold text-[24px] leading-[30px] text-center text-[#FAFAFA] capitalize ${spaceGrotesk.className}`}>
+              <span className={`font-bold text-[24px] leading-[30px] text-center text-[#FAFAFA] capitalize ${familjenGrotesk.className}`}>
                 ANALYSIS
               </span>
             </div>
           </motion.div>
         </div>
 
-        {/* Get Started Button */}
-      <div className="mt-8">
-        <LoginButton />
-      </div>
-        {/* <motion.button
-        onClick={() => router.push('/auth/signup')}
-          className="mt-8 px-8 py-4 bg-[#6FCB71] capitalize rounded-full text-black font-bold text-lg hover:bg-[#5FB761] transition-colors"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          GET STARTED
-        </motion.button> */}
+        <div className="mt-8">
+          <LoginButton />
+        </div>
       </motion.div>
     </section>
   );

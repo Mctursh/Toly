@@ -6,13 +6,13 @@ import FeatureSection from './Features';
 import SecondFeatureSection from './FeaturesTwo';
 import GetStartedSection from './GetStarted';
 import Footer from './Footer';
-import { Space_Grotesk } from 'next/font/google';
+import { Familjen_Grotesk } from 'next/font/google';
 
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
+const familjenGrotesk = Familjen_Grotesk({ subsets: ['latin'] });
 
 const HomePage = () => {
   return (
-    <main className={`relative min-h-screen bg-black overflow-x-hidden ${spaceGrotesk.className}`}>
+    <main className={`relative min-h-screen bg-black overflow-x-hidden ${familjenGrotesk.className}`}>
       {/* Fixed navbar always on top */}
       <Navbar />
 

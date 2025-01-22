@@ -5,9 +5,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaBars, FaX } from 'react-icons/fa6';
-import { Space_Grotesk } from 'next/font/google';
+import { Familjen_Grotesk } from 'next/font/google';
 
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
+const familjenGrotesk = Familjen_Grotesk({ subsets: ['latin'] });
 
 interface NavLink {
   href: string;
@@ -22,8 +22,8 @@ const Navbar: React.FC = () => {
   // Navigation links with their paths
   const navLinks: NavLink[] = [
     { href: '/', text: 'Home' },
-    { href: '/how-it-works', text: 'How Toly Works' },
-    { href: '/developers', text: 'For Developers' },
+    { href: 'https://solana-projects.gitbook.io/toly/user-guide/', text: 'How Toly Works' },
+    { href: 'https://solana-projects.gitbook.io/toly/developer-guide/', text: 'For Developers' },
     { href: '/catoly', text: '$Catoly token' },
     { href: '/about', text: 'About us' },
   ];
@@ -74,7 +74,7 @@ const Navbar: React.FC = () => {
               priority
             />
           </motion.div>
-          <span className={`text-2xl font-medium text-[#FAFAFA] group-hover:text-[#6FCB71] transition-colors ${spaceGrotesk.className}`}>
+          <span className={`text-2xl font-medium text-[#FAFAFA] group-hover:text-[#6FCB71] transition-colors ${familjenGrotesk.className}`}>
             toly.AI
           </span>
         </Link>
@@ -87,7 +87,7 @@ const Navbar: React.FC = () => {
               href={link.href}
               className={`relative px-4 py-2 text-lg font-normal cursor-pointer group ${
                 pathname === link.href ? 'text-[#00EE05]' : 'text-[#9097A6]'
-              } hover:text-[#00EE05] transition-colors ${spaceGrotesk.className}`}
+              } hover:text-[#00EE05] transition-colors ${familjenGrotesk.className}`}
             >
               {link.text}
               {pathname === link.href && (
@@ -113,7 +113,7 @@ const Navbar: React.FC = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <span className={`text-lg font-medium text-[#6FCB71] group-hover:text-[#7FDB85] transition-colors capitalize ${spaceGrotesk.className}`}>
+            <span className={`text-lg font-medium text-[#6FCB71] group-hover:text-[#7FDB85] transition-colors capitalize ${familjenGrotesk.className}`}>
               get in touch
             </span>
           </motion.button>
@@ -157,7 +157,7 @@ const Navbar: React.FC = () => {
                     href={link.href}
                     className={`text-xl cursor-pointer ${
                       pathname === link.href ? 'text-[#00EE05]' : 'text-[#9097A6]'
-                    } hover:text-[#00EE05] transition-colors ${spaceGrotesk.className}`}
+                    } hover:text-[#00EE05] transition-colors ${familjenGrotesk.className}`}
                   >
                     {link.text}
                   </Link>
@@ -168,7 +168,7 @@ const Navbar: React.FC = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <span className={`text-lg font-medium capitalize text-[#6FCB71] ${spaceGrotesk.className}`}>
+                    <span className={`text-lg font-medium capitalize text-[#6FCB71] ${familjenGrotesk.className}`}>
                       get in touch
                     </span>
                   </motion.button>
