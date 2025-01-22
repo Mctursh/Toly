@@ -472,7 +472,7 @@ onClick={handleLogout}
                 <WelcomeScreen />
                 
                 {/* Input Field First */}
-                <div className="w-full max-w-2xl px-4 mb-12 pt-6">
+                <div className="w-full max-w-2xl px-4 mb-12 pt-10">
                   <div className="flex items-center gap-2 bg-[#121417] p-4 rounded-xl border border-white/5">
                     <div className="flex items-center gap-3 flex-1">
                       <div className="relative">
