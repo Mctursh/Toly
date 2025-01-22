@@ -27,7 +27,7 @@ const ContactSection = () => {
 
               {/* Title and Description */}
               <div className="flex flex-col gap-4 md:gap-6 w-full">
-                <h2 className={`${inter.className} text-3xl md:text-[42px] lg:text-[52px] font-bold leading-tight md:leading-[1.2] tracking-[-0.02em] text-[#FAFAFA] capitalize`}>
+                <h2 className={`${inter.className} text-2xl md:text-3xl lg:text-4xl font-bold leading-tight md:leading-[1.2] tracking-[-0.02em] text-[#FAFAFA] capitalize`}>
                   Hi! Can we help you?
                 </h2>
                 <p className="text-base md:text-lg text-[#9097A6] leading-relaxed">
@@ -68,7 +68,7 @@ const ContactSection = () => {
           {/* Right Section - Image and Links */}
           <div className="flex flex-col items-start gap-8 md:gap-[50px] w-full lg:w-1/2">
             {/* Image */}
-            <div className="relative w-full aspect-square md:aspect-[1.2] rounded-[500px] overflow-hidden">
+            <div className="relative w-full max-w-[400px] mx-auto aspect-square rounded-[40px] overflow-hidden">
               <Image
                 src="/logo.png"
                 alt="Contact Image"

@@ -639,7 +639,7 @@ onClick={handleLogout}
               : 'w-0 translate-x-full lg:w-16 lg:translate-x-0'
             }`}
         >
-          <div className={`h-full bg-[#121417] border-l border-white/5`}>
+          <div className={`h-full bg-[#121417] border-l border-white/5 ${!isWalletPanelOpen ? 'overflow-hidden' : ''}`}>
             {/* Toggle button */}
             <button
               onClick={() => setIsWalletPanelOpen(!isWalletPanelOpen)}
@@ -656,8 +656,8 @@ onClick={handleLogout}
             <div 
               className={`h-full transition-all duration-300 ${
                 isWalletPanelOpen 
-                  ? 'opacity-100 visible' 
-                  : 'opacity-0 invisible lg:opacity-100 lg:visible'
+                  ? 'overflow-hidden' 
+                  : 'opacity-0 invisible'
               }`}
             >
               <WalletPanel />
