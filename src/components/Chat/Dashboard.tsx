@@ -568,79 +568,85 @@ onClick={handleLogout}
           </div>
 
           {/* Input Area for Message View */}
-          {chatState.messages.length > 0 && (
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black to-transparent pt-6">
-              <div className="w-full max-w-3xl mx-auto px-4 pb-6">
-                <div className="relative">
-                  {chatState.error && (
-                    <div className="absolute -top-8 left-0 right-0 p-2 bg-red-500/10 border border-red-500 rounded text-red-500 text-sm text-center">
-                      {chatState.error}
-                    </div>
-                  )}
-                  
-                  <img 
-                    src="/sidecat.png" 
-                    alt="Side Cat" 
-                    className="absolute -top-24 right-0 w-16 h-16 hidden md:block"
-                  />
-                  
-                  <div className="flex items-center gap-2 bg-[#121417] p-4 rounded-xl border border-white/5">
-                    <div className="flex items-center gap-3 flex-1">
-                      <div className="relative">
-                        <div className="absolute inset-0 bg-[#6FCB71]/20 rounded-full blur-lg" />
-                        <div className="w-8 h-8 bg-[#6FCB71] rounded-full flex items-center justify-center relative z-10">
-                          <img src="/dyor.png" alt="Bot" className="w-6 h-6 rounded-full" />
+            {chatState.messages.length > 0 && (
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black to-transparent pt-6">
+                <div className="w-full max-w-3xl mx-auto px-4 pb-6">
+                  <div className="relative">
+                    {chatState.error && (
+                      <div className="absolute -top-8 left-0 right-0 p-2 bg-red-500/10 border border-red-500 rounded text-red-500 text-sm text-center">
+                        {chatState.error}
+                      </div>
+                    )}
+                    
+                    <img 
+                      src="/sidecat.png" 
+                      alt="Side Cat" 
+                      className="absolute -top-24 right-0 w-16 h-16 hidden md:block"
+                    />
+                    
+                    <div className="flex items-center gap-2 bg-[#121417] p-4 rounded-xl border border-white/5 hover:border-[#6FCB71]/20 transition-all duration-200 group">
+                      <div className="flex items-center gap-3 flex-1">
+                        <div className="relative group-hover:scale-105 transition-transform duration-200">
+                          <div className="absolute inset-0 bg-[#6FCB71]/20 rounded-full blur-lg group-hover:bg-[#6FCB71]/30" />
+                          <div className="w-8 h-8 bg-[#6FCB71] rounded-full flex items-center justify-center relative z-10">
+                            <img src="/dyor.png" alt="Bot" className="w-6 h-6 rounded-full" />
+                          </div>
+                        </div>
+                        <div className="relative flex-1">
+                          <input 
+                            type="text"
+                            value={inputValue}
+                            onChange={handleInputChange}
+                            onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                            placeholder="Ask Toly something..."
+                            className="w-full bg-transparent text-[#9097A6] outline-none placeholder:text-[#9097A6]/50 text-sm focus:text-white transition-colors duration-200"
+                          />
+                          {emojiSuggestionsPosition && (
+                            <EmojiSuggestions
+                              query={inputValue}
+                              position={emojiSuggestionsPosition}
+                              onSelect={handleEmojiSelect}
+                            />
+                          )}
                         </div>
                       </div>
-                      <div className="relative flex-1">
-                        <input 
-                          type="text"
-                          value={inputValue}
-                          onChange={handleInputChange}
-                          onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                          placeholder="Ask Toly something..."
-                          className="w-full bg-transparent text-[#9097A6] outline-none placeholder:text-[#9097A6]/50 text-sm"
-                        />
-                        {emojiSuggestionsPosition && (
-                          <EmojiSuggestions
-                            query={inputValue}
-                            position={emojiSuggestionsPosition}
-                            onSelect={handleEmojiSelect}
-                          />
-                        )}
-                      </div>
+                      <button 
+                        type="button"
+                        onClick={handleSendMessage}
+                        disabled={!inputValue.trim() || chatState.isLoading}
+                        className={`w-10 h-10 flex items-center justify-center rounded-full transition-all duration-200 cursor-pointer
+                          transform hover:scale-105 active:scale-95
+                          ${inputValue.trim() ? 'bg-[#6FCB71] text-black hover:bg-[#7fdb85]' : 'bg-[#6FCB71]/20 text-[#6FCB71]'}`}
+                      >
+                        <FaPaperPlane size={14} />
+                      </button>
                     </div>
-                    <button 
-                      type="button"
-                      onClick={handleSendMessage}
-                      disabled={!inputValue.trim() || chatState.isLoading}
-                      className={`w-10 h-10 flex items-center justify-center rounded-full transition-colors duration-200
-                        ${inputValue.trim() ? 'bg-[#6FCB71] text-black' : 'bg-[#6FCB71]/20 text-[#6FCB71]'}`}
-                    >
-                      <FaPaperPlane size={14} className="cursor-pointer"/>
-                    </button>
+                    
+                    <p className="text-center text-[#9097A6] text-xs mt-4">
+                      Information provided by Toly is Not Financial Advice
+                    </p>
                   </div>
-                  
-                  <p className="text-center text-[#9097A6] text-xs mt-4">
-                    Information provided by Toly is Not Financial Advice
-                  </p>
                 </div>
               </div>
-            </div>
-          )}
+            )}
         </div>
 
         {/* Collapsible Wallet Panel - Right Side */}
         <div 
-            className={`fixed lg:relative right-0 h-screen bg-[#121417] transition-all duration-300 ease-in-out border-l border-white/5 z-40
-              ${isWalletPanelOpen ? 'w-80 translate-x-0' : 'w-16 translate-x-0'}`}
-          >
-            {/* Toggle button - Updated with wallet icon */}
+          className={`fixed lg:relative right-0 h-screen transition-all duration-300 ease-in-out z-40
+            ${isWalletPanelOpen 
+              ? 'w-80 translate-x-0' 
+              : 'w-0 translate-x-full lg:w-16 lg:translate-x-0'
+            }`}
+        >
+          <div className={`h-full bg-[#121417] border-l border-white/5`}>
+            {/* Toggle button */}
             <button
               onClick={() => setIsWalletPanelOpen(!isWalletPanelOpen)}
-              className={`absolute ${isWalletPanelOpen ? '-left-4' : 'left-4'} top-8 z-10 h-8 w-8 flex items-center justify-center 
-                border-[1px] border-white/5 rounded-full bg-[#121417] text-white hover:bg-[#1a1d21] 
-                transition-colors duration-200`}
+              className={`absolute ${isWalletPanelOpen ? '-left-4' : 'left-4'} top-8 z-10 h-8 w-8 
+                flex items-center justify-center border-[1px] border-white/5 rounded-full 
+                bg-[#121417] text-white hover:bg-[#1a1d21] transition-all duration-200
+                hover:scale-105 active:scale-95`}
               aria-label={isWalletPanelOpen ? 'Collapse wallet panel' : 'Expand wallet panel'}
             >
               <FaWallet size={16} className="text-[#6FCB71]" />
@@ -651,19 +657,48 @@ onClick={handleLogout}
               className={`h-full transition-all duration-300 ${
                 isWalletPanelOpen 
                   ? 'opacity-100 visible' 
-                  : 'opacity-0 invisible'
+                  : 'opacity-0 invisible lg:opacity-100 lg:visible'
               }`}
             >
               <WalletPanel />
             </div>
 
-            {/* Collapsed State - Removed arrows, always show wallet icon */}
+            {/* Collapsed State Icon */}
+            {!isWalletPanelOpen && (
+              <div className="hidden lg:flex h-full w-full flex-col items-center p-4 text-white">
+                <FaWallet size={24} className="text-[#6FCB71]" />
+              </div>
+            )}
+          </div>
+        </div>
+        {/* <div 
+            className={`fixed lg:relative right-0 h-screen bg-[#121417] transition-all duration-300 ease-in-out border-l border-white/5 z-40
+              ${isWalletPanelOpen ? 'w-80 translate-x-0' : 'w-16 translate-x-0'}`}
+          >
+            <button
+              onClick={() => setIsWalletPanelOpen(!isWalletPanelOpen)}
+              className={`absolute ${isWalletPanelOpen ? '-left-4' : 'left-4'} top-8 z-10 h-8 w-8 flex items-center justify-center 
+                border-[1px] border-white/5 rounded-full bg-[#121417] text-white hover:bg-[#1a1d21] 
+                transition-colors duration-200`}
+              aria-label={isWalletPanelOpen ? 'Collapse wallet panel' : 'Expand wallet panel'}
+            >
+              <FaWallet size={16} className="text-[#6FCB71]" />
+            </button>
+            <div 
+              className={`h-full transition-all duration-300 ${
+                isWalletPanelOpen 
+                  ? 'opacity-100 visible' 
+                  : 'opacity-0 invisible'
+              }`}
+            >
+              <WalletPanel />
+            </div>
             {!isWalletPanelOpen && (
               <div className="flex h-full w-full flex-col items-center p-4 text-white">
                 <FaWallet size={24} className="text-[#6FCB71]" />
               </div>
             )}
-          </div>
+          </div> */}
         {/* <div 
           className={`fixed lg:relative right-0 h-screen bg-[#121417] transition-all duration-300 ease-in-out border-l border-white/5 z-40
             ${isWalletPanelOpen ? 'w-80 translate-x-0' : 'w-0 translate-x-full lg:translate-x-0 lg:w-16'}`}
