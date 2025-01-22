@@ -4,14 +4,14 @@ import axios from "axios"
 
 // const baseURL = process.env.VUE_APP_BASE_URL || "http://52.26.233.41"
 // const baseURL = process.env.VUE_APP_BASE_URL || "http://localhost:4600"
-const baseURL = process.env.VUE_APP_BASE_URL || "https://catoly-server-production.up.railway.app"
+const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL || "https://catoly-server-production.up.railway.app"
 // console.log(baseURL);
 const Http = axios.create({
     baseURL,
     headers: { 
       "Content-Type": "application/json",
     },
-    withCredentials: true,
+    withCredentials: false,
 });
 
 // Axios.interceptors.response.use(

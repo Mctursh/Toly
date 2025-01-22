@@ -6,26 +6,56 @@ import { DynamicContextProvider } from "@dynamic-labs/sdk-react-core";
 import { SolanaWalletConnectors } from "@dynamic-labs/solana";
 import { useRouter } from 'next/navigation';
 
-
-
+import Cookies from 'js-cookie';
+import { useCallback } from "react";
+import { CookieAuthData } from "@/types/chat";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
 
   const router = useRouter();
+
+  const handleAuth = useCallback(async (authData: CookieAuthData) => {
+    // Store the auth data in an HTTP-only cookie
+    // You might want to encrypt/sign this data for additional security
+    Cookies.set('dynamic-auth', JSON.stringify(authData), {
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      expires: 7, // expires in 7 days
+      path: '/'
+    });
+    router.push('/chat');
+  }, []);
+  
+  const handleLogout = useCallback(() => {
+    router.push('/');
+    Cookies.remove('dynamic-auth');
+  }, []);
+
+  const cssOverrides = `
+  .dynamic-widget-container {
+    all: initial;
+  }
+`;
 
   return (
     <DynamicContextProvider
       settings={{
         environmentId: process.env.NEXT_PUBLIC_DYNAMIC_APP_ID || '',
         walletConnectors: [SolanaWalletConnectors],
-        // cssOverrides,
+        cssOverrides,
         events: {
           onAuthSuccess: (args) => {
+            const data: CookieAuthData = {
+              isAuthenticated: true
+            }
+            handleAuth(data)
             console.log('onAuthSuccess was called', args);
-            router.push('/chat');
             // you can get the jwt by calling the getAuthToken helper function
             // const authToken = getAuthToken();
             // console.log('authToken', authToken);
+          },
+          onLogout: () => {
+            handleLogout()
           }
         }
       }}

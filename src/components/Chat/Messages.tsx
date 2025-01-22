@@ -90,7 +90,7 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
     >
       {/* Message Bubble */}
       <div className="relative group">
-        <div className={`max-w-[80%] p-4 ${
+        <div className={`max-w-[80%] p-4 break-words ${
           message.role === 'user' 
             ? 'bg-[#6FCB71] text-black ml-auto rounded-3xl rounded-br-[0]' 
             : 'bg-[#121417] text-white mr-auto rounded-3xl rounded-bl-[0]'

@@ -27,7 +27,7 @@ import CollapsibleWalletPanel from './CollapsibleWalletPanel';
 
 interface DashboardProps {
   username?: string | Email;
-  profileImage?: string;
+  profileImage?: string; 
 }
 
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
@@ -37,7 +37,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   username = "Anonymous",
   profileImage = '/dyor.png'
 }) => {
-  const { user } = useDynamicContext();
+  const { user, handleLogOut } = useDynamicContext();
   const router = useRouter();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
@@ -192,6 +192,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           timestamp: new Date(),
           isLoading: true
         }],
+        error: null
       }));
       setInputValue('');
 
@@ -209,13 +210,13 @@ export const Dashboard: React.FC<DashboardProps> = ({
       
       // const data: AIResponse = await response.json();
       
-      const response = await Http.post(`/chat/conversations/1/messages`, {
+      const response = await Http.post(`${API_URL}/chat/conversations/1/messages`, {
         content: inputValue,
       },
       {
         headers: {
-          // 'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
         },
       }
     )
@@ -241,7 +242,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
       setChatState(prev => ({
         ...prev,
         messages: prev.messages.filter(m => m.id !== 'temp-loading'),
-        error: 'Failed to send message'
+        error: 'Failed, please try again'
       }));
     }
   };
@@ -269,6 +270,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const handleLogout = async () => {
     try {
       // await logout();
+      handleLogOut()
       router.push('/');
     } catch (error) {
       console.error('Logout failed:', error);
@@ -337,7 +339,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
       />
       
       <div className="flex-1 flex">
-      <CollapsibleWalletPanel />
+      {/* <CollapsibleWalletPanel /> */}
+      {/* <WalletPanel /> */}
         
         <div className="flex-1 flex flex-col h-screen relative">
           {/* Header */}

@@ -37,7 +37,7 @@ const Message = ({ text, isUser, accentColor }: { text: string; isUser: boolean;
         </div>
       )}
     </div>
-    <div className={`flex-1 max-w-[80%] ${isUser ? 'text-right' : ''}`}>
+    <div className={`flex-1 max-w-[80%] break-words ${isUser ? 'text-right' : ''}`}>
       <div 
         className={`inline-block rounded-lg p-3 text-sm
           ${isUser ? 'bg-gray-800 text-gray-200' : 'text-white'}`}
