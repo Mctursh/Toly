@@ -80,7 +80,7 @@ export function LoginButton() {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
-        <span className={spaceGrotesk.className}>
+        <span className={familjenGrotesk.className}>
           {isLoading ? 'Loading...' : 'GET STARTED'}
         </span>
       </motion.button>
