@@ -105,7 +105,7 @@ const WalletPanel = memo(({ walletAddress }: WalletPanel) => {
           )}
   
           {/* Loading State */}
-          <LoadingOrNotFound loading={loading} />
+          <LoadingOrNotFound loading={loading} text='Tokens not found' />
           {!loading && (
             <div className="space-y-4">
                {portfolio?.nativeBalance && (
