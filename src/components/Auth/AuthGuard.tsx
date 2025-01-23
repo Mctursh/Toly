@@ -1,4 +1,3 @@
-// components/auth/AuthGuard.tsx
 'use client';
 
 import { useAuth } from '@/hooks/useAuth';
@@ -11,16 +10,21 @@ interface AuthGuardProps {
 }
 
 export function AuthGuard({ children }: AuthGuardProps) {
-  const { ready, isAuthenticated, isVerifying } = useAuth();  // Add isVerifying
+  const { ready, isAuthenticated, isVerifying } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
-    if (ready && !isVerifying && !isAuthenticated && pathname !== '/') {
-      console.log('User not authenticated, redirecting to login');
-      sessionStorage.setItem('redirectAfterLogin', pathname);
-      router.push('/');
+    // Allow access to the chat page and home page
+    if (pathname === '/chat' || pathname === '/') {
+      return;
     }
+
+    // if (ready && !isVerifying && !isAuthenticated) {
+    //   console.log('User not authenticated, redirecting to login');
+    //   sessionStorage.setItem('redirectAfterLogin', pathname);
+    //   router.push('/');
+    // }
   }, [ready, isAuthenticated, isVerifying, router, pathname]);
 
   // Show loading state if either Privy is not ready or we're verifying with backend

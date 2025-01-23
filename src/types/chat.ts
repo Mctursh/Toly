@@ -64,3 +64,7 @@ export interface DeleteMessageConfirmation {
       { supervisor: null }
     ]
   }
+
+  export type CookieAuthData = {
+    isAuthenticated: boolean
+  }

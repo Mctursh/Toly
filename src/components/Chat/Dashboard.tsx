@@ -30,7 +30,7 @@ import { IconType } from 'react-icons';
 
 interface DashboardProps {
   username?: string | Email;
-  profileImage?: string;
+  profileImage?: string; 
 }
 
 interface NavigationItem {
@@ -46,7 +46,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   username = "Anonymous",
   profileImage = '/dyor.png'
 }) => {
-  const { user } = useDynamicContext();
+  const { user, handleLogOut } = useDynamicContext();
   const router = useRouter();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -226,12 +226,34 @@ export const Dashboard: React.FC<DashboardProps> = ({
           timestamp: new Date(),
           isLoading: true
         }],
+        error: null
       }));
       setInputValue('');
+
+      // const token = await getAccessToken();
+      // const response = await fetch(`${API_URL}/chat/conversations/${currentThreadId}/messages`, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Authorization': `Bearer ${token}`,
+      //     'Content-Type': 'application/json'
+      //   },
+      //   body: JSON.stringify({ content: inputValue })
+      // });
+
+      // if (!response.ok) throw new Error('Failed to send message');
       
-      const response = await Http.post(`/chat/conversations/1/messages`, {
+      // const data: AIResponse = await response.json();
+      
+      const response = await Http.post(`${API_URL}/chat/conversations/1/messages`, {
         content: inputValue,
-      });
+      },
+      {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+      }
+    )
       
       console.log(response.data);
       const content = extractContent(response.data.data.result);
@@ -251,7 +273,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
       setChatState(prev => ({
         ...prev,
         messages: prev.messages.filter(m => m.id !== 'temp-loading'),
-        error: 'Failed to send message'
+        error: 'Failed, please try again'
       }));
     }
   };
@@ -269,6 +291,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
   const handleLogout = async () => {
     try {
+      // await logout();
+      handleLogOut()
       router.push('/');
     } catch (error) {
       console.error('Logout failed:', error);

@@ -513,6 +513,7 @@ import { FaCog } from 'react-icons/fa';
 import type { IconType } from 'react-icons';
 import { Conversation } from '@/types/chat';
 import Http from '@/services/httpService';
+import LoadingOrNotFound from './LoadingOrNotFound';
 
 interface NavigationItem {
   name: string;
