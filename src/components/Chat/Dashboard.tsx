@@ -170,83 +170,30 @@ export const Dashboard: React.FC<DashboardProps> = ({
   };
 
   const handleSendMessage = async () => {
-    console.log(inputValue);
-    
     if (!inputValue.trim()) return;
-    // if (!inputValue.trim() || !currentThreadId) return;
-
+  
     const newMessage: Message = {
       id: Date.now().toString(),
       content: inputValue,
-      role: 'user',
+      role: 'user' as const,
       timestamp: new Date(),
     };
-
-    try {
-      setChatState(prev => ({
-        ...prev,
-        messages: [...prev.messages, newMessage, {
-          id: 'temp-loading',
-          content: '',
-          role: 'assistant',
-          timestamp: new Date(),
-          isLoading: true
-        }],
-        error: null
-      }));
-      setInputValue('');
-
-      // const token = await getAccessToken();
-      // const response = await fetch(`${API_URL}/chat/conversations/${currentThreadId}/messages`, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Authorization': `Bearer ${token}`,
-      //     'Content-Type': 'application/json'
-      //   },
-      //   body: JSON.stringify({ content: inputValue })
-      // });
-
-      // if (!response.ok) throw new Error('Failed to send message');
-      
-      // const data: AIResponse = await response.json();
-      
-      const response = await Http.post(`${API_URL}/chat/conversations/1/messages`, {
-        content: inputValue,
-      },
-      {
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-      }
-    )
-      
-      console.log(response.data);
-      const content = extractContent(response.data.data.result)
-
-      const aiMessage: Message = {
-        id: Date.now().toString(),
-        // content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, laudantium aspernatur. Vero quia autem maxime laudantium magnam omnis ea architecto quibusdam, sunt consequatur amet tempore vitae corporis illum recusandae. Iusto veritatis accusantium sit iure aut consequatur porro facilis distinctio totam! Debitis, rem repellendus! Vero vel provident architecto quia, dolores eaque.",
-        content,
-        // content: data.result[1].TransactionExplorer.messages[0].content,
-        role: 'assistant',
-        timestamp: new Date()
-      };
-      
-
-      setChatState(prev => ({
-        ...prev,
-        messages: [...prev.messages.filter(m => m.id !== 'temp-loading'), aiMessage]
-      }));
-    } catch (error) {
-      setChatState(prev => ({
-        ...prev,
-        messages: prev.messages.filter(m => m.id !== 'temp-loading'),
-        error: 'Failed, please try again'
-      }));
-    }
+  
+    const assistantMessage: Message = {
+      id: 'temp-' + Date.now().toString(),
+      content: inputValue,
+      role: 'assistant' as const,
+      timestamp: new Date(),
+      isLoading: true,
+    };
+  
+    setChatState(prev => ({
+      ...prev,
+      messages: [...prev.messages, newMessage, assistantMessage],
+    }));
+    setInputValue('');
   };
-
+  
   function extractContent(data: any[]): string {
     // Check if array has at least 2 elements
     if (!Array.isArray(data) || data.length < 2) {

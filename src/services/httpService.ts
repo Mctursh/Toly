@@ -1,27 +1,39 @@
-// import router from "@/router";
-// import store from "@/store";
-import axios from "axios"
+// httpService.ts
+import axios, { AxiosInstance } from "axios";
 
-// const baseURL = process.env.VUE_APP_BASE_URL || "http://52.26.233.41"
-// const baseURL = process.env.VUE_APP_BASE_URL || "http://localhost:4600"
-const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL || "https://catoly-server-production.up.railway.app"
-// console.log(baseURL);
+interface MessageRequest {
+    content: string;
+}
+
+// Extend AxiosInstance
+interface CustomHttp extends AxiosInstance {
+    stream(url: string, data: MessageRequest): Promise<ReadableStream<Uint8Array> | null>;
+}
+
+const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL || "https://catoly-server-production.up.railway.app";
+
 const Http = axios.create({
     baseURL,
-    headers: { 
+    headers: {
       "Content-Type": "application/json",
     },
     withCredentials: false,
-});
-
-// Axios.interceptors.response.use(
-//   res => res,
-//   error => {
-//     if (error.response.status === 401) {
-//       store.dispatch('setAuth', false);
-//       router.push('/login');
-//     }
-//     return Promise.reject(error);
-//   });
-
+  }) as CustomHttp;
+  
+  Http.stream = async function(url: string, data: MessageRequest) {
+    const response = await fetch(`${baseURL}${url}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    });
+  
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+  
+    return response.body;
+  };
+  
   export default Http;
