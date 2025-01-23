@@ -88,17 +88,19 @@ export function LoginButton() {
         <div className="no-style mt-8 px-8 py-4 bg-[#6FCB71] capitalize rounded-full text-black font-bold text-lg hover:bg-[#5FB761] transition-colors">
 
           <DynamicWidget innerButtonComponent={
-            <motion.button
-              // onClick={handleAuth}
-              // disabled={isLoading}
-              // className="mt-8 px-8 py-4 bg-[#6FCB71] capitalize rounded-full text-black font-bold text-lg hover:bg-[#5FB761] transition-colors"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-                <span className={spaceGrotesk.className}>
-                  GET STARTED
-                </span>
-            </motion.button>
+            <div>
+              <motion.button
+                // onClick={handleAuth}
+                // disabled={isLoading}
+                // className="mt-8 px-8 py-4 bg-[#6FCB71] capitalize rounded-full text-black font-bold text-lg hover:bg-[#5FB761] transition-colors"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                  <span className={spaceGrotesk.className}>
+                    GET STARTED
+                  </span>
+              </motion.button>
+            </div>
         
           } />
         </div>
