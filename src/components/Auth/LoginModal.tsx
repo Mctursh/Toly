@@ -71,20 +71,20 @@ export function LoginButton() {
 
   return (
     <div className="">
-      {/* {
-        user ? */}
+      {
+        user ?
         <motion.button
-        onClick={handleChat}
-        disabled={isLoading}
+        onClick={logOut}
+        // disabled={isLoading}
         className="mt-8 px-8 py-4 bg-[#6FCB71] capitalize rounded-full text-black font-bold text-lg hover:bg-[#5FB761] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
         <span className={spaceGrotesk.className}>
-          {isLoading ? 'Loading...' : 'GET STARTED'}
+            LOGOUT
         </span>
       </motion.button>
-        {/* :
+        :
         <div className="no-style mt-8 px-8 py-4 bg-[#6FCB71] capitalize rounded-full text-black font-bold text-lg hover:bg-[#5FB761] transition-colors">
 
           <DynamicWidget innerButtonComponent={
@@ -104,7 +104,7 @@ export function LoginButton() {
         
           } />
         </div>
-      } */}
+      }
     </div>
   );
 }
