@@ -700,7 +700,7 @@ onClick={handleLogout}
                   : 'opacity-0 invisible'
               }`}
             >
-              <WalletPanel />
+              <WalletPanel walletAddress={walletAddress || ""} />
             </div>
 
             {/* Collapsed State Icon */}
@@ -842,7 +842,7 @@ onClick={handleLogout}
     </div>
   );
 
-};
+});
 
 export default Dashboard;
 
