@@ -3,12 +3,12 @@
 
 import { motion } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
-import { Space_Grotesk } from 'next/font/google';
+import { Familjen_Grotesk } from 'next/font/google';
 import { useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { DynamicWidget, useDynamicContext } from '@dynamic-labs/sdk-react-core';
 
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
+const familjenGrotesk = Familjen_Grotesk({ subsets: ['latin'] });
 
 export function LoginButton() {
   const { ready, isAuthenticated, login, logout } = useAuth();

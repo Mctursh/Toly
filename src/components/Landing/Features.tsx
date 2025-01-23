@@ -2,10 +2,10 @@
 import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Space_Grotesk } from 'next/font/google';
+import { Familjen_Grotesk } from 'next/font/google';
 import ChatInterface from './ChatInterface';
 
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
+const familjenGrotesk = Familjen_Grotesk({ subsets: ['latin'] });
 
 const FeatureSection = () => {
   return (
@@ -55,7 +55,7 @@ const FeatureSection = () => {
             Advanced AI-Powered Blockchain Analysis
           </h2>
           
-          <p className={`text-base lg:text-lg leading-[160%] text-[#9097A6] ${spaceGrotesk.className}`}>
+          <p className={`text-base lg:text-lg leading-[160%] text-[#9097A6] ${familjenGrotesk.className}`}>
           Experience real-time insights and deep analysis of the Solana blockchain with our intelligent AI assistant. Get detailed information about transactions, tokens, and market trends instantly.
           </p>
         </motion.div>

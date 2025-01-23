@@ -2,10 +2,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { Space_Grotesk } from 'next/font/google';
+import { Familjen_Grotesk } from 'next/font/google';
 import ChatInterface from './ChatInterface';
 
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
+const familjenGrotesk = Familjen_Grotesk({ subsets: ['latin'] });
 
 // Pre-defined messages for this section
 const preloadedMessages = [
@@ -45,7 +45,7 @@ const SecondFeatureSection = () => {
             Smart Trading Intelligence & Market Insights
           </h2>
           
-          <p className={`text-base lg:text-lg leading-[160%] text-[#9097A6] ${spaceGrotesk.className}`}>
+          <p className={`text-base lg:text-lg leading-[160%] text-[#9097A6] ${familjenGrotesk.className}`}>
           Stay ahead of the market with our AI-driven analytics engine. Monitor market trends and track wallet activities.
           </p>
         </motion.div>
