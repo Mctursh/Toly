@@ -32,7 +32,7 @@ const CollapsibleWalletPanel = () => {
           : 'opacity-0 invisible transform -translate-x-full'
       }`}
       >
-        <WalletPanel />
+        <WalletPanel walletAddress=''/>
       </div>
 
       {/* Collapsed State Content */}

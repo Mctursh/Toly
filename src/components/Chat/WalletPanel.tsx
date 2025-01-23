@@ -1,14 +1,19 @@
 // components/WalletPanel.tsx
   "use client";
   
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { PortfolioResponse } from '@/types/portfolio';
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
 import { LoadingOrNotFound } from './LoadingOrNotFound';
 import TokenItem from './TokenItem';
+import { ChatContext, useChatContext } from '../Context/ChatProvider';
+
+type WalletPanel = {
+  walletAddress: string
+}
   
-const WalletPanel: FC = () => {
-    const { primaryWallet } = useDynamicContext();
+const WalletPanel = memo(({ walletAddress }: WalletPanel) => {
+    const primaryWallet = walletAddress
     const [portfolio, setPortfolio] = useState<PortfolioResponse | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -17,12 +22,15 @@ const WalletPanel: FC = () => {
   
     const fetchPortfolio = useCallback(async () => {
       try {
+        console.log(primaryWallet);
+        
         setLoading(true);
         setError(null);
   
-        // const walletAddress = primaryWallet?.address;
-        const walletAddress = '3wRBJjPEmdk4b2NBEojeMKyuUCKLspKyViYUQMwJUsqt';
+        const walletAddress = primaryWallet
+        // const walletAddress = '3wRBJjPEmdk4b2NBEojeMKyuUCKLspKyViYUQMwJUsqt';
         
+        // const url = `${API_URL}/das/portfolio/${walletAddress}?detailed=true&network=devnet`;
         const url = `${API_URL}/das/portfolio/${walletAddress}?detailed=true&network=mainnet`;
      
 
@@ -51,12 +59,12 @@ const WalletPanel: FC = () => {
       } finally {
         setLoading(false);
       }
-    }, [API_URL]); // Add API_URL as dependency
+    }, [API_URL, walletAddress]); // Add API_URL as dependency
   
     useEffect(() => {
       // conditional should only call if primary wallet is available
       fetchPortfolio();
-    }, [fetchPortfolio]);
+    }, [fetchPortfolio, walletAddress]);
 
   
     return (
@@ -67,9 +75,9 @@ const WalletPanel: FC = () => {
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold">Portfolio</h2>
               <div className="flex items-center gap-2">
-                <div className={`w-2 h-2 rounded-full ${primaryWallet?.address ? 'bg-green-500' : 'bg-red-500'}`} />
+                <div className={`w-2 h-2 rounded-full ${primaryWallet ? 'bg-green-500' : 'bg-red-500'}`} />
                 <span className="text-sm text-[#9097A6]">
-                  {primaryWallet?.address ? 'Connected' : 'Not Connected'}
+                  {primaryWallet ? 'Connected' : 'Not Connected'}
                 </span>
               </div>
             </div>
@@ -77,7 +85,7 @@ const WalletPanel: FC = () => {
               <div className="bg-[#0B0C0F] p-4 rounded-lg border border-white/5">
                 <p className="text-sm text-[#9097A6]">Total Value</p>
                 <p className="text-xl font-bold">
-                  ${portfolio.totalValueUsd.toLocaleString(undefined, {
+                  ${portfolio.totalValueUsd.toLocaleString('en-US', {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2
                   })} USD
@@ -121,6 +129,6 @@ const WalletPanel: FC = () => {
         </div>
       </div>
     );
-  };
+  });
   
   export default WalletPanel;

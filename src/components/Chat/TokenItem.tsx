@@ -1,11 +1,10 @@
 import React from 'react';
 
-// Types for both token formats: tech debt native token should be same type as other spl aprt from decimal but this is a working fix- to be optimized
-interface BaseTokenDisplay {
+type BaseTokenDisplay = {
   image: string;
   name: string;
   symbol: string;
-}
+};
 
 interface RegularToken extends BaseTokenDisplay {
   type: 'token';
@@ -31,14 +30,14 @@ type TokenItemProps = {
 const TokenItem: React.FC<TokenItemProps> = ({ token }) => {
   const getValue = () => {
     if (token.type === 'native') {
-      return token.valueInUsd.toLocaleString(undefined, {
+      return token.valueInUsd?.toLocaleString('en-US', {
         minimumFractionDigits: 2,
-        maximumFractionDigits: 2
+        maximumFractionDigits: 2,
       });
     }
-    return token.value.toLocaleString(undefined, {
+    return token.value.toLocaleString('en-US', {
       minimumFractionDigits: 2,
-      maximumFractionDigits: 2
+      maximumFractionDigits: 2,
     });
   };
 
@@ -46,22 +45,22 @@ const TokenItem: React.FC<TokenItemProps> = ({ token }) => {
     if (token.type === 'native') {
       return token.balanceFormatted;
     }
-    return token.balance.toLocaleString(undefined, {
+    return token.balance?.toLocaleString('en-US', {
       minimumFractionDigits: token.decimals,
-      maximumFractionDigits: token.decimals
+      maximumFractionDigits: token.decimals,
     });
   };
 
   const getPrice = () => {
     if (token.type === 'native') {
-      return token.pricePerSol.toLocaleString(undefined, {
+      return token.pricePerSol.toLocaleString('en-US', {
         minimumFractionDigits: 2,
-        maximumFractionDigits: 2
+        maximumFractionDigits: 2,
       });
     }
-    return token.pricePerToken.toLocaleString(undefined, {
+    return token.pricePerToken.toLocaleString('en-US', {
       minimumFractionDigits: 6,
-      maximumFractionDigits: 6
+      maximumFractionDigits: 6,
     });
   };
 
@@ -69,16 +68,17 @@ const TokenItem: React.FC<TokenItemProps> = ({ token }) => {
     <div className="flex items-center justify-between p-3 bg-[#0B0C0F] rounded-lg border border-white/5 hover:border-white/10 transition-colors duration-200">
       <div className="flex items-center gap-3">
         <div className="relative w-10 h-10">
-          <img 
+          <img
             src={token.image || '/default-token.png'}
             alt={token.name}
             className="w-full h-full rounded-full object-cover"
             onError={(e) => {
               (e.target as HTMLImageElement).src = '/default-token.png';
             }}
+            loading="lazy"
           />
         </div>
-        <div className='flex flex-col gap-y-1'>
+        <div className="flex flex-col gap-y-1">
           <div className="flex items-center gap-2">
             <p className="text-sm font-medium nowrap">
               {token.name.length > 6 ? `${token.name.substring(0, 6)}...` : token.name}
@@ -91,12 +91,8 @@ const TokenItem: React.FC<TokenItemProps> = ({ token }) => {
         </div>
       </div>
       <div className="flex flex-col gap-y-1 text-right">
-        <p className="text-sm font-medium nowrap">
-          ${getValue()}
-        </p>
-        <p className="text-xs text-[#9097A6]">
-          ${getPrice()}
-        </p>
+        <p className="text-sm font-medium nowrap">${getValue()}</p>
+        <p className="text-xs text-[#9097A6]">${getPrice()}</p>
       </div>
     </div>
   );

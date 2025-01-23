@@ -1,7 +1,7 @@
 // app/chat/page.tsx
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, memo, useLayoutEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Space_Grotesk } from 'next/font/google';
 import { Inter } from 'next/font/google';
@@ -24,20 +24,33 @@ import { Email } from '@privy-io/react-auth';
 import Http from '@/services/httpService';
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
 import CollapsibleWalletPanel from './CollapsibleWalletPanel';
+import { useChatContext } from '../Context/ChatProvider';
 
 interface DashboardProps {
   username?: string | Email;
-  profileImage?: string; 
+  profileImage?: string;
+  walletAddress?: string
+  logOutHandler: () => Promise<void>
 }
 
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
 const inter = Inter({ subsets: ['latin'] });
 
-export const Dashboard: React.FC<DashboardProps> = ({ 
+export const Dashboard: React.FC<DashboardProps> = memo(({ 
   username = "Anonymous",
-  profileImage = '/dyor.png'
+  profileImage = '/dyor.png',
+  walletAddress,
+  logOutHandler
 }) => {
-  const { user, handleLogOut } = useDynamicContext();
+  useLayoutEffect(() => {
+    if(!walletAddress){
+      handleLogout()
+    }
+  
+    return () => {}
+  }, [])
+  // const { user, handleLogOut } = useDynamicContext();
+  // const { state } = useChatContext()
   const router = useRouter();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
@@ -72,6 +85,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
       fetchMessages(1);
     }
   }, [currentThreadId]);
+  
 
   const fetchMessages = async (pageNum: number = 1, loadMore: boolean = false) => {
     try {
@@ -270,7 +284,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const handleLogout = async () => {
     try {
       // await logout();
-      handleLogOut()
+      await logOutHandler()
       router.push('/');
     } catch (error) {
       console.error('Logout failed:', error);
@@ -340,7 +354,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
       
       <div className="flex-1 flex">
       {/* <CollapsibleWalletPanel /> */}
-      {/* <WalletPanel /> */}
+      <WalletPanel walletAddress={walletAddress || ''} />
         
         <div className="flex-1 flex flex-col h-screen relative">
           {/* Header */}
@@ -363,7 +377,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   <img src="/logo.png" alt="Profile" className="w-8 h-8 rounded-full relative z-10" />
                 </div>
                 <span className="font-medium">
-                  {typeof user?.email === 'string' ? user.email : 'Anonymous'}
+                  {typeof username === 'string' ? username : 'Anonymous'}
                 </span>
                 <FaChevronDown size={12} className={`transform transition-transform duration-200 ${isProfileDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
@@ -499,4 +513,4 @@ export const Dashboard: React.FC<DashboardProps> = ({
       </div>
     </div>
   );
-}
+})
