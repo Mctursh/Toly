@@ -2,9 +2,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Space_Grotesk, Inter } from 'next/font/google';
+import { Familjen_Grotesk, Inter } from 'next/font/google';
 
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
+const familjenGrotesk = Familjen_Grotesk({ subsets: ['latin'] });
 const inter = Inter({ subsets: ['latin'] });
 
 const columnContent = [
@@ -35,7 +35,7 @@ const TwoColumnSection = () => {
                 {content.title}
               </h2>
 
-              <p className={`${spaceGrotesk.className} text-lg leading-[160%] text-center text-[#9097A6]`}>
+              <p className={`${familjenGrotesk.className} text-lg leading-[160%] text-center text-[#9097A6]`}>
                 {content.description}
               </p>
             </div>

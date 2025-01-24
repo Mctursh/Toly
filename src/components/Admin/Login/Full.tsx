@@ -2,13 +2,13 @@
 import Footer from '@/components/Landing/Footer';
 import Navbar from '@/components/Navbar';
 import AdminLogin from './Login';
-import { Space_Grotesk } from 'next/font/google';
+import { Familjen_Grotesk } from 'next/font/google';
 
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
+const familjenGrotesk = Familjen_Grotesk({ subsets: ['latin'] });
 
 const AdminLoginPage = () => {
     return (
-      <main className={`relative min-h-screen bg-black overflow-x-hidden ${spaceGrotesk.className}`}>
+      <main className={`relative min-h-screen bg-black overflow-x-hidden ${familjenGrotesk.className}`}>
         {/* Fixed navbar always on top */}
         <Navbar />
         <AdminLogin />

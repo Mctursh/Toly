@@ -149,7 +149,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   placeholder="Type your message..."
-                  className="w-full bg-black/50 rounded-lg px-4 py-3 pr-12 text-white placeholder-gray-500 border border-white/10 focus:border-[#61BDFF] focus:ring-1 focus:ring-[#61BDFF] transition-all duration-200"
+                  className="w-full bg-black/50 rounded-lg px-4 py-3 pr-12 text-white placeholder-gray-500 border border-white/10 focus:border-[#6FCB71] focus:ring-1 focus:ring-[#6FCB71] transition-all duration-200"
                 />
                 <button 
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-all duration-200"

@@ -3,10 +3,10 @@ import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Space_Grotesk } from 'next/font/google';
+import { Familjen_Grotesk } from 'next/font/google';
 import AnimatedSphere from './AnimatedSphere';
 
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
+const familjenGrotesk = Familjen_Grotesk({ subsets: ['latin'] });
 
 const CatolyHero = () => {
   return (

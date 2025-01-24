@@ -1,10 +1,10 @@
 "use client"
 import React from 'react';
 import Link from 'next/link';
-import { Space_Grotesk } from 'next/font/google';
+import { Familjen_Grotesk } from 'next/font/google';
 import { motion } from 'framer-motion';
 
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
+const familjenGrotesk = Familjen_Grotesk({ subsets: ['latin'] });
 
 interface FooterLink {
   text: string;
@@ -15,14 +15,14 @@ interface FooterLink {
 const Footer = () => {
   const links: FooterLink[] = [
     { text: 'Home', href: '/', isActive: true },
-    { text: 'How toly works', href: '/how-it-works' },
-    { text: 'For Developers', href: '/developers' },
-    { text: '$Catoly token', href: '/token' },
+    { text: 'How toly works', href: 'https://solana-projects.gitbook.io/toly/user-guide/' },
+    { text: 'For Developers', href: 'https://solana-projects.gitbook.io/toly/developer-guide/' },
+    { text: '$Catoly token', href: '/catoly' },
     { text: 'About us', href: '/about' },
   ];
 
   return (
-    <footer className={`w-full bg-black py-8 ${spaceGrotesk.className}`}>
+    <footer className={`w-full bg-black py-8 ${familjenGrotesk.className}`}>
       <motion.div 
         className="max-w-[1280px] mx-auto px-4"
         initial={{ opacity: 0, y: 20 }}
