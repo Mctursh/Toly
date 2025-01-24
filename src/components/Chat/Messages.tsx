@@ -1,21 +1,22 @@
-// components/Chat/Messages.tsx
 import { format, isToday, isYesterday } from 'date-fns';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { FaRegCopy, FaCheck, FaTrash } from 'react-icons/fa6';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { type Message } from '@/types/chat';
 
 interface MessageProps {
   message: Message;
-  isConsecutive?: boolean;  // For grouping messages
-  onDelete?: () => void;    // Added onDelete prop
+  isConsecutive?: boolean;
+  onDelete?: () => void;
 }
 
 export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDelete }) => {
   const [copied, setCopied] = useState(false);
+  const [streamedContent, setStreamedContent] = useState('');
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   const formatMessageTime = (date: Date) => {
     if (isToday(date)) {
@@ -27,19 +28,17 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
     return format(date, 'MMM d, HH:mm');
   };
 
-  // Function to detect and parse code blocks in markdown
-  const renderContent = () => {
+  const renderContent = (content: string) => {
     const codeBlockRegex = /```(\w+)?\n([\s\S]*?)```/g;
     const parts = [];
     let lastIndex = 0;
     let match;
 
-    while ((match = codeBlockRegex.exec(message.content)) !== null) {
-      // Add text before code block
+    while ((match = codeBlockRegex.exec(content)) !== null) {
       if (match.index > lastIndex) {
         parts.push(
           <ReactMarkdown key={lastIndex} className="prose prose-invert">
-            {message.content.slice(lastIndex, match.index)}
+            {content.slice(lastIndex, match.index)}
           </ReactMarkdown>
         );
       }
@@ -47,7 +46,6 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
       const language = match[1] || 'javascript';
       const code = match[2].trim();
 
-      // Add code block
       parts.push(
         <div key={match.index} className="relative group">
           <SyntaxHighlighter
@@ -71,11 +69,10 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
       lastIndex = match.index + match[0].length;
     }
 
-    // Add remaining text
-    if (lastIndex < message.content.length) {
+    if (lastIndex < content.length) {
       parts.push(
         <ReactMarkdown key={lastIndex} className="prose prose-invert">
-          {message.content.slice(lastIndex)}
+          {content.slice(lastIndex)}
         </ReactMarkdown>
       );
     }
@@ -83,12 +80,46 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
     return parts;
   };
 
+  useEffect(() => {
+    if (message.role === 'assistant' && message.isLoading) {
+      const fetchStream = async () => {
+        abortControllerRef.current = new AbortController();
+        
+        try {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chat/stream?question=${encodeURIComponent(message.content)}`, {
+            signal: abortControllerRef.current.signal
+          });
+
+          const reader = response.body?.getReader();
+          if (!reader) return;
+
+          let accumulated = '';
+          
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            
+            const text = new TextDecoder().decode(value);
+            accumulated += text;
+            setStreamedContent(accumulated);
+          }
+        } catch (error) {
+          if (error.name === 'AbortError') return;
+          console.error('Stream error:', error);
+        }
+      };
+
+      fetchStream();
+      
+      return () => {
+        abortControllerRef.current?.abort();
+      };
+    }
+  }, [message.isLoading, message.content, message.role]);
+
   return (
-    <div
-      className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} 
-        ${!isConsecutive ? 'mt-6' : 'mt-2'}`}
-    >
-      {/* Message Bubble */}
+    <div className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} 
+      ${!isConsecutive ? 'mt-6' : 'mt-2'}`}>
       <div className="relative group">
         <div className={`max-w-[80%] p-4 break-words ${
           message.role === 'user' 
@@ -96,32 +127,26 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
             : 'bg-[#121417] text-white mr-auto rounded-3xl rounded-bl-[0]'
         }`}>
           {message.isLoading ? (
-            <div className="flex justify-center">
-              <div className="animate-pulse">Thinking...</div>
-            </div>
+            streamedContent ? renderContent(streamedContent) : (
+              <div className="flex justify-center">
+                <div className="animate-pulse">Thinking...</div>
+              </div>
+            )
           ) : (
-            <>
-              {renderContent()}
-              {/* Timestamp and Actions */}
-              {/* <div className="flex items-center gap-2 opacity-0 group-hover:opacity-60 transition-opacity absolute bottom-1 right-2">
-                <span className="text-xs">
-                  {formatMessageTime(new Date(message.timestamp))}
-                </span>
-                {onDelete && (
-                  <button 
-                    onClick={onDelete}
-                    className="p-1 hover:text-red-500 transition-colors"
-                  >
-                    <FaTrash size={12} />
-                  </button>
-                )}
-              </div> */}
-            </>
+            renderContent(message.content)
+          )}
+          {!message.isLoading && (
+            <div className="flex items-center gap-2 opacity-0 group-hover:opacity-60 transition-opacity absolute bottom-1 right-2">
+              <span className="text-xs">{formatMessageTime(message.timestamp)}</span>
+              {onDelete && (
+                <button onClick={onDelete} className="p-1 hover:text-red-500 transition-colors">
+                  <FaTrash size={12} />
+                </button>
+              )}
+            </div>
           )}
         </div>
       </div>
     </div>
   );
 };
-
-export default Messages;

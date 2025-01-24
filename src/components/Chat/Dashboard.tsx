@@ -223,13 +223,28 @@ export const Dashboard: React.FC<DashboardProps> = memo(({
 
   const handleSendMessage = async () => {
     if (!inputValue.trim()) return;
+  
 
     const newMessage: Message = {
       id: Date.now().toString(),
       content: inputValue,
-      role: 'user',
+      role: 'user' as const,
       timestamp: new Date(),
     };
+  
+    const assistantMessage: Message = {
+      id: 'temp-' + Date.now().toString(),
+      content: inputValue,
+      role: 'assistant' as const,
+      timestamp: new Date(),
+      isLoading: true,
+    };
+  
+    setChatState(prev => ({
+      ...prev,
+      messages: [...prev.messages, newMessage, assistantMessage],
+    }));
+    setInputValue('');
 
     try {
       setChatState(prev => ({
@@ -292,7 +307,7 @@ export const Dashboard: React.FC<DashboardProps> = memo(({
       }));
     }
   };
-
+  
   function extractContent(data: any[]): string {
     if (!Array.isArray(data) || data.length < 2) return "";
     const targetItem = data[1];
