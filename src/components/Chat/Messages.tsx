@@ -104,8 +104,9 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
             setStreamedContent(accumulated);
           }
         } catch (error) {
-          if (error.name === 'AbortError') return;
+          // if (error.name === 'AbortError') return;
           console.error('Stream error:', error);
+          throw error
         }
       };
 
