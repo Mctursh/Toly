@@ -22,7 +22,7 @@ const WalletPanel = memo(({ walletAddress }: WalletPanel) => {
   
     const fetchPortfolio = useCallback(async () => {
       try {
-        console.log(primaryWallet);
+        // console.log(primaryWallet);
         
         setLoading(true);
         setError(null);
@@ -32,9 +32,10 @@ const WalletPanel = memo(({ walletAddress }: WalletPanel) => {
         
         // const url = `${API_URL}/das/portfolio/${walletAddress}?detailed=true&network=devnet`;
         const url = `${API_URL}/das/portfolio/${walletAddress}?detailed=true&network=mainnet`;
+        // const url = `${API_URL}/das/spl-portfolio/${walletAddress}?detailed=true&network=devnet`;
      
 
-        // Most like going to be a cors issue so add credential to server with apikey infact for all the endpoints
+        // Most like going to be a cjors issue so add credential to server with apikey infact for all the endpoints
         const response = await fetch(url, {
           method: 'GET',
           headers: {
@@ -63,7 +64,9 @@ const WalletPanel = memo(({ walletAddress }: WalletPanel) => {
   
     useEffect(() => {
       // conditional should only call if primary wallet is available
-      fetchPortfolio();
+      if(walletAddress){
+        fetchPortfolio();
+      }
     }, [fetchPortfolio, walletAddress]);
 
   
@@ -85,13 +88,13 @@ const WalletPanel = memo(({ walletAddress }: WalletPanel) => {
               <div className="bg-[#0B0C0F] p-4 rounded-lg border border-white/5">
                 <p className="text-sm text-[#9097A6]">Total Value</p>
                 <p className="text-xl font-bold">
-                  ${portfolio.totalValueUsd.toLocaleString('en-US', {
+                  ${portfolio?.totalValueUsd?.toLocaleString('en-US', {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2
                   })} USD
                 </p>
                 <p className="text-xs text-[#9097A6] mt-1">
-                  {portfolio.tokenPortfolio.tokens.length} Token{portfolio.tokenPortfolio.tokens.length !== 1 ? 's' : ''}
+                  {portfolio?.tokenPortfolio?.tokens?.length} Token{portfolio?.tokenPortfolio?.tokens?.length !== 1 ? 's' : ''}
                 </p>
               </div>
             )}
@@ -115,7 +118,7 @@ const WalletPanel = memo(({ walletAddress }: WalletPanel) => {
                     name: 'Solana',
                     symbol: 'SOL',
                     image: 'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png', // Hard coded das should return the png -server bug
-                    ...portfolio.nativeBalance
+                    ...portfolio?.nativeBalance
                   }}
                 />
               )}

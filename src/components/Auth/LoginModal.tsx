@@ -24,7 +24,7 @@ export function LoginButton() {
         await logout();
         console.log('Successfully logged out');
       } else {
-        await login();
+        // await login();
         console.log('Successfully logged in');
         router.push('/chat'); // Redirect to chat after login
       }

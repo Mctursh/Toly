@@ -9,7 +9,7 @@ type Action = 'LOGIN' | 'LOGOUT'
 
 export type Actions = { 
     type: Action,
-    payload?: any | User
+    payload?: any | User 
 }
 
 export type AuthContextType = {
@@ -20,12 +20,14 @@ export type AuthContextType = {
 export type ContextStateType = {
     isAuthenticated: boolean;
     user: User;
+    accessToken?: string
     logOutHandler: () => Promise<void>
   };
 
 const initialState: ContextStateType = {
     isAuthenticated: false,
     user: {},
+    accessToken: '',
     logOutHandler: async() => {}
 };
 
@@ -33,8 +35,6 @@ function chatReducer(
     state: ContextStateType,
     action: Actions
   ): ContextStateType {
-    console.log("Provider state", state);
-    console.log("Provider action", action);
     
     switch (action.type) {
       case "LOGIN":
