@@ -52,13 +52,6 @@ export const Dashboard: React.FC<DashboardProps> = memo(({
   walletAddress,
   logOutHandler
 }) => {
-  useLayoutEffect(() => {
-    if(!walletAddress){
-      handleLogout()
-    }
-  
-    return () => {}
-  }, [])
   // const { user, handleLogOut } = useDynamicContext();
   // const { state } = useChatContext()
   const router = useRouter();

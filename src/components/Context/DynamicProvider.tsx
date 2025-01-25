@@ -7,34 +7,35 @@ import Cookies from 'js-cookie';
 import { Dispatch, useCallback, useContext, useState } from "react";
 import { CookieAuthData } from "@/types/chat";
 import { Actions, AuthContextType, ChatContext, ChatProvider, ContextStateType, useChatContext } from "./ChatProvider";
+import { useAuth } from "@/hooks/useAuth";
+
 
 const DynamicProvider = ({ children: child }: { children: React.ReactNode }) => {
 // const DynamicProvider = ({ children: child, dispatch }: { children: React.ReactNode, dispatch: Dispatch<Actions> }) => {
     // const context = useContext(ChatContext);
     const { dispatch } = useChatContext()
+    const { login } = useAuth()
+    
     const router = useRouter();
 
     const handleAuth = useCallback(async (authData: ContextStateType) => {
-      // Store the auth data in an HTTP-only cookie
-      // You might want to encrypt/sign this data for additional security
-      Cookies.set('dynamic-auth', JSON.stringify(authData), {
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
-        expires: 7, // expires in 7 days
-        path: '/'
-      });
+      const loginPromise = login(authData.user)
+      const data = await loginPromise
 
       dispatch({
         type: "LOGIN",
-        payload: authData
+        payload: {
+          ...authData,
+          accessToken: data.user.data.accessToken
+        }
       })
 
       router.push('/chat');
     }, []);
     
     const handleLogout = useCallback(() => {
+      
       router.push('/');
-      Cookies.remove('dynamic-auth');
     }, []);
 
     const cssOverrides = `
