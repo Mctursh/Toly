@@ -37,7 +37,7 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
     while ((match = codeBlockRegex.exec(content)) !== null) {
       if (match.index > lastIndex) {
         parts.push(
-          <ReactMarkdown key={lastIndex} className="prose prose-invert">
+          <ReactMarkdown key={lastIndex} className="prose prose-invert text-nowrap">
             {content.slice(lastIndex, match.index)}
           </ReactMarkdown>
         );
@@ -52,6 +52,13 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
             language={language}
             style={vscDarkPlus}
             className="rounded-md !bg-[#1E1E1E]"
+            wrapLines={true}
+            wrapLongLines={true}
+            customStyle={{
+              maxWidth: '100%',
+              overflowX: 'auto',
+              padding: '1rem'
+            }}
           >
             {code}
           </SyntaxHighlighter>
@@ -86,9 +93,16 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
         abortControllerRef.current = new AbortController();
         
         try {
-          const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chat/stream?question=${encodeURIComponent(message.content)}`, {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chat/mock-stream`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              question: message.content
+            }),
             signal: abortControllerRef.current.signal
-          });
+           });
 
           const reader = response.body?.getReader();
           if (!reader) return;
@@ -104,7 +118,10 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
             setStreamedContent(accumulated);
           }
         } catch (error) {
-          if (error.name === 'AbortError') return;
+          if (error === 'AbortError') {
+            console.log('Request aborted');
+            return;
+          }
           console.error('Stream error:', error);
         }
       };
@@ -121,20 +138,22 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
     <div className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} 
       ${!isConsecutive ? 'mt-6' : 'mt-2'}`}>
       <div className="relative group">
-        <div className={`max-w-[80%] p-4 break-words ${
+        <div className={`max-w-[80%] box-content flex justify-center py-4 px-6 break-words ${
           message.role === 'user' 
             ? 'bg-[#6FCB71] text-black ml-auto rounded-3xl rounded-br-[0]' 
-            : 'bg-[#121417] text-white mr-auto rounded-3xl rounded-bl-[0]'
+            : 'bg-[#121417] text-white mr-auto rounded-3xl rounded-bl-[0] flex-col gap-y-4'
         }`}>
           {message.isLoading ? (
-            streamedContent ? renderContent(streamedContent) : (
-              <div className="flex justify-center">
-                <div className="animate-pulse">Thinking...</div>
-              </div>
-            )
-          ) : (
-            renderContent(message.content)
-          )}
+              streamedContent ? renderContent(streamedContent) : (
+                <div className="flex justify-center">
+                  <div className="animate-pulse">Thinking...</div>
+                </div>
+              )
+            ) : message.role === 'user' ? (
+              <div className="w-fit text-nowrap">{message.content}</div>
+            ) : (
+              renderContent(message.content)
+            )}
           {!message.isLoading && (
             <div className="flex items-center gap-2 opacity-0 group-hover:opacity-60 transition-opacity absolute bottom-1 right-2">
               <span className="text-xs">{formatMessageTime(message.timestamp)}</span>
