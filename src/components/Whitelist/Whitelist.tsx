@@ -20,10 +20,10 @@ const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000';
 
   const checkWhitelistStatus = async () => {
     try {
-      const token = await getToken();
+      // const token = await getToken();
       const response = await fetch(`${API_URL}/whitelist/check-status`, {
         headers: {
-          'Authorization': `Bearer ${token}`
+          // 'Authorization': `Bearer ${token}`
         }
       });
       const data = await response.json();
@@ -44,11 +44,11 @@ const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000';
     setError('');
     
     try {
-      const token = await getToken();
+      // const token = await getToken();
       const response = await fetch(`${API_URL}/whitelist/validate-code`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${token}`,
+          // 'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ code })

@@ -3,10 +3,10 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Space_Grotesk } from 'next/font/google';
+import { Familjen_Grotesk } from 'next/font/google';
 import { useAdmin } from '@/hooks/useAdmin';
 
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
+const familjenGrotesk = Familjen_Grotesk({ subsets: ['latin'] });
 
 interface AccessCode {
   code: string;
@@ -202,7 +202,7 @@ export default function AdminDashboard() {
 
       {/* Header */}
       <div className="max-w-6xl mx-auto flex justify-between items-center mb-8">
-        <h1 className={`text-3xl font-bold ${spaceGrotesk.className}`}>
+        <h1 className={`text-3xl font-bold ${familjenGrotesk.className}`}>
           Access Code Management
         </h1>
         <div className="flex gap-4">
@@ -240,7 +240,7 @@ export default function AdminDashboard() {
 
       {/* Generate Codes Section */}
       <div className="max-w-6xl mx-auto bg-gray-900 rounded-lg p-6 mb-8">
-        <h2 className={`text-xl font-bold mb-4 ${spaceGrotesk.className}`}>
+        <h2 className={`text-xl font-bold mb-4 ${familjenGrotesk.className}`}>
           Generate New Codes
         </h2>
         <div className="flex gap-4 mb-4">
@@ -307,7 +307,7 @@ export default function AdminDashboard() {
 
       {/* Codes List */}
       <div className="max-w-6xl mx-auto bg-gray-900 rounded-lg p-6">
-        <h2 className={`text-xl font-bold mb-4 ${spaceGrotesk.className}`}>
+        <h2 className={`text-xl font-bold mb-4 ${familjenGrotesk.className}`}>
           Access Codes ({filteredCodes.length} total)
         </h2>
         {loading ? (

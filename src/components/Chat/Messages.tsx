@@ -118,11 +118,9 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
             setStreamedContent(accumulated);
           }
         } catch (error) {
-          if (error === 'AbortError') {
-            console.log('Request aborted');
-            return;
-          }
+          // if (error.name === 'AbortError') return;
           console.error('Stream error:', error);
+          throw error
         }
       };
 

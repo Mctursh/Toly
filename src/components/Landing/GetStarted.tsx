@@ -2,9 +2,9 @@
 import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Space_Grotesk, Inter } from 'next/font/google';
+import { Familjen_Grotesk, Inter } from 'next/font/google';
 
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
+const familjenGrotesk = Familjen_Grotesk({ subsets: ['latin'] });
 const inter = Inter({ subsets: ['latin'] });
 
 interface ChatBubbleProps {
@@ -26,7 +26,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ text, position }) => (
   >
     <p className={`
       text-white font-medium text-xs md:text-[18px] leading-[150%] capitalize
-      ${spaceGrotesk.className}
+      ${familjenGrotesk.className}
     `}>
       What Makes Solana's Consensus Mechanism Unique?
     </p>
@@ -50,7 +50,7 @@ const GetStartedSection = () => {
           </h2>
           
           <p 
-            className={`max-w-[593px] text-base md:text-[18px] leading-[160%] text-center text-[#9097A6] ${spaceGrotesk.className}`}
+            className={`max-w-[593px] text-base md:text-[18px] leading-[160%] text-center text-[#9097A6] ${familjenGrotesk.className}`}
           >
             Embarking on an Exciting Journey: Discovering the World of Toly and Unleashing Its Full Potential
           </p>
