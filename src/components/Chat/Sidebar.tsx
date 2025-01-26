@@ -632,7 +632,7 @@ export const Sidebar: FC<SidebarProps> = ({
         </nav>
 
         {/* Recent Conversations */}
-        <div className="mt-10 px-6">
+        {/* <div className="mt-10 px-6">
           <h3 className="text-[#9097A6] mb-4 px-4">Recent chats</h3>
           
           {loading ? (
@@ -664,7 +664,7 @@ export const Sidebar: FC<SidebarProps> = ({
               ))}
             </div>
           )}
-        </div>
+        </div> */}
       </div>
 
       {/* Footer Navigation */}
