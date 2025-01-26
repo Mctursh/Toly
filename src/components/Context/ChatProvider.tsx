@@ -46,7 +46,7 @@ function chatReducer(
       case "LOGIN":
         return { ...state, ...action.payload };
       case "LOGOUT":
-        return { ...state, isLoading: true, isLoggingIn: false };
+        return { ...state, isAuthenticated: false, isLoading: true, isLoggingIn: false };
       case "LOADED":
         return { ...state, isLoading: false };
       case "LOGIN IN":
@@ -61,7 +61,7 @@ export const ChatContext = createContext<AuthContextType | undefined>(undefined)
 export const ChatProvider = ({ children, value }: { children: ReactNode, value?: Actions }) => {
   const [state, dispatch] = useReducer(chatReducer, initialState);
   const router = useRouter()
-  const { validateSession } = useAuth()
+  const { validateSession, logOut } = useAuth()
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -87,6 +87,7 @@ export const ChatProvider = ({ children, value }: { children: ReactNode, value?:
           payload
         })
       } catch (error) {
+        await logOut()
         await state.logOutHandler()
         router.push('/')
         dispatch({

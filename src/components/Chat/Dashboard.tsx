@@ -29,6 +29,7 @@ import { ExploreModal, InfoModal } from './NavigationModals';
 import { IconType } from 'react-icons';
 import CollapsibleWalletPanel from './CollapsibleWalletPanel';
 import { useChatContext } from '../Context/ChatProvider';
+import { useAuth } from '@/hooks/useAuth';
 
 interface DashboardProps {
   username?: string | Email;
@@ -54,6 +55,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
 }) => {
   // const { user, handleLogOut } = useDynamicContext();
   // const { state } = useChatContext()
+  const { logOut } = useAuth()
   const router = useRouter();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -321,7 +323,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
   const handleLogout = async () => {
     try {
-      // await logout();
+      await logOut();
       await logOutHandler()
       router.push('/');
     } catch (error) {

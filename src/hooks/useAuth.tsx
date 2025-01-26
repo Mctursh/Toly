@@ -37,6 +37,16 @@ export function useAuth() {
     return await res.json()
   }
 
+  async function logOut() {
+    const res = await fetch('/api/logout', {
+      method: 'GET',
+      credentials: 'include',
+    });
+
+    // console.log(res);
+    return await res.json()
+  }
+
   return {
     ready: true,
     isAuthenticated: false,
@@ -47,6 +57,7 @@ export function useAuth() {
     getToken: "ss",
     error: null,
     clearError: () => {},
-    validateSession
+    validateSession,
+    logOut
   };
 }

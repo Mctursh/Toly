@@ -7,11 +7,16 @@ import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
 import { useChatContext } from '../Context/ChatProvider';
 
 export default function ChatPage() {
-  const { state } = useChatContext()
+  const { state, dispatch } = useChatContext()
 
   const address = useMemo(() => state.user?.address, [state.user?.address])
   const email = useMemo(() => state.user?.email, [state.user?.email])
-  const logOutHandler = useMemo(() => state.logOutHandler, [state.logOutHandler])
+  const logOutHandler = async() => {
+    dispatch({
+      type: "LOGOUT"
+    })
+    await state.logOutHandler()
+  }
   
   return (
     <main className="min-h-screen">

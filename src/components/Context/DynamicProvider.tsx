@@ -14,7 +14,7 @@ const DynamicProvider = ({ children: child }: { children: React.ReactNode }) => 
 // const DynamicProvider = ({ children: child, dispatch }: { children: React.ReactNode, dispatch: Dispatch<Actions> }) => {
     // const context = useContext(ChatContext);
     const { dispatch } = useChatContext()
-    const { login } = useAuth()
+    const { login, logOut } = useAuth()
     
     const router = useRouter();
 
@@ -37,8 +37,9 @@ const DynamicProvider = ({ children: child }: { children: React.ReactNode }) => 
     }, []);
     
     const handleLogout = useCallback(() => {
-      
-      router.push('/');
+      logOut().then(() => {
+        router.push('/');
+      })
     }, []);
 
     const cssOverrides = `

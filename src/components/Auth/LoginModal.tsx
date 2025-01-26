@@ -29,7 +29,12 @@ export function LoginButton() {
     return () => {}
   }, [state.isAuthenticated])
 
-  const logOut = async() => await handleLogOut()
+  const logOut = async() => {
+    dispatch({
+      type: "LOGOUT"
+    })
+    await handleLogOut()
+  }
 
   if (state.isLoggingIn) {
     return (

@@ -4,7 +4,6 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function GET(req: NextRequest) {
     const cookiePromise = await cookies()
     const refreshToken = cookiePromise.get('refresh_token')?.value
-    console.log('Request',refreshToken);
     
     
     try {
