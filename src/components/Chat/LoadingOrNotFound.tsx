@@ -13,16 +13,6 @@ export const LoadingOrNotFound = ({
 }: LoadingOrNotFoundProps) => {
   const [showNotFound, setShowNotFound] = useState(false);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (loading) {
-        setShowNotFound(true);
-      }
-    }, 5000);
-
-    return () => clearTimeout(timer);
-  }, [loading]);
-
   if (!loading) return null;
 
   const getBorderColorClass = () => {

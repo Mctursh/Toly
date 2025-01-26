@@ -19,8 +19,11 @@ const DynamicProvider = ({ children: child }: { children: React.ReactNode }) => 
     const router = useRouter();
 
     const handleAuth = useCallback(async (authData: ContextStateType) => {
-      const loginPromise = login(authData.user)
-      const data = await loginPromise
+      dispatch({
+        type: "LOGIN IN"
+      })
+
+      const data = await login(authData.user)
 
       dispatch({
         type: "LOGIN",

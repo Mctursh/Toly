@@ -1,7 +1,7 @@
 // components/WalletPanel.tsx
   "use client";
   
-import React, { FC, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import React, { FC, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { PortfolioResponse } from '@/types/portfolio';
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
 import { LoadingOrNotFound } from './LoadingOrNotFound';
@@ -12,7 +12,7 @@ type WalletPanel = {
   walletAddress: string
 }
   
-const WalletPanel = memo(({ walletAddress }: WalletPanel) => {
+const WalletPanel = ({ walletAddress }: WalletPanel) => {
     const primaryWallet = walletAddress
     const [portfolio, setPortfolio] = useState<PortfolioResponse | null>(null);
     const [loading, setLoading] = useState(true);
@@ -132,6 +132,6 @@ const WalletPanel = memo(({ walletAddress }: WalletPanel) => {
         </div>
       </div>
     );
-  });
+  };
   
   export default WalletPanel;
