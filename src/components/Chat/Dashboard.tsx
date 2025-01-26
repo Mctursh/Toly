@@ -1,6 +1,6 @@
 // app/chat/page.tsx
 "use client";
-import React, { useState, useEffect, useRef, memo, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Familjen_Grotesk } from 'next/font/google';
 import { Inter } from 'next/font/google';
@@ -46,7 +46,7 @@ interface NavigationItem {
 const familjenGrotesk = Familjen_Grotesk({ subsets: ['latin'] });
 const inter = Inter({ subsets: ['latin'] });
 
-export const Dashboard: React.FC<DashboardProps> = memo(({ 
+export const Dashboard: React.FC<DashboardProps> = ({ 
   username = "Anonymous",
   profileImage = '/dyor.png',
   walletAddress,
@@ -226,7 +226,8 @@ export const Dashboard: React.FC<DashboardProps> = memo(({
     };
   
     const assistantMessage: Message = {
-      id: 'temp-' + Date.now().toString(),
+      id: 'temp-loading',
+      // id: 'temp-' + Date.now().toString(),
       content: inputValue,
       role: 'assistant' as const,
       timestamp: new Date(),
@@ -235,20 +236,24 @@ export const Dashboard: React.FC<DashboardProps> = memo(({
   
     setChatState(prev => ({
       ...prev,
-      messages: [...prev.messages, newMessage, assistantMessage],
+      messages: [...prev.messages, newMessage],
+      // messages: [...prev.messages, newMessage, assistantMessage],
     }));
     setInputValue('');
 
     try {
       setChatState(prev => ({
         ...prev,
-        messages: [...prev.messages, newMessage, {
+        // messages: [...prev.messages, {
+        messages: [...prev.messages, 
+        {
           id: 'temp-loading',
           content: '',
           role: 'assistant',
           timestamp: new Date(),
           isLoading: true
-        }],
+        }
+      ],
         error: null
       }));
       setInputValue('');
@@ -267,30 +272,32 @@ export const Dashboard: React.FC<DashboardProps> = memo(({
       
       // const data: AIResponse = await response.json();
       
-      const response = await Http.post(`${API_URL}/chat/conversations/1/messages`, {
-        content: inputValue,
-      },
-      {
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-      }
-    )
+    //   const response = await Http.post(`${API_URL}/chat/conversations/1/messages`, {
+    //     content: inputValue,
+    //   },
+    //   {
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Content-Type': 'application/json',
+    //     },
+    //   }
+    // )
       
-      console.log(response.data);
-      const content = extractContent(response.data.data.result);
+    //   console.log(response.data);
+    //   const content = extractContent(response.data.data.result);
 
       const aiMessage: Message = {
         id: Date.now().toString(),
-        content,
+        content: inputValue,
         role: 'assistant',
-        timestamp: new Date()
+        timestamp: new Date(),
+        isLoading: true
       };
       
       setChatState(prev => ({
         ...prev,
         messages: [...prev.messages.filter(m => m.id !== 'temp-loading'), aiMessage]
+        // messages: [...prev.messages.filter(m => m.id !== 'temp-loading')]
       }));
     } catch (error) {
       setChatState(prev => ({
@@ -508,7 +515,7 @@ onClick={handleLogout}
           {/* Messages Area */}
           <div 
             ref={scrollContainerRef}
-            onScroll={handleScroll}
+            // onScroll={handleScroll}
             className="flex-1 overflow-y-auto px-4 lg:px-8 pb-[180px]"
           >
             {chatState.isLoading ? (
@@ -592,7 +599,7 @@ onClick={handleLogout}
                   </div>
                 )}
                 
-                {chatState.messages.map((message, index) => {
+                {chatState.messages.length && chatState.messages.map((message, index) => {
                   const isConsecutive = index > 0 && 
                     chatState.messages[index - 1].role === message.role &&
                     (new Date(message.timestamp).getTime() - 
@@ -600,7 +607,7 @@ onClick={handleLogout}
 
                   return (
                     <Messages 
-                      key={message.id} 
+                      key={`${message.id}-${index}`} 
                       message={message} 
                       isConsecutive={isConsecutive}
                       onDelete={() => setDeleteConfirmation({
@@ -617,7 +624,7 @@ onClick={handleLogout}
 
           {/* Input Area for Message View */}
             {chatState.messages.length > 0 && (
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black to-transparent pt-6">
+              <div className="bg-gradient-to-t from-black via-black to-transparent pt-6">
                 <div className="w-full max-w-3xl mx-auto px-4 pb-6">
                   <div className="relative">
                     {chatState.error && (
@@ -804,10 +811,10 @@ onClick={handleLogout}
           />
 
           {/* Info Modals */}
-          {navigationItems.map((item) => (
+          {navigationItems.length && navigationItems.map((item, index) => (
             item.name.toLowerCase() !== 'explore' && (
               <InfoModal
-                key={item.name}
+                key={`${item.name}-${index}`}
                 isOpen={sidebarModal.type === 'info' && sidebarModal.name === item.name.toLowerCase()}
                 onClose={() => setSidebarModal({ type: null, name: null })}
                 title={item.name}
@@ -850,7 +857,7 @@ onClick={handleLogout}
     </div>
   );
 
-});
+};
 
 export default Dashboard;
 

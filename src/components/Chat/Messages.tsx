@@ -93,7 +93,9 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
         abortControllerRef.current = new AbortController();
         
         try {
-          const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chat/mock-stream`, {
+          // const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chat/stream?question=${encodeURIComponent(message.content)}`, {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chat/stream`, {
+          // const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chat/mock-stream`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
