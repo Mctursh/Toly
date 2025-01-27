@@ -6,6 +6,7 @@ import { FaRegCopy, FaCheck, FaTrash } from 'react-icons/fa6';
 import { useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { type Message } from '@/types/chat';
+import { useChatContext } from '../Context/ChatProvider';
 
 interface MessageProps {
   message: Message;
@@ -14,6 +15,8 @@ interface MessageProps {
 }
 
 export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDelete }) => {
+  const { state } = useChatContext()
+  const accessToken = state.accessToken
   const [copied, setCopied] = useState(false);
   const [streamedContent, setStreamedContent] = useState('');
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -98,7 +101,8 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
           // const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chat/mock-stream`, {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${accessToken}`,
             },
             body: JSON.stringify({
               question: message.content

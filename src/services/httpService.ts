@@ -1,4 +1,5 @@
 // httpService.ts
+import { useChatContext } from "@/components/Context/ChatProvider";
 import axios, { AxiosInstance } from "axios";
 
 interface MessageRequest {

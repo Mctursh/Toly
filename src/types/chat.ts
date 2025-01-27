@@ -34,10 +34,13 @@ export interface DeleteMessageConfirmation {
   export interface Conversation {
     id: string;
     threadId: string;
-    lastMessage: string;
     updatedAt: Date;
+    createdAt: Date;
     messages: Message[];
     isActive: boolean;
+    lastMessage: {
+      content: string
+    }
   }
 
   export interface ChatState {

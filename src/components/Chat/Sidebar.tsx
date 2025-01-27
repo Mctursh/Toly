@@ -503,7 +503,7 @@
 // components/Sidebar.tsx
 "use client";
 
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { 
   FaPlus, 
   FaCircleQuestion,
@@ -514,6 +514,8 @@ import type { IconType } from 'react-icons';
 import { Conversation } from '@/types/chat';
 import Http from '@/services/httpService';
 import LoadingOrNotFound from './LoadingOrNotFound';
+import { useApi } from '@/hooks/useHttp';
+import { useChatContext } from '../Context/ChatProvider';
 
 interface NavigationItem {
   name: string;
@@ -541,20 +543,53 @@ export const Sidebar: FC<SidebarProps> = ({
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { post, get } = useApi()
+  // const { state } = useChatContext()
 
   const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4600';
 
+  useEffect(() => {
+    getConversations()
+  
+    return () => {}
+  }, [])
+  
+
+  const getConversations = async () => {
+    try {
+      const response = await get(`chat/conversations`, {
+        // headers: {
+        //   'Authorization': `Bearer ${state.accessToken}`,
+        // },
+      });
+      // const response = await post(`chat/conversations`);
+      
+      const newConversation = await response.data;
+
+      console.log(response);
+      
+      setConversations(newConversation);
+      // setConversations(prev => newConversation);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to create conversation');
+      console.error('Error creating conversation:', err);
+    } finally {
+      setLoading(false)
+    }
+  };
+
   const createNewConversation = async () => {
     try {
-      const response = await Http.post(`${API_URL}/chat/conversations`, {}, {
-        headers: {}
-      });
+      const response = await post(`chat/create-conversations`);
+      // const response = await post(`chat/conversations`);
       
       const newConversation = await response.data;
       setConversations(prev => [newConversation, ...prev]);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to create conversation');
       console.error('Error creating conversation:', err);
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -632,7 +667,7 @@ export const Sidebar: FC<SidebarProps> = ({
         </nav>
 
         {/* Recent Conversations */}
-        {/* <div className="mt-10 px-6">
+        <div className="mt-10 px-6">
           <h3 className="text-[#9097A6] mb-4 px-4">Recent chats</h3>
           
           {loading ? (
@@ -645,26 +680,29 @@ export const Sidebar: FC<SidebarProps> = ({
             </div>
           ) : (
             <div className="space-y-2">
-              {conversations.map((conversation) => (
+              {conversations?.length ? (conversations.map((conversation) => (
                 <button
-                  key={conversation.id}
+                  key={conversation?.threadId}
                   onClick={() => switchConversation(conversation.threadId)}
                   className={`w-full text-left px-6 py-3.5 border rounded-xl transition-colors duration-200 
-                    ${conversation.threadId === currentThreadId 
+                    ${true 
+                    // ${conversation.threadId === currentThreadId 
                       ? 'bg-white/10 border-[#6FCB71]/40' 
                       : 'border-white/5 hover:bg-white/5'}`}
                 >
                   <p className="text-sm text-white truncate">
-                    {conversation.lastMessage || 'New Conversation'}
+                    {conversation?.lastMessage?.content || 'New Conversation'}
                   </p>
                   <p className="text-xs text-[#9097A6] mt-1">
-                    {new Date(conversation.updatedAt).toLocaleDateString()}
+                    {new Date(conversation?.createdAt || Date.now()).toLocaleDateString()}
                   </p>
                 </button>
-              ))}
+              ))) : (
+                <p>No Recent Chat</p>
+              )}
             </div>
           )}
-        </div> */}
+        </div>
       </div>
 
       {/* Footer Navigation */}

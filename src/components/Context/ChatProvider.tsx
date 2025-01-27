@@ -86,6 +86,8 @@ export const ChatProvider = ({ children, value }: { children: ReactNode, value?:
           type: 'LOGIN',
           payload
         })
+
+        router.push('/chat')
       } catch (error) {
         await logOut()
         await state.logOutHandler()
