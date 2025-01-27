@@ -154,7 +154,7 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
                 </div>
               )
             ) : message.role === 'user' ? (
-              <div className="w-fit text-nowrap">{message.content}</div>
+              <div className="w-fit">{message.content}</div>
             ) : (
               renderContent(message.content)
             )}
