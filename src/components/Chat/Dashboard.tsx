@@ -277,7 +277,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
         }
         }
       )
-      const messagesAray: any = [...chatState?.messages, ...mappedMessage]
+      const messagesAray: any = [...mappedMessage]
       
       
       setChatState(prev => ({

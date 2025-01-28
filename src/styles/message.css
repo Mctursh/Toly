@@ -1,0 +1,24 @@
+.prose li,
+.prose p,
+.prose img
+ {
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+.prose li:has( > img)
+ {
+    width: 50%;
+    max-width: 200px;
+    margin: 16px 0;
+}
+
+.prose li img {
+    border-radius: 8px;
+}
+
+.text__word-wrap {
+    word-wrap: break-word;
+}
+
+

@@ -11,6 +11,8 @@ import { useChatContext } from '../Context/ChatProvider';
 import { useRouter } from 'next/router';
 import { useParams } from 'next/navigation';
 
+import "../../styles/message.css";
+
 interface MessageProps {
   message: Message;
   isConsecutive?: boolean;
@@ -56,7 +58,7 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
       const code = match[2].trim();
 
       parts.push(
-        <div key={match.index} className="relative group">
+        <div key={match.index} className="relative group w-full">
           <SyntaxHighlighter
             language={language}
             style={vscDarkPlus}
@@ -147,8 +149,8 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
   return (
     <div className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} 
       ${!isConsecutive ? 'mt-6' : 'mt-2'}`}>
-      <div className="relative group">
-        <div className={`max-w-[80%] box-content flex justify-center py-4 px-6 break-words ${
+      <div className="relative group max-w-[80%]">
+        <div className={`max-w-full whitespace-normal text__word-wrap box-content flex justify-center py-4 px-6 break-words ${
           message.role === 'user' 
             ? 'bg-[#6FCB71] text-black ml-auto rounded-3xl rounded-br-[0]' 
             : 'bg-[#121417] text-white mr-auto rounded-3xl rounded-bl-[0] flex-col gap-y-4'
@@ -164,16 +166,6 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
             ) : (
               renderContent(message.content)
             )}
-          {!message.isLoading && (
-            <div className="flex items-center gap-2 opacity-0 group-hover:opacity-60 transition-opacity absolute bottom-1 right-2">
-              <span className="text-xs">{formatMessageTime(message.timestamp)}</span>
-              {onDelete && (
-                <button onClick={onDelete} className="p-1 hover:text-red-500 transition-colors">
-                  <FaTrash size={12} />
-                </button>
-              )}
-            </div>
-          )}
         </div>
       </div>
     </div>
