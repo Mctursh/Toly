@@ -201,21 +201,22 @@ export const Dashboard: React.FC<DashboardProps> = ({
         // router.push(`/chat/c/${newConversation._id}`)
         window.history.replaceState(null, '', `/chat/c/${newConversation._id}`);
 
-        setChatState(prev => ({
-          ...prev,
-          messages: [...chatState.messages],
-          isLoading: false
-        }));
+        // setChatState(prev => ({
+        //   ...prev,
+        //   messages: [...chatState.messages],
+        //   isLoading: false
+        // }));
         // setConversations(prev => [...prev, newConversation]);
       } catch (err) {
         // setError(err instanceof Error ? err.message : 'Failed to create conversation');
         console.error('Error creating conversation:', err);
       } finally {
-        setChatState(prev => ({
-          ...prev,
-          messages: [],
-          isLoading: false
-        }));
+        
+        // setChatState(prev => ({
+        //   ...prev,
+        //   messages: [],
+        //   isLoading: false
+        // }));
       }
     };
 
@@ -348,6 +349,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
   const handleSendMessage = async () => {
     if (!inputValue.trim()) return;
+    const isNewChat = !(!!chatState.messages.length)
 
     const newMessage: Message = {
       id: Date.now().toString(),
@@ -357,14 +359,14 @@ export const Dashboard: React.FC<DashboardProps> = ({
       isLoading: false
     };
     
-    const assistantMessage: Message = {
-      id: 'temp-loading',
-      // id: 'temp-' + Date.now().toString(),
-      content: inputValue,
-      role: 'assistant' as const,
-      timestamp: new Date(),
-      isLoading: true,
-    };
+    // const assistantMessage: Message = {
+    //   id: 'temp-loading',
+    //   // id: 'temp-' + Date.now().toString(),
+    //   content: inputValue,
+    //   role: 'assistant' as const,
+    //   timestamp: new Date(),
+    //   isLoading: true,
+    // };
     
     setChatState(prev => ({
       ...prev,
@@ -389,9 +391,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
       ],
         error: null
       }));
-      setInputValue('');
+      // setInputValue('');
 
-      if(!chatState?.messages.length) {
+      if(isNewChat) {
         await createNewConversation()
       }
 
@@ -433,7 +435,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
       
       setChatState(prev => ({
         ...prev,
-        messages: [...prev.messages.filter(m => m.id !== 'temp-loading'), aiMessage]
+        messages: [...prev.messages?.filter(m => m.id !== 'temp-loading'), aiMessage]
         // messages: [...prev.messages.filter(m => m.id !== 'temp-loading')]
       }));
     } catch (error) {

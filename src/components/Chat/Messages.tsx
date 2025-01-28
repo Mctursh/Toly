@@ -99,7 +99,7 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
   };
 
   useEffect(() => {
-    if (message.role === 'assistant' && message.isLoading && chatId && threadId) {
+    if (message.role === 'assistant' && message.isLoading && message.id !== 'temp-loading' && chatId && threadId) {
       const fetchStream = async () => {
         abortControllerRef.current = new AbortController();
         
