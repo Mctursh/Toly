@@ -33,6 +33,7 @@ export interface DeleteMessageConfirmation {
   
   export interface Conversation {
     id: string;
+    _id?: string
     threadId: string;
     updatedAt: Date;
     createdAt: Date;

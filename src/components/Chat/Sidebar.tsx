@@ -501,21 +501,18 @@
 // export default Sidebar;
 
 // components/Sidebar.tsx
+// "use client";
 
-"use client";
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import { 
   FaPlus, 
   FaCircleQuestion,
   FaX,
+  
 } from "react-icons/fa6";
 import { FaCog, FaHistory } from 'react-icons/fa';
 import type { IconType } from 'react-icons';
 import { Conversation } from '@/types/chat';
-import Http from '@/services/httpService';
-import LoadingOrNotFound from './LoadingOrNotFound';
-import { useApi } from '@/hooks/useHttp';
-import { useChatContext } from '../Context/ChatProvider';
 
 interface NavigationItem {
   name: string;
@@ -526,10 +523,17 @@ interface NavigationItem {
 interface SidebarProps {
   isSidebarOpen: boolean;
   toggleSidebar: () => void;
+  clearChat: () => void;
+  switchConversation: (convo: Conversation) => Promise<void>;
   currentThreadId?: string;
   onPromptSelect: (promptText: string) => void;
   onModalOpen: (type: string, name: string) => void;
   navigationItems: NavigationItem[];
+  conversations: Conversation[]
+  setConversations: (value: Conversation[]) => void
+  loading: boolean
+  error: string | null
+  
 }
 
 export const Sidebar: FC<SidebarProps> = ({ 
@@ -538,73 +542,110 @@ export const Sidebar: FC<SidebarProps> = ({
   currentThreadId,
   onPromptSelect,
   onModalOpen,
-  navigationItems
+  navigationItems,
+  switchConversation,
+  clearChat,
+  conversations,
+  loading,
+  error,
 }) => {
-  const [conversations, setConversations] = useState<Conversation[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const { post, get } = useApi()
+  // const [conversations, setConversations] = useState<Conversation[]>([]);
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState<string | null>(null);
+  // const { post, get } = useApi()
   // const { state } = useChatContext()
+  // const isAuth = useMemo(() => state.isAuthenticated, [state.isAuthenticated])
+  // const router = useRouter()
 
-  const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4600';
+  // const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4600';
 
-  useEffect(() => {
-    getConversations()
   
-    return () => {}
-  }, [])
+  // }, [state.isAuthenticated])
   
 
-  const getConversations = async () => {
-    try {
-      const response = await get(`chat/conversations`, {
-        // headers: {
-        //   'Authorization': `Bearer ${state.accessToken}`,
-        // },
-      });
-      // const response = await post(`chat/conversations`);
+  // const getConversations = async () => {
+  //   try {
+  //     const response = await get(`chat/conversations`, {
+  //       // headers: {
+  //       //   'Authorization': `Bearer ${state.accessToken}`,
+  //       // },
+  //     });
+  //     // const response = await post(`chat/conversations`);
       
-      const newConversation = await response.data;
+  //     const newConversation = await response.data;
 
-      console.log(response);
+  //     console.log(response);
       
-      setConversations(newConversation);
-      // setConversations(prev => newConversation);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to create conversation');
-      console.error('Error creating conversation:', err);
-    } finally {
-      setLoading(false)
-    }
-  };
+  //     setConversations(newConversation);
+  //     // setConversations(prev => newConversation);
+  //   } catch (err) {
+  //     setError(err instanceof Error ? err.message : 'Failed to create conversation');
+  //     console.error('Error creating conversation:', err);
+  //   } finally {
+  //     setLoading(false)
+  //   }
+  // };
 
-  const createNewConversation = async () => {
-    try {
-      const response = await post(`chat/create-conversations`);
-      // const response = await post(`chat/conversations`);
+  // const createNewConversation = async () => {
+  //   try {
+  //     const response = await post<Conversation>(`chat/create-conversations`);
+  //     // const response = await post(`chat/conversations`);
+
+  //     console.log(response);
       
-      const newConversation = await response.data;
-      setConversations(prev => [newConversation, ...prev]);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to create conversation');
-      console.error('Error creating conversation:', err);
-    } finally {
-      setLoading(false)
-    }
-  };
+      
+  //     const newConversation = await response.data.data;
+  //     dispatch({
+  //       type: 'ADD CHAT DETAILS',
+  //       payload: {
+  //         chat: {
+  //           chatId: newConversation._id,
+  //           threadId: newConversation.threadId
+  //         }
+  //       }
+  //     })
 
-  const switchConversation = async (threadId: string) => {
-    try {
-      await fetch(`${API_URL}/chat/conversations/${threadId}/switch`, {
-        method: 'POST',
-        headers: {}
-      });
-    } catch (err) {
-      console.error('Error switching conversation:', err);
-    }
-  };
+  //     router.push(`chat/c/${newConversation._id}`)
+
+  //     setConversations(prev => [...prev, newConversation]);
+  //   } catch (err) {
+  //     setError(err instanceof Error ? err.message : 'Failed to create conversation');
+  //     console.error('Error creating conversation:', err);
+  //   } finally {
+  //     setLoading(false)
+  //   }
+  // };
+
+  
+
+  // const switchConversation = async (conversation: Conversation) => {
+  //   dispatch({
+  //     type: "ADD CHAT DETAILS",
+  //     payload: {
+  //       chat: {
+  //         chatId: conversation._id,
+  //         threadId: conversation.threadId
+  //       }
+  //     }
+  //   })
+
+  //   router.push(`/chat/c/${conversation._id}`)
+  //   try {
+  //     // await post(`chat/conversations/${threadId}/switch`, {
+  //     //   method: 'POST',
+  //     //   headers: {}
+  //     // });
+  //   } catch (err) {
+  //     console.error('Error switching conversation:', err);
+  //   }
+  // };
 
   const footerItems = [
+    {
+      icon: FaRocket,
+      label: 'Automations',
+      description: 'Configure and manage automated trading actions.'
+    },
     { 
       icon: FaCircleQuestion, 
       label: 'FAQ', 
@@ -640,7 +681,7 @@ export const Sidebar: FC<SidebarProps> = ({
 
         <div className="px-6">
           <button 
-            onClick={createNewConversation}
+            onClick={clearChat}
             className="w-full flex items-center justify-center gap-3 h-14 bg-[#0B0C0F] rounded-xl border border-[#6FCB71]/20 hover:bg-[#6FCB71]/5 transition-colors duration-200"
           >
             <FaPlus className="text-[#6FCB71]" />
@@ -688,7 +729,7 @@ export const Sidebar: FC<SidebarProps> = ({
               {conversations?.length ? (conversations.map((conversation) => (
                 <button
                   key={conversation?.threadId}
-                  onClick={() => switchConversation(conversation.threadId)}
+                  onClick={() => switchConversation(conversation)}
                   className={`w-full text-left px-6 py-3.5 border rounded-xl transition-colors duration-200 
                     ${true 
                     // ${conversation.threadId === currentThreadId 
@@ -703,7 +744,7 @@ export const Sidebar: FC<SidebarProps> = ({
                   </p>
                 </button>
               ))) : (
-                <p>No Recent Chat</p>
+                <p className='flex justify-center my-4' >No Recent Chat</p>
               )}
             </div>
           )}
