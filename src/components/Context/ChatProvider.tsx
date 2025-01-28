@@ -7,7 +7,7 @@ type User = {
     address?: string
 }
 
-type Action = 'LOGIN' | 'LOGOUT' | 'LOADED' | "LOGIN IN"
+type Action = 'LOGIN' | 'LOGOUT' | 'LOADED' | "LOGIN IN" | "ADD CHAT DETAILS"
 
 export type Actions = { 
     type: Action,
@@ -26,6 +26,10 @@ export type ContextStateType = {
     logOutHandler: () => Promise<void>
     isLoading?: boolean,
     isLoggingIn?: boolean
+    chat?: {
+      chatId: string
+      threadId: string 
+    } 
   };
 
 const initialState: ContextStateType = {
@@ -34,7 +38,11 @@ const initialState: ContextStateType = {
     accessToken: '',
     logOutHandler: async() => {},
     isLoading: true,
-    isLoggingIn: false
+    isLoggingIn: false,
+    chat: {
+      chatId: '',
+      threadId: '' 
+    }
 };
 
 function chatReducer(
@@ -51,6 +59,8 @@ function chatReducer(
         return { ...state, isLoading: false };
       case "LOGIN IN":
         return { ...state, isLoggingIn: true };
+      case "ADD CHAT DETAILS":
+        return { ...state, ...action.payload };
       default:
         return state;
     }

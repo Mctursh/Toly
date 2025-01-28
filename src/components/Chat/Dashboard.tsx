@@ -1,13 +1,13 @@
 // app/chat/page.tsx
 "use client";
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Dispatch } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Familjen_Grotesk } from 'next/font/google';
 import { Inter } from 'next/font/google';
 import { FaPaperPlane, FaChevronDown, FaBars, FaWallet, FaCircleQuestion, FaChartPie, FaUserTie, FaChartLine, FaMagnifyingGlass } from "react-icons/fa6";
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { usePrivy } from '@privy-io/react-auth';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { Messages } from './Messages';
 import { EmojiSuggestions } from './EmojiSuggestions';
 import { ConfirmationModal } from './ConfirmationModal';
@@ -18,7 +18,8 @@ import {
   type ChatState, 
   type AIResponse, 
   type Coordinates,
-  type DeleteMessageConfirmation 
+  type DeleteMessageConfirmation, 
+  Conversation
 } from '@/types/chat';
 import { Email } from '@privy-io/react-auth';
 import Http from '@/services/httpService';
@@ -28,14 +29,18 @@ import { FaCog, FaHistory, FaPlus, FaRocket, FaExchangeAlt } from 'react-icons/f
 import { ExploreModal, InfoModal } from './NavigationModals';
 import { IconType } from 'react-icons';
 import CollapsibleWalletPanel from './CollapsibleWalletPanel';
-import { useChatContext } from '../Context/ChatProvider';
+import { Actions, useChatContext } from '../Context/ChatProvider';
 import { useAuth } from '@/hooks/useAuth';
+import { useApi } from '@/hooks/useHttp';
 
 interface DashboardProps {
   username?: string | Email;
   profileImage?: string;
   walletAddress?: string
-  logOutHandler: () => Promise<void>
+  logOutHandler: () => Promise<void>,
+  dispatch: Dispatch<Actions>
+  isAuthenticated: boolean
+  chatId?: string
 }
 
 interface NavigationItem {
@@ -51,15 +56,24 @@ export const Dashboard: React.FC<DashboardProps> = ({
   username = "Anonymous",
   profileImage = '/dyor.png',
   walletAddress,
-  logOutHandler
+  logOutHandler,
+  dispatch,
+  isAuthenticated
+  // chatId
 }) => {
   // const { user, handleLogOut } = useDynamicContext();
   // const { state } = useChatContext()
+  const { get, post } = useApi()
   const { logOut } = useAuth()
   const router = useRouter();
+  const params = useParams()
+  const chatId = params.id as string
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [conversations, setConversations] = useState<Conversation[]>([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
   const [isWalletPanelOpen, setIsWalletPanelOpen] = useState<boolean>(true);
   const [inputValue, setInputValue] = useState<string>('');
@@ -123,37 +137,152 @@ export const Dashboard: React.FC<DashboardProps> = ({
   };
 
   useEffect(() => {
-    if (currentThreadId) {
-      setPage(1);
-      setHasMore(true);
-      fetchMessages(1);
+    async function getMessages(){
+      if(!chatId || !isAuthenticated) return
+      await fetchMessages(chatId!)
     }
-  }, [currentThreadId]);
-  
 
-  const fetchMessages = async (pageNum: number = 1, loadMore: boolean = false) => {
-    try {
-      if (!loadMore) {
-        setChatState(prev => ({ ...prev, isLoading: true }));
-      } else {
-        setIsFetchingMore(true);
+    getMessages()
+    return () => {}
+  }, [chatId, isAuthenticated])
+
+  useEffect(() => {
+    async function getConvo(){
+      if(isAuthenticated){
+        await getConversations()
       }
+    }
+
+    getConvo()
+  
+    return () => {}
+  }, [isAuthenticated])
+
+  const switchConversation = async (conversation: Conversation) => {
+      dispatch({
+        type: "ADD CHAT DETAILS",
+        payload: {
+          chat: {
+            chatId: conversation._id,
+            threadId: conversation.threadId
+          }
+        }
+      })
+  
+      // router.push(`/chat/c/${conversation._id}`)
+      window.history.replaceState(null, '', `/chat/c/${conversation._id}`);
+      await fetchMessages(conversation._id!)
+      try {
+        // await post(`chat/conversations/${threadId}/switch`, {
+        //   method: 'POST',
+        //   headers: {}
+        // });
+      } catch (err) {
+        console.error('Error switching conversation:', err);
+      }
+    };
+  
+  const createNewConversation = async () => {
+      try {
+        const response = await post<Conversation>(`chat/create-conversations`);
+        // const response = await post(`chat/conversations`);
+        
+        const newConversation = await response.data.data;
+        dispatch({
+          type: 'ADD CHAT DETAILS',
+          payload: {
+            chat: {
+              chatId: newConversation._id,
+              threadId: newConversation.threadId
+            }
+          }
+        })
+
+        // router.push(`/chat/c/${newConversation._id}`)
+        window.history.replaceState(null, '', `/chat/c/${newConversation._id}`);
+
+        setChatState(prev => ({
+          ...prev,
+          messages: [...chatState.messages],
+          isLoading: false
+        }));
+        // setConversations(prev => [...prev, newConversation]);
+      } catch (err) {
+        // setError(err instanceof Error ? err.message : 'Failed to create conversation');
+        console.error('Error creating conversation:', err);
+      } finally {
+        setChatState(prev => ({
+          ...prev,
+          messages: [],
+          isLoading: false
+        }));
+      }
+    };
+
+  const clearChat = () => {
+    setChatState(prev => ({
+      ...prev,
+      messages: [],
+      isLoading: false
+    }));
+
+    // router.replace("/chat", {})
+    window.history.replaceState(null, '', '/chat');
+
+
+  }
+
+    const getConversations = async () => {
+      try {
+        setLoading(true)
+        const response = await get(`chat/conversations`, {
+          // headers: {
+          //   'Authorization': `Bearer ${state.accessToken}`,
+          // },
+        });
+        // const response = await post(`chat/conversations`);
+        
+        const newConversation = await response.data;
+  
+        // console.log(response);
+        
+        setConversations(newConversation);
+        // setConversations(prev => newConversation);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to create conversation');
+        console.error('Error creating conversation:', err);
+      } finally {
+        setLoading(false)
+      }
+    };
+
+  const fetchMessages = async (chat_id: string, pageNum: number = 1, loadMore: boolean = false) => {
+    try {
       
-      const response = await fetch(
-        `${API_URL}/chat/conversations/${currentThreadId}?page=${pageNum}&limit=${PAGE_SIZE}`
+      const response = await get(
+        `chat/conversations/${chat_id}?page=${pageNum}&limit=${PAGE_SIZE}`
       );
 
-      if (!response.ok) throw new Error('Failed to fetch messages');
       
-      const data = await response.json();
+      console.log('Storing',response);
+
+      // if (response.status !== 200) throw new Error('Failed to fetch messages');
       
-      if (data.messages.length < PAGE_SIZE) {
-        setHasMore(false);
-      }
+    
+      const mappedMessage = response?.data?.messages.map((message: any) => {
+        return {
+          ...message,
+          timestamp: new Date(message.createdAt),
+          isLoading: false
+        }
+        }
+      )
+      const messagesAray: any = [...chatState?.messages, ...mappedMessage]
+      
       
       setChatState(prev => ({
         ...prev,
-        messages: loadMore ? [...prev.messages, ...data.messages] : data.messages,
+        messages: messagesAray,
         isLoading: false
       }));
     } catch (error) {
@@ -162,20 +291,21 @@ export const Dashboard: React.FC<DashboardProps> = ({
         error: 'Failed to load messages',
         isLoading: false
       }));
+      console.log(error)
     } finally {
       setIsFetchingMore(false);
     }
   };
 
-  const handleScroll = () => {
-    if (!scrollContainerRef.current) return;
+  // const handleScroll = () => {
+  //   if (!scrollContainerRef.current) return;
     
-    const { scrollTop, scrollHeight, clientHeight } = scrollContainerRef.current;
-    if (scrollTop + clientHeight >= scrollHeight - 100 && hasMore && !isFetchingMore) {
-      setPage(prev => prev + 1);
-      fetchMessages(page + 1, true);
-    }
-  };
+  //   const { scrollTop, scrollHeight, clientHeight } = scrollContainerRef.current;
+  //   if (scrollTop + clientHeight >= scrollHeight - 100 && hasMore && !isFetchingMore) {
+  //     setPage(prev => prev + 1);
+  //     fetchMessages(page + 1, true);
+  //   }
+  // };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -218,15 +348,15 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
   const handleSendMessage = async () => {
     if (!inputValue.trim()) return;
-  
 
     const newMessage: Message = {
       id: Date.now().toString(),
       content: inputValue,
       role: 'user' as const,
       timestamp: new Date(),
+      isLoading: false
     };
-  
+    
     const assistantMessage: Message = {
       id: 'temp-loading',
       // id: 'temp-' + Date.now().toString(),
@@ -235,7 +365,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
       timestamp: new Date(),
       isLoading: true,
     };
-  
+    
     setChatState(prev => ({
       ...prev,
       messages: [...prev.messages, newMessage],
@@ -243,6 +373,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
     }));
     setInputValue('');
 
+    
     try {
       setChatState(prev => ({
         ...prev,
@@ -259,6 +390,10 @@ export const Dashboard: React.FC<DashboardProps> = ({
         error: null
       }));
       setInputValue('');
+
+      if(!chatState?.messages.length) {
+        await createNewConversation()
+      }
 
       // const token = await getAccessToken();
       // const response = await fetch(`${API_URL}/chat/conversations/${currentThreadId}/messages`, {
@@ -437,7 +572,13 @@ export const Dashboard: React.FC<DashboardProps> = ({
           currentThreadId={currentThreadId || undefined}
           onPromptSelect={handlePromptSelect}
           onModalOpen={(type, name) => setSidebarModal({ type, name })}
-          navigationItems={navigationItems} 
+          navigationItems={navigationItems}
+          switchConversation={switchConversation}
+          conversations={conversations}
+          setConversations={setConversations}
+          loading={loading}
+          error={error}
+          clearChat={clearChat}
         />
       </div>
       
@@ -602,16 +743,16 @@ onClick={handleLogout}
                 )}
                 
                 {chatState.messages.length && chatState.messages.map((message, index) => {
-                  const isConsecutive = index > 0 && 
-                    chatState.messages[index - 1].role === message.role &&
-                    (new Date(message.timestamp).getTime() - 
-                    new Date(chatState.messages[index - 1].timestamp).getTime()) < 300000;
+                  // const isConsecutive = index > 0 && 
+                  //   chatState.messages[index - 1].role === message.role &&
+                  //   (new Date(message.timestamp).getTime() - 
+                  //   new Date(chatState.messages[index - 1].timestamp).getTime()) < 300000;
 
                   return (
                     <Messages 
                       key={`${message.id}-${index}`} 
                       message={message} 
-                      isConsecutive={isConsecutive}
+                      isConsecutive={false}
                       onDelete={() => setDeleteConfirmation({
                         messageId: message.id,
                         isOpen: true
@@ -795,25 +936,25 @@ onClick={handleLogout}
         {/* Centralized Modals */}
         <AnimatePresence>
           {/* Action Modal */}
-          <ActionModal 
+          {/* <ActionModal 
             isOpen={isActionModalOpen}
             onClose={() => setIsActionModalOpen(false)}
             initialTab={activeActionTab}
             onPromptSelect={handlePromptSelect}
-          />
+          /> */}
 
           {/* Explore Modal */}
-          <ExploreModal 
+          {/* <ExploreModal 
             isOpen={sidebarModal.type === 'explore'}
             onClose={() => setSidebarModal({ type: null, name: null })}
             onPromptSelect={(promptText) => {
               handlePromptSelect(promptText);
               setSidebarModal({ type: null, name: null });
             }}
-          />
+          /> */}
 
           {/* Info Modals */}
-          {navigationItems.length && navigationItems.map((item, index) => (
+          {/* {navigationItems.length && navigationItems.map((item, index) => (
             item.name.toLowerCase() !== 'explore' && (
               <InfoModal
                 key={`${item.name}-${index}`}
@@ -824,10 +965,10 @@ onClick={handleLogout}
                 icon={<item.icon className="h-6 w-6" />}
               />
             )
-          ))}
+          ))} */}
 
           {/* Footer Info Modals */}
-          <InfoModal
+          {/* <InfoModal
             isOpen={sidebarModal.type === 'info' && sidebarModal.name === 'faq'}
             onClose={() => setSidebarModal({ type: null, name: null })}
             title="FAQ"
@@ -840,7 +981,7 @@ onClick={handleLogout}
             title="Settings"
             description="Customize your Toly AI experience and manage your preferences."
             icon={<FaCog className="h-6 w-6" />}
-          />
+          /> */}
         </AnimatePresence>
 
         {/* Delete Message Confirmation Modal */}

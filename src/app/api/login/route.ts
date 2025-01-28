@@ -14,9 +14,9 @@ export async function POST(req: NextRequest) {
           credentials: "include"
         });
     
-        if (!response.ok) {
-          throw new Error('Invalid or expired refresh token');
-        }
+        // if (!response.ok) {
+        //   throw new Error('Invalid or expired refresh token');
+        // }
 
         const setCookieHeader = response.headers.get('set-cookie');
         if (setCookieHeader) {
@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
         }
     
         const userData = await response.json();
-        console.log(userData);
+        // console.log(userData);
         
         return NextResponse.json({ valid: true, user: userData });
       } catch (error: any) {

@@ -109,7 +109,7 @@ export const useApi = () => {
 
     const post = async<T>(url: string, options?: AxiosRequestConfig) => {
         try {
-            return await fetch<T>(`${baseUrl}${url}`, {
+            return await fetch<T>(`${url}`, {
                 ...options,
                 method: "POST",
                 headers: {

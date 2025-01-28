@@ -1,3 +1,4 @@
+"use client"
 import { format, isToday, isYesterday } from 'date-fns';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
@@ -7,6 +8,8 @@ import { useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { type Message } from '@/types/chat';
 import { useChatContext } from '../Context/ChatProvider';
+import { useRouter } from 'next/router';
+import { useParams } from 'next/navigation';
 
 interface MessageProps {
   message: Message;
@@ -16,6 +19,9 @@ interface MessageProps {
 
 export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDelete }) => {
   const { state } = useChatContext()
+  const threadId = state.chat?.threadId
+  // const params = useParams(); // Access the dynamic route parameters
+  const chatId = state.chat?.chatId
   const accessToken = state.accessToken
   const [copied, setCopied] = useState(false);
   const [streamedContent, setStreamedContent] = useState('');
@@ -91,13 +97,13 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
   };
 
   useEffect(() => {
-    if (message.role === 'assistant' && message.isLoading) {
+    if (message.role === 'assistant' && message.isLoading && chatId && threadId) {
       const fetchStream = async () => {
         abortControllerRef.current = new AbortController();
         
         try {
           // const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chat/stream?question=${encodeURIComponent(message.content)}`, {
-          const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chat/stream`, {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chat/stream?conversationId=${chatId}&threadId=${threadId}`, {
           // const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chat/mock-stream`, {
             method: 'POST',
             headers: {
