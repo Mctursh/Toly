@@ -513,6 +513,7 @@ import {
 import { FaCog, FaHistory } from 'react-icons/fa';
 import type { IconType } from 'react-icons';
 import { Conversation } from '@/types/chat';
+import { Source_Code_Pro } from 'next/font/google';
 
 interface NavigationItem {
   name: string;
@@ -535,6 +536,8 @@ interface SidebarProps {
   error: string | null
   
 }
+
+const SourceCodeProFont = Source_Code_Pro({ subsets: ['latin'] });
 
 export const Sidebar: FC<SidebarProps> = ({ 
   isSidebarOpen, 
@@ -674,9 +677,9 @@ export const Sidebar: FC<SidebarProps> = ({
         <div className="flex items-center gap-4 p-8">
           <div className="relative">
             <div className="absolute inset-0 bg-[#6FCB71]/20 rounded-full blur-lg" />
-            <img src="/logo.png" alt="Logo" className="w-12 h-12 rounded-full relative z-10" />
+            {/* <img src="/logo.png" alt="Logo" className="w-12 h-12 rounded-full relative z-10" /> */}
           </div>
-          <span className="text-2xl font-medium">Toly.AI</span>
+          <span className={`text-2xl font-medium ${SourceCodeProFont.className}`}>catoly.AI</span>
         </div>
 
         <div className="px-6">

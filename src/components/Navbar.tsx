@@ -191,9 +191,10 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaBars, FaX } from 'react-icons/fa6';
-import { Familjen_Grotesk } from 'next/font/google';
+import { Familjen_Grotesk, Source_Code_Pro } from 'next/font/google';
 
 const familjenGrotesk = Familjen_Grotesk({ subsets: ['latin'] });
+const SourceCodeProFont = Source_Code_Pro({ subsets: ['latin'] });
 
 interface NavLink {
   href: string;
@@ -207,10 +208,10 @@ const Navbar: React.FC = () => {
 
   const navLinks: NavLink[] = [
     { href: '/', text: 'Home' },
-    { href: 'https://solana-projects.gitbook.io/toly/user-guide/', text: 'How Toly Works' },
+    { href: 'https://solana-projects.gitbook.io/toly/user-guide/', text: 'How Catoly Works' },
     { href: 'https://solana-projects.gitbook.io/toly/developer-guide/', text: 'For Developers' },
-    { href: '/catoly', text: '$Catoly token' },
     { href: '/about', text: 'About us' },
+    { href: '/catoly', text: '$Catoly token' },
   ];
 
   useEffect(() => {
@@ -242,7 +243,7 @@ const Navbar: React.FC = () => {
       <div className="relative max-w-7xl mx-auto h-32 flex items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo Section */}
         <Link href="/" className="flex items-center gap-4 group cursor-pointer">
-          <motion.div 
+          {/* <motion.div 
             className="relative w-12 h-12 rounded-full overflow-hidden"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -255,9 +256,9 @@ const Navbar: React.FC = () => {
               className="object-cover transform group-hover:scale-110 transition-transform duration-300"
               priority
             />
-          </motion.div>
-          <span className={`text-2xl font-medium text-[#FAFAFA] group-hover:text-[#6FCB71] transition-colors ${familjenGrotesk.className}`}>
-            toly.AI
+          </motion.div> */}
+          <span className={`text-2xl font-medium text-[#FAFAFA] group-hover:text-[#6FCB71] transition-colors ${SourceCodeProFont.className}`}>
+            catoly.AI
           </span>
         </Link>
 

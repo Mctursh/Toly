@@ -46,13 +46,13 @@ const GetStartedSection = () => {
           <h2 
             className={`max-w-[693px] text-2xl md:text-[30px] font-bold leading-[130%] text-center tracking-[-0.02em] capitalize text-[#FAFAFA] ${inter.className}`}
           >
-            Let's Get Started With Toly
+            Let's Get Started With Catoly
           </h2>
           
           <p 
             className={`max-w-[593px] text-base md:text-[18px] leading-[160%] text-center text-[#9097A6] ${familjenGrotesk.className}`}
           >
-            Embarking on an Exciting Journey: Discovering the World of Toly and Unleashing Its Full Potential
+            Embarking on an Exciting Journey: Discovering the World of Catoly and Unleashing Its Full Potential
           </p>
         </motion.div>
 
@@ -68,7 +68,7 @@ const GetStartedSection = () => {
               <div className="absolute inset-0 rounded-full bg-[#6FCB71]" />
               <Image
                 src="/dyor.png"
-                alt="Toly Cat"
+                alt="Catoly Cat"
                 fill
                 className="object-cover rounded-full"
                 priority

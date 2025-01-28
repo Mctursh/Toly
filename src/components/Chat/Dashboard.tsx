@@ -556,7 +556,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
       </div>
       
       <h1 className={`text-3xl font-semibold mb-4 ${familjenGrotesk.className}`}>
-        Welcome to Toly AI!
+        Welcome to Catoly AI!
       </h1>
       <p className="text-base text-[#9097A6] max-w-[480px] mx-auto">
         Toly is here to help with insights on transactions, tokens, wallets and all activities on the 
@@ -805,11 +805,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
                     </div>
                   )}
                   
-                  <img 
-                    src="/sidecat.png" 
-                    alt="Side Cat" 
-                    className="absolute -top-24 right-0 w-16 h-16 hidden md:block"
-                  />
                   
                   <div className="flex items-center gap-2 bg-[#121417] p-4 rounded-xl border border-white/5 hover:border-[#6FCB71]/20 transition-all duration-200 group">
                     <div className="flex items-center gap-3 flex-1">

@@ -15,7 +15,7 @@ interface FooterLink {
 const Footer = () => {
   const links: FooterLink[] = [
     { text: 'Home', href: '/', isActive: true },
-    { text: 'How toly works', href: 'https://solana-projects.gitbook.io/toly/user-guide/' },
+    { text: 'How catoly works', href: 'https://solana-projects.gitbook.io/toly/user-guide/' },
     { text: 'For Developers', href: 'https://solana-projects.gitbook.io/toly/developer-guide/' },
     { text: '$Catoly token', href: '/catoly' },
     { text: 'About us', href: '/about' },

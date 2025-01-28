@@ -294,14 +294,14 @@ const HeroSection: React.FC = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
-        <div className="w-full max-w-[280px] h-[45px] flex flex-row justify-center items-center mt-[40px] p-[20px_24px] gap-[12px] rounded-full border-2 border-[#6FCB71]">
+        <div className="w-full max-w-[285px] h-[45px] flex flex-row justify-center items-center mt-[40px] p-[20px_24px] gap-[12px] rounded-full border-2 border-[#6FCB71]">
           <motion.div 
             className="flex justify-center items-center gap-[8px]"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
             <span className={`text-[20px] leading-[24px] font-normal text-[#FAFAFA] text-center capitalize ${spaceGrotesk.className}`}>
-              ✨ Introducing Toly AI
+              ✨ Introducing Catoly AI
             </span>
           </motion.div>
         </div>
@@ -321,7 +321,7 @@ const HeroSection: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
           >
-            Toly is here to help with insights on transactions, tokens, wallets and all activities on the Solana Blockchain
+            Catoly is here to help with insights on transactions, tokens, wallets and all activities on the Solana Blockchain
           </motion.p>
         </div>
 

@@ -119,7 +119,10 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
            });
 
           const reader = response.body?.getReader();
-          if (!reader) return;
+          if (!reader) {
+            setStreamedContent("Sorry, I was unable to get you a response, Kindly you try again")
+            return
+          };
 
           let accumulated = '';
           
