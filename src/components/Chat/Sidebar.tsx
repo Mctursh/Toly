@@ -501,15 +501,15 @@
 // export default Sidebar;
 
 // components/Sidebar.tsx
-"use client";
 
+"use client";
 import React, { FC, useEffect, useState } from 'react';
 import { 
   FaPlus, 
   FaCircleQuestion,
-  FaX
+  FaX,
 } from "react-icons/fa6";
-import { FaCog } from 'react-icons/fa';
+import { FaCog, FaHistory } from 'react-icons/fa';
 import type { IconType } from 'react-icons';
 import { Conversation } from '@/types/chat';
 import Http from '@/services/httpService';
@@ -609,6 +609,11 @@ export const Sidebar: FC<SidebarProps> = ({
       icon: FaCircleQuestion, 
       label: 'FAQ', 
       description: 'Get answers to frequently asked questions about using Toly AI.' 
+    },
+    {
+      icon: FaHistory,
+      label: 'Changelog',
+      description: 'View latest updates and changes to Toly.'
     },
     { 
       icon: FaCog, 
