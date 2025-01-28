@@ -32,6 +32,10 @@ import CollapsibleWalletPanel from './CollapsibleWalletPanel';
 import { Actions, useChatContext } from '../Context/ChatProvider';
 import { useAuth } from '@/hooks/useAuth';
 import { useApi } from '@/hooks/useHttp';
+import FAQ from './FAQ';
+import Settings from './Settings';
+import Changelog from './Changelog';
+import Automations from '../Actions/Automation';
 
 interface DashboardProps {
   username?: string | Email;
@@ -70,7 +74,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const chatId = params.id as string
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  
+  const [currentView, setCurrentView] = useState<'chat' | 'faq' | 'settings' | 'changelog' | 'automations'>('chat');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -573,8 +577,20 @@ export const Dashboard: React.FC<DashboardProps> = ({
           toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
           currentThreadId={currentThreadId || undefined}
           onPromptSelect={handlePromptSelect}
-          onModalOpen={(type, name) => setSidebarModal({ type, name })}
-          navigationItems={navigationItems}
+          onModalOpen={(type, name) => {
+            if (name === 'faq') {
+              setCurrentView('faq');
+            } else if (name === 'settings') {
+              setCurrentView('settings');
+            } else if (name === 'changelog') {
+              setCurrentView('changelog');
+            } else if (name === 'automations') {
+              setCurrentView('automations');
+            } else {
+              setSidebarModal({ type, name });
+            }
+          }}
+          navigationItems={navigationItems} 
           switchConversation={switchConversation}
           conversations={conversations}
           setConversations={setConversations}
@@ -583,8 +599,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           clearChat={clearChat}
         />
       </div>
-      
-
+  
       <div className="flex-1 flex h-screen relative">
         <div className="flex-1 flex flex-col min-w-0">
           {/* Grid Background with Fade */}
@@ -593,21 +608,21 @@ export const Dashboard: React.FC<DashboardProps> = ({
             onMouseMove={handleMouseMove}
             style={{
               background: `
-              linear-gradient(90deg, transparent 49.5%, rgba(111, 203, 113, 0.9) 49.5%, rgba(111, 203, 113, 0.9) 50.5%, transparent 50.5%),
-              linear-gradient(0deg, transparent 49.5%, rgba(111, 203, 113, 0.9) 49.5%, rgba(111, 203, 113, 0.9) 50.5%, transparent 50.5%)
-            `,
-            backgroundSize: '100px 100px',
-            WebkitMaskImage: `linear-gradient(to bottom, 
-              rgba(0,0,0,1) 0%,
-              rgba(0,0,0,0.7) 15%,
-              rgba(0,0,0,0.4) 25%,
-              rgba(0,0,0,0) 40%)`,
-            maskImage: `linear-gradient(to bottom, 
-              rgba(0,0,0,1) 0%,
-              rgba(0,0,0,0.7) 15%,
-              rgba(0,0,0,0.4) 25%,
-              rgba(0,0,0,0) 40%)`,
-            opacity: 0.4
+                linear-gradient(90deg, transparent 49.5%, rgba(111, 203, 113, 0.9) 49.5%, rgba(111, 203, 113, 0.9) 50.5%, transparent 50.5%),
+                linear-gradient(0deg, transparent 49.5%, rgba(111, 203, 113, 0.9) 49.5%, rgba(111, 203, 113, 0.9) 50.5%, transparent 50.5%)
+              `,
+              backgroundSize: '100px 100px',
+              WebkitMaskImage: `linear-gradient(to bottom, 
+                rgba(0,0,0,1) 0%,
+                rgba(0,0,0,0.7) 15%,
+                rgba(0,0,0,0.4) 25%,
+                rgba(0,0,0,0) 40%)`,
+              maskImage: `linear-gradient(to bottom, 
+                rgba(0,0,0,1) 0%,
+                rgba(0,0,0,0.7) 15%,
+                rgba(0,0,0,0.4) 25%,
+                rgba(0,0,0,0) 40%)`,
+              opacity: 0.4
             }}
           />
         
@@ -635,11 +650,11 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 </span>
                 <FaChevronDown size={12} className={`transform transition-transform duration-200 ${isProfileDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
-
+  
               {isProfileDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-[#121417] rounded-xl border border-white/5 shadow-lg overflow-hidden z-50">
                   <button
-onClick={handleLogout}
+                    onClick={handleLogout}
                     className="w-full px-4 py-3 text-left text-[#9097A6] hover:bg-white/5 transition-colors duration-200"
                   >
                     Logout
@@ -647,7 +662,7 @@ onClick={handleLogout}
                 </div>
               )}
             </div>
-
+  
             {/* Mobile Wallet Toggle */}
             <button 
               className="lg:hidden ml-4 text-white/80 hover:text-white transition-colors duration-200"
@@ -656,179 +671,191 @@ onClick={handleLogout}
               <FaWallet size={24} />
             </button>
           </div>
-
-          {/* Messages Area */}
+  
+          {/* Main Content Area */}
           <div 
             ref={scrollContainerRef}
-            // onScroll={handleScroll}
             className="flex-1 overflow-y-auto px-4 lg:px-8 pb-[180px]"
           >
-            {chatState.isLoading ? (
-              <div className="flex justify-center items-center h-full">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#6FCB71]" />
-              </div>
-            ) : chatState.messages.length === 0 ? (
-              <div className="flex flex-col items-center justify-center min-h-[calc(100vh-300px)]">
-                <WelcomeScreen />
-                
-                {/* Input Field First */}
-                <div className="w-full max-w-2xl px-4 mb-12 pt-10">
-                  <div className="flex items-center gap-2 bg-[#121417] p-4 rounded-xl border border-white/5">
-                    <div className="flex items-center gap-3 flex-1">
-                      <div className="relative">
-                        <div className="absolute inset-0 bg-[#6FCB71]/20 rounded-full blur-lg" />
-                        <div className="w-8 h-8 bg-[#6FCB71] rounded-full flex items-center justify-center relative z-10">
-                          <img src="/dyor.png" alt="Bot" className="w-6 h-6 rounded-full" />
-                        </div>
-                      </div>
-                      <input 
-                        type="text"
-                        value={inputValue}
-                        onChange={handleInputChange}
-                        onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                        placeholder="Ask Toly something..."
-                        className="w-full bg-transparent text-[#9097A6] outline-none placeholder:text-[#9097A6]/50 text-sm"
-                      />
-                    </div>
-                    <button 
-                      type="button"
-                      onClick={handleSendMessage}
-                      disabled={!inputValue.trim() || chatState.isLoading}
-                      className={`w-10 h-10 flex items-center justify-center rounded-full transition-colors duration-200
-                        ${inputValue.trim() ? 'bg-[#6FCB71] text-black' : 'bg-[#6FCB71]/20 text-[#6FCB71]'}`}
-                    >
-                      <FaPaperPlane size={14} />
-                    </button>
+            {currentView === 'chat' ? (
+              // Chat View Content
+              <>
+                {chatState.isLoading ? (
+                  <div className="flex justify-center items-center h-full">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#6FCB71]" />
                   </div>
-                </div>
-
-                {/* Action Buttons Below Input */}
-                <div className="flex flex-wrap justify-center gap-4 mt-4">
-                  <button 
-                    className="px-8 py-4 bg-[#121417] rounded-xl border border-[#6FCB71]/20 hover:bg-[#6FCB71]/5 text-white flex items-center gap-3"
-                    onClick={() => {
-                      setActiveActionTab('Create');
-                      setIsActionModalOpen(true);
-                    }}
-                  >
-                    <FaPlus className="text-[#6FCB71]" />
-                    Create
-                  </button>
-                  <button 
-                    className="px-8 py-4 bg-[#121417] rounded-xl border border-[#6FCB71]/20 hover:bg-[#6FCB71]/5 text-white flex items-center gap-3"
-                    onClick={() => {
-                      setActiveActionTab('Deploy');
-                      setIsActionModalOpen(true);
-                    }}
-                  >
-                    <FaRocket className="text-[#6FCB71]" />
-                    Deploy
-                  </button>
-                  <button 
-                    className="px-8 py-4 bg-[#121417] rounded-xl border border-[#6FCB71]/20 hover:bg-[#6FCB71]/5 text-white flex items-center gap-3"
-                    onClick={() => {
-                      setActiveActionTab('Trade');
-                      setIsActionModalOpen(true);
-                    }}
-                  >
-                    <FaExchangeAlt className="text-[#6FCB71]" />
-                    Trade
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div className="max-w-3xl mx-auto space-y-6">
-                {isFetchingMore && (
-                  <div className="flex justify-center py-4">
-                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#6FCB71]" />
-                  </div>
-                )}
-                
-                {chatState.messages.length && chatState.messages.map((message, index) => {
-                  // const isConsecutive = index > 0 && 
-                  //   chatState.messages[index - 1].role === message.role &&
-                  //   (new Date(message.timestamp).getTime() - 
-                  //   new Date(chatState.messages[index - 1].timestamp).getTime()) < 300000;
-
-                  return (
-                    <Messages 
-                      key={`${message.id}-${index}`} 
-                      message={message} 
-                      isConsecutive={false}
-                      onDelete={() => setDeleteConfirmation({
-                        messageId: message.id,
-                        isOpen: true
-                      })}
-                    />
-                  );
-                })}
-                <div ref={messagesEndRef} />
-              </div>
-            )}
-          </div>
-
-          {/* Input Area for Message View */}
-            {chatState.messages.length > 0 && (
-              <div className="bg-gradient-to-t from-black via-black to-transparent pt-6">
-                <div className="w-full max-w-3xl mx-auto px-4 pb-6">
-                  <div className="relative">
-                    {chatState.error && (
-                      <div className="absolute -top-8 left-0 right-0 p-2 bg-red-500/10 border border-red-500 rounded text-red-500 text-sm text-center">
-                        {chatState.error}
-                      </div>
-                    )}
+                ) : chatState.messages.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center min-h-[calc(100vh-300px)]">
+                    <WelcomeScreen />
                     
-                    <img 
-                      src="/sidecat.png" 
-                      alt="Side Cat" 
-                      className="absolute -top-24 right-0 w-16 h-16 hidden md:block"
-                    />
-                    
-                    <div className="flex items-center gap-2 bg-[#121417] p-4 rounded-xl border border-white/5 hover:border-[#6FCB71]/20 transition-all duration-200 group">
-                      <div className="flex items-center gap-3 flex-1">
-                        <div className="relative group-hover:scale-105 transition-transform duration-200">
-                          <div className="absolute inset-0 bg-[#6FCB71]/20 rounded-full blur-lg group-hover:bg-[#6FCB71]/30" />
-                          <div className="w-8 h-8 bg-[#6FCB71] rounded-full flex items-center justify-center relative z-10">
-                            <img src="/dyor.png" alt="Bot" className="w-6 h-6 rounded-full" />
+                    {/* Input Field First */}
+                    <div className="w-full max-w-2xl px-4 mb-12 pt-10">
+                      <div className="flex items-center gap-2 bg-[#121417] p-4 rounded-xl border border-white/5">
+                        <div className="flex items-center gap-3 flex-1">
+                          <div className="relative">
+                            <div className="absolute inset-0 bg-[#6FCB71]/20 rounded-full blur-lg" />
+                            <div className="w-8 h-8 bg-[#6FCB71] rounded-full flex items-center justify-center relative z-10">
+                              <img src="/dyor.png" alt="Bot" className="w-6 h-6 rounded-full" />
+                            </div>
                           </div>
-                        </div>
-                        <div className="relative flex-1">
                           <input 
                             type="text"
                             value={inputValue}
                             onChange={handleInputChange}
                             onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                             placeholder="Ask Toly something..."
-                            className="w-full bg-transparent text-[#9097A6] outline-none placeholder:text-[#9097A6]/50 text-sm focus:text-white transition-colors duration-200"
+                            className="w-full bg-transparent text-[#9097A6] outline-none placeholder:text-[#9097A6]/50 text-sm"
                           />
-                          {emojiSuggestionsPosition && (
-                            <EmojiSuggestions
-                              query={inputValue}
-                              position={emojiSuggestionsPosition}
-                              onSelect={handleEmojiSelect}
-                            />
-                          )}
                         </div>
+                        <button 
+                          type="button"
+                          onClick={handleSendMessage}
+                          disabled={!inputValue.trim() || chatState.isLoading}
+                          className={`w-10 h-10 flex items-center justify-center rounded-full transition-colors duration-200
+                            ${inputValue.trim() ? 'bg-[#6FCB71] text-black' : 'bg-[#6FCB71]/20 text-[#6FCB71]'}`}
+                        >
+                          <FaPaperPlane size={14} />
+                        </button>
                       </div>
+                    </div>
+  
+                    {/* Action Buttons Below Input */}
+                    <div className="flex flex-wrap justify-center gap-4 mt-4">
                       <button 
-                        type="button"
-                        onClick={handleSendMessage}
-                        disabled={!inputValue.trim() || chatState.isLoading}
-                        className={`w-10 h-10 flex items-center justify-center rounded-full transition-all duration-200 cursor-pointer
-                          transform hover:scale-105 active:scale-95
-                          ${inputValue.trim() ? 'bg-[#6FCB71] text-black hover:bg-[#7fdb85]' : 'bg-[#6FCB71]/20 text-[#6FCB71]'}`}
+                        className="px-8 py-4 bg-[#121417] rounded-xl border border-[#6FCB71]/20 hover:bg-[#6FCB71]/5 text-white flex items-center gap-3"
+                        onClick={() => {
+                          setActiveActionTab('Create');
+                          setIsActionModalOpen(true);
+                        }}
                       >
-                        <FaPaperPlane size={14} />
+                        <FaPlus className="text-[#6FCB71]" />
+                        Create
+                      </button>
+                      <button 
+                        className="px-8 py-4 bg-[#121417] rounded-xl border border-[#6FCB71]/20 hover:bg-[#6FCB71]/5 text-white flex items-center gap-3"
+                        onClick={() => {
+                          setActiveActionTab('Deploy');
+                          setIsActionModalOpen(true);
+                        }}
+                      >
+                        <FaRocket className="text-[#6FCB71]" />
+                        Deploy
+                      </button>
+                      <button 
+                        className="px-8 py-4 bg-[#121417] rounded-xl border border-[#6FCB71]/20 hover:bg-[#6FCB71]/5 text-white flex items-center gap-3"
+                        onClick={() => {
+                          setActiveActionTab('Trade');
+                          setIsActionModalOpen(true);
+                        }}
+                      >
+                        <FaExchangeAlt className="text-[#6FCB71]" />
+                        Trade
                       </button>
                     </div>
-                    
-                    <p className="text-center text-[#9097A6] text-xs mt-4">
-                      Information provided by Toly is Not Financial Advice
-                    </p>
                   </div>
-                </div>
+                ) : (
+                  <div className="max-w-3xl mx-auto space-y-6">
+                    {isFetchingMore && (
+                      <div className="flex justify-center py-4">
+                        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#6FCB71]" />
+                      </div>
+                    )}
+                    
+                    {chatState.messages.map((message, index) => {
+                      const isConsecutive = index > 0 && 
+                        chatState.messages[index - 1].role === message.role &&
+                        (new Date(message.timestamp).getTime() - 
+                        new Date(chatState.messages[index - 1].timestamp).getTime()) < 300000;
+  
+                      return (
+                        <Messages 
+                          key={`${message.id}-${index}`} 
+                          message={message} 
+                          isConsecutive={isConsecutive}
+                          onDelete={() => setDeleteConfirmation({
+                            messageId: message.id,
+                            isOpen: true
+                          })}
+                        />
+                      );
+                    })}
+                    <div ref={messagesEndRef} />
+                  </div>
+                )}
+              </>
+            ) : (
+              // Other views (FAQ, Settings, Changelog)
+              <div className="max-w-3xl mx-auto">
+                {currentView === 'automations' && <Automations />}
+                {currentView === 'faq' && <FAQ />}
+                {currentView === 'settings' && <Settings />}
+                {currentView === 'changelog' && <Changelog />}
               </div>
             )}
+          </div>
+  
+          {/* Input Area for Message View */}
+          {currentView === 'chat' && chatState.messages.length > 0 && (
+            <div className="bg-gradient-to-t from-black via-black to-transparent pt-6">
+              <div className="w-full max-w-3xl mx-auto px-4 pb-6">
+                <div className="relative">
+                  {chatState.error && (
+                    <div className="absolute -top-8 left-0 right-0 p-2 bg-red-500/10 border border-red-500 rounded text-red-500 text-sm text-center">
+                      {chatState.error}
+                    </div>
+                  )}
+                  
+                  <img 
+                    src="/sidecat.png" 
+                    alt="Side Cat" 
+                    className="absolute -top-24 right-0 w-16 h-16 hidden md:block"
+                  />
+                  
+                  <div className="flex items-center gap-2 bg-[#121417] p-4 rounded-xl border border-white/5 hover:border-[#6FCB71]/20 transition-all duration-200 group">
+                    <div className="flex items-center gap-3 flex-1">
+                      <div className="relative group-hover:scale-105 transition-transform duration-200">
+                        <div className="absolute inset-0 bg-[#6FCB71]/20 rounded-full blur-lg group-hover:bg-[#6FCB71]/30" />
+                        <div className="w-8 h-8 bg-[#6FCB71] rounded-full flex items-center justify-center relative z-10">
+                          <img src="/dyor.png" alt="Bot" className="w-6 h-6 rounded-full" />
+                        </div>
+                      </div>
+                      <div className="relative flex-1">
+                        <input 
+                          type="text"
+                          value={inputValue}
+                          onChange={handleInputChange}
+                          onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                          placeholder="Ask Toly something..."
+                          className="w-full bg-transparent text-[#9097A6] outline-none placeholder:text-[#9097A6]/50 text-sm focus:text-white transition-colors duration-200"
+                        />
+                        {emojiSuggestionsPosition && (
+                          <EmojiSuggestions
+                            query={inputValue}
+                            position={emojiSuggestionsPosition}
+                            onSelect={handleEmojiSelect}
+                          />
+                        )}
+                      </div>
+                    </div>
+                    <button 
+                      type="button"
+                      onClick={handleSendMessage}
+                      disabled={!inputValue.trim() || chatState.isLoading}
+                      className={`w-10 h-10 flex items-center justify-center rounded-full transition-all duration-200 cursor-pointer
+                        transform hover:scale-105 active:scale-95
+                        ${inputValue.trim() ? 'bg-[#6FCB71] text-black hover:bg-[#7fdb85]' : 'bg-[#6FCB71]/20 text-[#6FCB71]'}`}
+                    >
+                      <FaPaperPlane size={14} />
+                    </button>
+                  </div>
+                  
+                  <p className="text-center text-[#9097A6] text-xs mt-4">
+                    Information provided by Toly is Not Financial Advice
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Collapsible Wallet Panel - Right Side */}
@@ -871,70 +898,7 @@ onClick={handleLogout}
             )}
           </div>
         </div>
-        {/* <div 
-            className={`fixed lg:relative right-0 h-screen bg-[#121417] transition-all duration-300 ease-in-out border-l border-white/5 z-40
-              ${isWalletPanelOpen ? 'w-80 translate-x-0' : 'w-16 translate-x-0'}`}
-          >
-            <button
-              onClick={() => setIsWalletPanelOpen(!isWalletPanelOpen)}
-              className={`absolute ${isWalletPanelOpen ? '-left-4' : 'left-4'} top-8 z-10 h-8 w-8 flex items-center justify-center 
-                border-[1px] border-white/5 rounded-full bg-[#121417] text-white hover:bg-[#1a1d21] 
-                transition-colors duration-200`}
-              aria-label={isWalletPanelOpen ? 'Collapse wallet panel' : 'Expand wallet panel'}
-            >
-              <FaWallet size={16} className="text-[#6FCB71]" />
-            </button>
-            <div 
-              className={`h-full transition-all duration-300 ${
-                isWalletPanelOpen 
-                  ? 'opacity-100 visible' 
-                  : 'opacity-0 invisible'
-              }`}
-            >
-              <WalletPanel />
-            </div>
-            {!isWalletPanelOpen && (
-              <div className="flex h-full w-full flex-col items-center p-4 text-white">
-                <FaWallet size={24} className="text-[#6FCB71]" />
-              </div>
-            )}
-          </div> */}
-        {/* <div 
-          className={`fixed lg:relative right-0 h-screen bg-[#121417] transition-all duration-300 ease-in-out border-l border-white/5 z-40
-            ${isWalletPanelOpen ? 'w-80 translate-x-0' : 'w-0 translate-x-full lg:translate-x-0 lg:w-16'}`}
-        > */}
-          {/* Toggle button - Updated for mobile */}
-          {/* <button
-            onClick={() => setIsWalletPanelOpen(!isWalletPanelOpen)}
-            className={`absolute ${isWalletPanelOpen ? '-left-4 lg:-left-4' : 'left-4'} top-8 z-10 h-8 w-8 flex items-center justify-center 
-              border-[1px] border-white/5 rounded-full bg-[#121417] text-white hover:bg-[#1a1d21] 
-              transition-colors duration-200`}
-            aria-label={isWalletPanelOpen ? 'Collapse wallet panel' : 'Expand wallet panel'}
-          >
-            {isWalletPanelOpen ? (
-              <ChevronRight className="h-5 w-5" />
-            ) : (
-              <ChevronLeft className="h-5 w-5" />
-            )}
-          </button> */}
-          {/* <div 
-            className={`h-full transition-all duration-300 ${
-              isWalletPanelOpen 
-                ? 'opacity-100 visible' 
-                : 'opacity-0 invisible lg:opacity-100 lg:visible'
-            }`}
-          >
-            <WalletPanel />
-          </div> */}
 
-          {/* Collapsed State Icon */}
-          {/* {!isWalletPanelOpen && (
-            <div className="hidden lg:flex h-full w-full flex-col items-center p-4 text-white">
-              <FaWallet size={24} className="text-[#6FCB71]" />
-            </div>
-          )}
-        </div> */}
-        
         {/* Centralized Modals */}
         <AnimatePresence>
           {/* Action Modal */}
@@ -998,9 +962,9 @@ onClick={handleLogout}
           }}
           message="Are you sure you want to delete this message?"
         />
-      </div>
-    </div>
-  );
+            </div>
+          </div>
+        );
 
 };
 

@@ -507,9 +507,10 @@ import React, { FC } from 'react';
 import { 
   FaPlus, 
   FaCircleQuestion,
-  FaX
+  FaX,
+  FaRocket,
 } from "react-icons/fa6";
-import { FaCog } from 'react-icons/fa';
+import { FaCog, FaHistory } from 'react-icons/fa';
 import type { IconType } from 'react-icons';
 import { Conversation } from '@/types/chat';
 
@@ -640,10 +641,20 @@ export const Sidebar: FC<SidebarProps> = ({
   // };
 
   const footerItems = [
+    {
+      icon: FaRocket,
+      label: 'Automations',
+      description: 'Configure and manage automated trading actions.'
+    },
     { 
       icon: FaCircleQuestion, 
       label: 'FAQ', 
       description: 'Get answers to frequently asked questions about using Toly AI.' 
+    },
+    {
+      icon: FaHistory,
+      label: 'Changelog',
+      description: 'View latest updates and changes to Toly.'
     },
     { 
       icon: FaCog, 
