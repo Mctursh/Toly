@@ -508,7 +508,7 @@ import {
   FaPlus, 
   FaCircleQuestion,
   FaX,
-  
+  FaRocket,
 } from "react-icons/fa6";
 import { FaCog, FaHistory } from 'react-icons/fa';
 import type { IconType } from 'react-icons';
