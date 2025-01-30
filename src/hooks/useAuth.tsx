@@ -19,10 +19,15 @@ export function useAuth() {
     'HvX1ccJnUkp5pstGQDD1MmZPTSgLpg8dG2gJcCEPgsLh',
     'WQNTYQNHD79G1u5AyMPn1mhkDRMiH2dcHLCeWZpBo5X',
     'GKyQZ4C3PNxKRQy5DT44Kr3KEUu5qG5PYMHhBz4rbz35',
-    'qNbt4nua9dMm4vtVEX2KiVgiSLj2S87TVMR6nb69Kyu'
+    'qNbt4nua9dMm4vtVEX2KiVgiSLj2S87TVMR6nb69Kyu',
+    '3wRBJjPEmdk4b2NBEojeMKyuUCKLspKyViYUQMwJUsqt',
+    'AzK5xQSkRSJUMp67mt1J2pK4igBDk9ArWW9C5UZ22Zek',
+    'FNbnCKGC4yDFb8kYM24yDLr4TDpzBViHTBnms2ymi4gY',
+    '6g4Yue7hgCHbgGbjNhvhh6iGjrn29SN3aofsYMRroKt3',
+    'AjUQRmTe1QYubbnMvW9kXiP4XpCVRPzB89ZooFAs4FW2'
   ]
-  const accessCode = "catoly"
-  // const accessCode = "catoly-ski-025"
+  // const accessCode = "catoly"
+  const accessCode = "catoly-ski-025"
 
   const login = useCallback(async (payload: loginPayload) => {
     try {
