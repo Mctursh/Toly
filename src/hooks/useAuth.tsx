@@ -11,6 +11,18 @@ import { useState, useCallback, useEffect } from 'react';
 
 export function useAuth() {
   // const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000';
+  const whitelListedWallets = [
+    'AzipGrfrpyS4oG31QCVyT8mAGUAg1Ws8fGo1wKeKZP9g',
+    'BTzRTPtDkXPwffV2VrEpzPGovume5CdjdMGeGRXCwRai',
+    '7k1hp2z16crbY92zqFCjsPd4MvmaUeqebErxK6PgXVvd',
+    'DP4xV5qxSZQB82t7Lfu7d2TxFNsT4R17LpkJXgKpxQ7n',
+    'HvX1ccJnUkp5pstGQDD1MmZPTSgLpg8dG2gJcCEPgsLh',
+    'WQNTYQNHD79G1u5AyMPn1mhkDRMiH2dcHLCeWZpBo5X',
+    'GKyQZ4C3PNxKRQy5DT44Kr3KEUu5qG5PYMHhBz4rbz35',
+    'qNbt4nua9dMm4vtVEX2KiVgiSLj2S87TVMR6nb69Kyu'
+  ]
+  const accessCode = "catoly"
+  // const accessCode = "catoly-ski-025"
 
   const login = useCallback(async (payload: loginPayload) => {
     try {
@@ -23,6 +35,8 @@ export function useAuth() {
       return await res.json()
       
     } catch (error) {
+      console.log('new Err', error);
+      
       throw new Error('login failed')
     }
   }, []);
@@ -47,6 +61,14 @@ export function useAuth() {
     return await res.json()
   }
 
+  const isWhitelisted = (wallet: string) => {
+    return whitelListedWallets.includes(wallet)
+  }
+
+  const validateAccessCode = (code: string): boolean => {
+    return code?.toLocaleLowerCase() === accessCode
+  }
+
   return {
     ready: true,
     isAuthenticated: false,
@@ -58,6 +80,8 @@ export function useAuth() {
     error: null,
     clearError: () => {},
     validateSession,
-    logOut
+    logOut,
+    isWhitelisted,
+    validateAccessCode
   };
 }

@@ -41,6 +41,8 @@ export async function POST(req: NextRequest) {
         
         return NextResponse.json({ valid: true, user: userData });
       } catch (error: any) {
+        console.log('Server Error',error);
+        
         return NextResponse.json({ message: error.message }, { status: 401 });
       }
 }
