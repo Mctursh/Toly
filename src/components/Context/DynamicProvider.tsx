@@ -25,6 +25,8 @@ const DynamicProvider = ({ children: child }: { children: React.ReactNode }) => 
 
       const data = await login(authData.user)
 
+      console.log(data)
+
       dispatch({
         type: "LOGIN",
         payload: {

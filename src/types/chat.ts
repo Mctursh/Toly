@@ -1,4 +1,9 @@
 // types/chat.ts
+
+export interface Tool {
+  tool_name: string;
+  additional_kwargs: string;
+}
 export interface Message {
   id: string;
   content: string;
@@ -7,6 +12,7 @@ export interface Message {
   isLoading?: boolean;
   reactions?: Reaction[];
   editedAt?: Date;
+  tools?: Tool[]; // Add this to store tools with the message
 }
 
 export interface Reaction {

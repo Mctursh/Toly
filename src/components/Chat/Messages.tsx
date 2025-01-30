@@ -4,7 +4,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { FaRegCopy, FaCheck, FaTrash } from 'react-icons/fa6';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, JSXElementConstructor, ReactElement, ReactNode, ReactPortal } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { type Message } from '@/types/chat';
 import { useChatContext } from '../Context/ChatProvider';
@@ -17,10 +17,16 @@ interface MessageProps {
   message: Message;
   isConsecutive?: boolean;
   onDelete?: () => void;
+  tools?: Tool[]; // Add this to store tools with the message
+}
+
+interface Tool {
+  tool_name: string;
+  additional_kwargs: string;
 }
 
 export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDelete }) => {
-  const { state } = useChatContext()
+  const { state, addToolToMessage } = useChatContext()
   const threadId = state.chat?.threadId
   // const params = useParams(); // Access the dynamic route parameters
   const chatId = state.chat?.chatId
@@ -99,6 +105,10 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
   };
 
   useEffect(() => {
+    console.log("Current message tools:", message.tools);
+  }, [message.tools]);
+
+  useEffect(() => {
     if (message.role === 'assistant' && message.isLoading && message.id !== 'temp-loading' && chatId && threadId) {
       const fetchStream = async () => {
         abortControllerRef.current = new AbortController();
@@ -125,14 +135,44 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
           };
 
           let accumulated = '';
+          let buffer = '';
           
           while (true) {
             const { done, value } = await reader.read();
             if (done) break;
-            
+
             const text = new TextDecoder().decode(value);
-            accumulated += text;
-            setStreamedContent(accumulated);
+            // Each chunk might contain multiple SSE messages
+            const messages = text.split('\n\n');
+
+            const lines = buffer.split('\n');
+            // Keep the last (potentially incomplete) line in the buffer
+            buffer = lines.pop() || '';
+
+            for (const msgText  of messages) {
+              if (msgText .startsWith('data: ')) {
+                const data = msgText .slice(6); // Remove "data: " prefix
+                try {
+                  // Try to parse as tool data
+                  const parsedData = JSON.parse(data);
+                  if (parsedData.type === 'tool') {
+                    addToolToMessage(message.id, {
+                      tool_name: parsedData.payload.tool_name,
+                      additional_kwargs: JSON.stringify(parsedData.payload.additional_kwargs)
+                    });
+                    console.log(parsedData)
+                  } else {
+                    // If not tool data, treat as content
+                    accumulated += data;
+                    setStreamedContent(accumulated);
+                  }
+                } catch {
+                  // If can't parse as JSON, it's content
+                  accumulated += data;
+                  setStreamedContent(accumulated);
+                }
+              }
+            }
           }
         } catch (error) {
           // if (error.name === 'AbortError') return;
@@ -147,7 +187,69 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
         abortControllerRef.current?.abort();
       };
     }
-  }, [message.isLoading, message.content, message.role]);
+  }, [message.isLoading, message.content, message.role, addToolToMessage, message.id, message.tools]);
+
+  const renderToolUI = (tool: Tool) => {
+    console.log("Attempting to render tool:", tool);
+
+    let kwargs;
+    try {
+      kwargs = typeof tool.additional_kwargs === 'string' 
+        ? JSON.parse(tool.additional_kwargs) 
+        : tool.additional_kwargs;
+      
+      switch (tool.tool_name) {
+        case 'get_account_type':
+          return (
+            <div key={`${message.id}-${tool.tool_name}`} className="mt-2 p-3 bg-gray-800 rounded-lg">
+              <div className="flex flex-col gap-y-1">
+                <div className="text-sm text-gray-300">
+                  Account Type: {kwargs.isWallet ? 'Wallet' : kwargs.isToken ? 'Token' : 'Program'}
+                </div>
+                <div className="text-sm text-gray-300">
+                  Owner: {kwargs.owner}
+                </div>
+              </div>
+            </div>
+          );
+
+        case 'get_complete_balance':
+          return (
+            <div key={`${message.id}-${tool.tool_name}`} className="mt-2 p-3 bg-gray-800 rounded-lg">
+              <div className="flex flex-col gap-y-2">
+                <div className="text-sm text-gray-300">
+                  <div>SOL Balance: {kwargs.nativeBalance?.balanceFormatted}</div>
+                  <div>Value in USD: ${kwargs.nativeBalance?.valueInUsd}</div>
+                </div>
+                {kwargs.tokenPortfolio?.tokens && (
+                  <div className="mt-2">
+                    <div className="text-sm font-medium text-gray-200 mb-1">Token Portfolio:</div>
+                    <div className="space-y-1">
+                      {kwargs.tokenPortfolio.tokens.map((token: any, index: number) => (
+                        <div key={`${message.id}-token-${index}`} className="text-sm text-gray-300 flex justify-between">
+                          <span>{token.name} ({token.symbol})</span>
+                          <span>${token.value.toFixed(2)}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-2 pt-2 border-t border-gray-700 text-sm text-gray-200">
+                      Total Value: ${kwargs.totalValueUsd}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+
+        default:
+          console.warn(`Unknown tool type: ${tool.tool_name}`);
+          return null;
+      }
+    } catch (error) {
+      console.error('Error rendering tool UI:', error, tool);
+      return null;
+    }
+  };
 
   return (
     <div className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} 
@@ -169,6 +271,14 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
             ) : (
               renderContent(message.content)
             )}
+        </div>
+        {/*conditionally render the action ui based on the tool streamed in below */}
+        <div className="mt-2">
+          {message.tools?.map((tool, index) => (
+            <div key={`${message.id}-tool-${index}`}>
+              {renderToolUI(tool)}
+            </div>
+          ))}
         </div>
       </div>
     </div>
