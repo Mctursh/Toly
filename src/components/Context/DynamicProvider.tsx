@@ -31,7 +31,7 @@ const DynamicProvider = ({ children: child }: { children: React.ReactNode }) => 
       dispatch({
         type: "LOGIN",
         payload: {
-          ...authData,
+          ...payload,
           accessToken: data.user.data.accessToken
         }
       })
@@ -53,6 +53,7 @@ const DynamicProvider = ({ children: child }: { children: React.ReactNode }) => 
         setShowModal(false)
       } else {
         await logOut()
+        handleLogout()
         dispatch({
           type: "LOGOUT"
         })
