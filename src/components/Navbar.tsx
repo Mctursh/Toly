@@ -208,10 +208,10 @@ const Navbar: React.FC = () => {
 
   const navLinks: NavLink[] = [
     { href: '/', text: 'Home' },
-    { href: 'https://solana-projects.gitbook.io/toly/user-guide/', text: 'How Catoly Works' },
-    { href: 'https://solana-projects.gitbook.io/toly/developer-guide/', text: 'For Developers' },
     { href: '/about', text: 'About us' },
     { href: '/catoly', text: '$Catoly token' },
+    { href: 'https://solana-projects.gitbook.io/toly/user-guide/', text: 'How Catoly Works' },
+    { href: 'https://solana-projects.gitbook.io/toly/developer-guide/', text: 'For Developers' },
   ];
 
   useEffect(() => {
