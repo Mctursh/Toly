@@ -1,5 +1,4 @@
 import { useAuth } from '@/hooks/useAuth'
-import { Message, Tool } from '@/types/chat'
 import { useRouter } from 'next/navigation'
 import React, { createContext, Dispatch, ReactNode, useCallback, useContext, useEffect, useReducer } from 'react'
 
@@ -8,7 +7,7 @@ type User = {
     address?: string
 }
 
-type Action = 'LOGIN' | 'LOGOUT' | 'LOADED' | "LOGIN IN" | "ADD CHAT DETAILS" | "ADD_TOOL_TO_MESSAGE"
+type Action = 'LOGIN' | 'LOGOUT' | 'LOADED' | "LOGIN IN" | "ADD CHAT DETAILS" 
 
 export type Actions = { 
     type: Action,
@@ -18,7 +17,6 @@ export type Actions = {
 export type AuthContextType = {
     state: ContextStateType;
     dispatch: Dispatch<Actions>;
-    addToolToMessage: (messageId: string, tool: Tool) => void;
   };
 
 export type ContextStateType = {
@@ -31,7 +29,6 @@ export type ContextStateType = {
     chat?: {
       chatId: string;
       threadId: string;
-      messages?: Message[]; // Add this to store messages
     } 
   };
 
@@ -45,7 +42,6 @@ const initialState: ContextStateType = {
     chat: {
       chatId: '',
       threadId: '',
-      messages: []  // Initialize with empty array 
     }
 };
 
@@ -65,34 +61,6 @@ function chatReducer(
         return { ...state, isLoggingIn: true };
       case "ADD CHAT DETAILS":
         return { ...state, ...action.payload };
-        case "ADD_TOOL_TO_MESSAGE":
-          if (!state.chat?.messages) {
-            console.warn("No messages array found in state");
-            return state;
-          }
-    
-          console.log("Adding tool to message:", action.payload);
-          
-          return {
-            ...state,
-            chat: {
-              ...state.chat,
-              messages: state.chat.messages.map(msg => {
-
-                  console.log("Found message, adding tool", {
-                    currentTools: msg.tools,
-                    newTool: action.payload.tool
-                  });
-                  
-                  return {
-                    ...msg,
-                    tools: [...(msg.tools || []), action.payload.tool]
-                  };
-                
-                return msg;
-              })
-            }
-          };
       default:
         return state;
     }
@@ -104,20 +72,6 @@ export const ChatProvider = ({ children, value }: { children: ReactNode, value?:
   const [state, dispatch] = useReducer(chatReducer, initialState);
   const router = useRouter()
   const { validateSession, logOut } = useAuth()
-
-  const addToolToMessage = useCallback((messageId: string, tool: Tool) => {
-    console.log("addToolToMessage called with:", { messageId, tool });
-    
-    if (!messageId || !tool) {
-      console.error("Invalid messageId or tool", { messageId, tool });
-      return;
-    }
-
-    dispatch({
-      type: "ADD_TOOL_TO_MESSAGE",
-      payload: { messageId, tool }
-    });
-  }, []);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -165,7 +119,6 @@ export const ChatProvider = ({ children, value }: { children: ReactNode, value?:
   const contextValue: AuthContextType = {
     state,
     dispatch,
-    addToolToMessage
 };
   
 

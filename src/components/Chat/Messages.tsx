@@ -17,7 +17,11 @@ interface MessageProps {
   message: Message;
   isConsecutive?: boolean;
   onDelete?: () => void;
+  setmessageTools?: (messageId: string, tool: Tool) => void
   tools?: Tool[]; // Add this to store tools with the message
+  threadId: string
+  chatId: string
+  accessToken: string 
 }
 
 interface Tool {
@@ -25,14 +29,17 @@ interface Tool {
   additional_kwargs: string;
 }
 
-export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDelete }) => {
-  const { state, addToolToMessage } = useChatContext()
-  const threadId = state.chat?.threadId
-  // const params = useParams(); // Access the dynamic route parameters
-  const chatId = state.chat?.chatId
-  const accessToken = state.accessToken
+export const Messages: React.FC<MessageProps> = ({
+  message,
+  isConsecutive,
+  setmessageTools,
+  threadId,
+  chatId,
+  accessToken
+}) => {
   const [copied, setCopied] = useState(false);
   const [streamedContent, setStreamedContent] = useState('');
+  const [messageTools, setMesaageTool] = useState<Tool[]>([]);
   const abortControllerRef = useRef<AbortController | null>(null);
 
   const formatMessageTime = (date: Date) => {
@@ -105,10 +112,14 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
   };
 
   useEffect(() => {
-    console.log("Current message tools:", message.tools);
-  }, [message.tools]);
+    console.log("Current message tools:", messageTools);
+  }, [messageTools]);
+  // }, [message.tools]);
 
   useEffect(() => {
+    console.log("chatId", chatId);
+    console.log("threadId", threadId);
+    
     if (message.role === 'assistant' && message.isLoading && message.id !== 'temp-loading' && chatId && threadId) {
       const fetchStream = async () => {
         abortControllerRef.current = new AbortController();
@@ -136,6 +147,7 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
 
           let accumulated = '';
           let buffer = '';
+          let tools: Tool[] = []
           
           while (true) {
             const { done, value } = await reader.read();
@@ -156,10 +168,23 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
                   // Try to parse as tool data
                   const parsedData = JSON.parse(data);
                   if (parsedData.type === 'tool') {
-                    addToolToMessage(message.id, {
+                    // dispatch({
+                    //   type: "ADD TOOL TO MESSAGE",
+                    //   payload: {}
+                    // })
+                    let tool = {
                       tool_name: parsedData.payload.tool_name,
                       additional_kwargs: JSON.stringify(parsedData.payload.additional_kwargs)
-                    });
+                    }
+                    tools = [...new Set([...tools, tool])];
+                    // setmessageTools(message.id, {
+                    //   tool_name: parsedData.payload.tool_name,
+                    //   additional_kwargs: JSON.stringify(parsedData.payload.additional_kwargs)
+                    // });
+                    // addToolToMessage(message.id, {
+                    //   tool_name: parsedData.payload.tool_name,
+                    //   additional_kwargs: JSON.stringify(parsedData.payload.additional_kwargs)
+                    // });
                     console.log(parsedData)
                   } else {
                     // If not tool data, treat as content
@@ -174,6 +199,14 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
               }
             }
           }
+
+          if(tools.length){
+            // tools.forEach((tool) => {
+            //   setmessageTools(message.id, tool)
+            // })
+            setMesaageTool(tools)
+          }
+
         } catch (error) {
           // if (error.name === 'AbortError') return;
           console.error('Stream error:', error);
@@ -187,7 +220,7 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
         abortControllerRef.current?.abort();
       };
     }
-  }, [message.isLoading, message.content, message.role, addToolToMessage, message.id, message.tools]);
+  }, [message.isLoading, message.content, message.role]);
 
   const renderToolUI = (tool: Tool) => {
     console.log("Attempting to render tool:", tool);
@@ -274,7 +307,7 @@ export const Messages: React.FC<MessageProps> = ({ message, isConsecutive, onDel
         </div>
         {/*conditionally render the action ui based on the tool streamed in below */}
         <div className="mt-2">
-          {message.tools?.map((tool, index) => (
+          {messageTools?.map((tool, index) => (
             <div key={`${message.id}-tool-${index}`}>
               {renderToolUI(tool)}
             </div>

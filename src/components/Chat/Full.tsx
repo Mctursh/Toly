@@ -16,6 +16,10 @@ export default function ChatPage({ id = '' }: ChatProps) {
   const address = useMemo(() => state.user?.address, [state.user?.address])
   const email = useMemo(() => state.user?.email, [state.user?.email])
   const isAuthenticated = useMemo(() => state.isAuthenticated, [state.isAuthenticated])
+  const accessToken = useMemo(() => state.accessToken, [state.accessToken])
+  const chatId = useMemo(() => state.chat?.chatId, [state.chat?.chatId])
+  const threadId = useMemo(() => state.chat?.threadId, [state.chat?.threadId])
+  
   const logOutHandler = async() => {
     dispatch({
       type: "LOGOUT"
@@ -31,8 +35,11 @@ export default function ChatPage({ id = '' }: ChatProps) {
         walletAddress={address}
         logOutHandler={logOutHandler}
         dispatch={dispatch}
-        chatId={id || ''}
+        threadId={threadId!}
+        accessToken={accessToken!}
+        chatId={chatId || ''}
         isAuthenticated={isAuthenticated}
+
       />
     </main>
   );
