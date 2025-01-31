@@ -233,7 +233,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
     // router.replace("/chat", {})
     window.history.replaceState(null, '', '/chat');
-
+    setCurrentView('chat')
 
   }
 
@@ -262,8 +262,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
     };
 
   const fetchMessages = async (chat_id: string, pageNum: number = 1, loadMore: boolean = false) => {
+    setCurrentView('chat')
     try {
-      
       const response = await get(
         `chat/conversations/${chat_id}?page=${pageNum}&limit=${PAGE_SIZE}`
       );
@@ -514,11 +514,11 @@ export const Dashboard: React.FC<DashboardProps> = ({
       icon: FaMagnifyingGlass,
       description: 'Discover all the capabilities of Toly AI, from asset queries to advanced trading operations.'
     },
-    { 
-      name: 'History', 
-      icon: FaHistory,
-      description: 'View your past interactions and conversations with Toly AI. Track your queries, trades, and operations over time.'
-    },
+    // { 
+    //   name: 'History', 
+    //   icon: FaHistory,
+    //   description: 'View your past interactions and conversations with Toly AI. Track your queries, trades, and operations over time.'
+    // },
     // { 
     //   name: 'Solana Analytics', 
     //   icon: FaChartLine,
@@ -897,25 +897,25 @@ export const Dashboard: React.FC<DashboardProps> = ({
         {/* Centralized Modals */}
         <AnimatePresence>
           {/* Action Modal */}
-          {/* <ActionModal 
+          <ActionModal 
             isOpen={isActionModalOpen}
             onClose={() => setIsActionModalOpen(false)}
             initialTab={activeActionTab}
             onPromptSelect={handlePromptSelect}
-          /> */}
+          />
 
           {/* Explore Modal */}
-          {/* <ExploreModal 
+          <ExploreModal 
             isOpen={sidebarModal.type === 'explore'}
             onClose={() => setSidebarModal({ type: null, name: null })}
             onPromptSelect={(promptText) => {
               handlePromptSelect(promptText);
               setSidebarModal({ type: null, name: null });
             }}
-          /> */}
+          />
 
           {/* Info Modals */}
-          {/* {navigationItems.length && navigationItems.map((item, index) => (
+          {navigationItems.length && navigationItems.map((item, index) => (
             item.name.toLowerCase() !== 'explore' && (
               <InfoModal
                 key={`${item.name}-${index}`}
@@ -926,10 +926,10 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 icon={<item.icon className="h-6 w-6" />}
               />
             )
-          ))} */}
+          ))}
 
           {/* Footer Info Modals */}
-          {/* <InfoModal
+          <InfoModal
             isOpen={sidebarModal.type === 'info' && sidebarModal.name === 'faq'}
             onClose={() => setSidebarModal({ type: null, name: null })}
             title="FAQ"
@@ -942,7 +942,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             title="Settings"
             description="Customize your Toly AI experience and manage your preferences."
             icon={<FaCog className="h-6 w-6" />}
-          /> */}
+          />
         </AnimatePresence>
 
         {/* Delete Message Confirmation Modal */}

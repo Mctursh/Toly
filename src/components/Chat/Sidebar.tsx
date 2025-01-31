@@ -121,8 +121,11 @@ export const Sidebar: FC<SidebarProps> = ({
         </nav>
 
         {/* Recent Conversations */}
-        <div className="mt-10 px-6">
-          <h3 className="text-[#9097A6] mb-4 px-4">Recent chats</h3>
+        <div className="mt-2 px-6">
+          <div className="mb-4 px-4 text-[#9097A6] flex items-center gap-x-3">
+            <span><FaHistory className="text-xl"/></span>
+            <h3 className="">Recent chats</h3>
+          </div>
           
           {loading ? (
             <div className="flex justify-center py-4">
@@ -133,7 +136,7 @@ export const Sidebar: FC<SidebarProps> = ({
               {error}
             </div>
           ) : (
-            <div className="space-y-2">
+            <div className="space-y-2 h-auto max-h-[250px] overflow-y-auto">
               {conversations?.length ? (conversations.map((conversation) => (
                 <button
                   key={conversation?.threadId}
