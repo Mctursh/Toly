@@ -62,10 +62,26 @@
 // export default Settings;
 
 "use client"
+import { toast } from '@/hooks/useToast';
+import { ellipsify } from '@/utils';
 import React from 'react';
-import { FaDiscord, FaTwitter, FaGithub, FaTelegram } from 'react-icons/fa';
+import { FaDiscord, FaTwitter, FaGithub, FaTelegram, FaClipboard } from 'react-icons/fa';
 
-const Settings = () => {
+type settingsProp = {
+  address: string
+}
+
+const Settings = ({ address }: settingsProp) => {
+
+  const handleCopyWallet = () => {
+    navigator.clipboard.writeText(address)
+    .then(() => {
+      toast.success("Copied")
+    })
+    .catch(() => {
+      toast.error("Failed to copy address")
+    });
+  }
   return (
     <div className="min-h-full">
       <div className="max-w-3xl mx-auto px-4 py-8 md:px-6 lg:px-8">
@@ -77,6 +93,16 @@ const Settings = () => {
         <div className="bg-[#121417] rounded-lg p-4 md:p-6 mb-6 md:mb-8 border border-white/5">
           <h2 className="text-lg font-semibold mb-4">Profile Information</h2>
           <div className="space-y-6">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <h3 className="font-medium">Wallet Address</h3>
+                {/* <p className="text-sm text-gray-400">Account Created Nov 12, 2024</p> */}
+              </div>
+              <button onClick={handleCopyWallet} className="flex items-center gap-x-4 px-4 py-2 bg-white/5 rounded-lg text-sm hover:bg-white/10 transition-colors w-full md:w-auto text-center">
+                <span>{ellipsify(address, 8)}</span>
+                <FaClipboard className='text-gray-400' />
+              </button>
+            </div>
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
                 <h3 className="font-medium">FICCNL_beta1</h3>

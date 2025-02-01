@@ -791,7 +791,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
               <div className="max-w-3xl mx-auto">
                 {currentView === 'automations' && <Automations />}
                 {currentView === 'faq' && <FAQ />}
-                {currentView === 'settings' && <Settings />}
+                {currentView === 'settings' && <Settings address={walletAddress || ''} />}
                 {currentView === 'changelog' && <Changelog />}
               </div>
             )}
