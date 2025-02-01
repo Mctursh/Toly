@@ -6,12 +6,14 @@ import { Familjen_Grotesk } from 'next/font/google';
 import { useEffect, useState } from 'react';
 import { DynamicWidget, useDynamicContext } from '@dynamic-labs/sdk-react-core';
 import { useChatContext } from '../Context/ChatProvider';
+// import AccessCodeModal from '../Modal/AccessCodeModal';
 
 const familjenGrotesk = Familjen_Grotesk({ subsets: ['latin'] });
 
 export function LoginButton() {
   const { handleLogOut } = useDynamicContext()
   const { state, dispatch } = useChatContext()
+  const [showModal, setShowModal] = useState(false)
 
 
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -82,6 +84,18 @@ export function LoginButton() {
           } />
         </div>
       }
+
+    {/* <motion.button
+      onClick={() => setShowModal(!showModal)}
+      // disabled={isLoading}
+      className="mt-8 px-8 py-4 bg-[#6FCB71] capitalize rounded-full text-black font-bold text-lg hover:bg-[#5FB761] transition-colors"
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+    >
+        <span className={familjenGrotesk.className}>
+          GET STARTED
+        </span>
+    </motion.button> */}
     </div>
   );
 }

@@ -8,29 +8,32 @@ import { Dispatch, useCallback, useContext, useState } from "react";
 import { CookieAuthData } from "@/types/chat";
 import { Actions, AuthContextType, ChatContext, ChatProvider, ContextStateType, useChatContext } from "./ChatProvider";
 import { useAuth } from "@/hooks/useAuth";
+import AccessCodeModal from "../Modal/AccessCodeModal";
+import { loginPayload } from "@/types";
 
 
 const DynamicProvider = ({ children: child }: { children: React.ReactNode }) => {
 // const DynamicProvider = ({ children: child, dispatch }: { children: React.ReactNode, dispatch: Dispatch<Actions> }) => {
     // const context = useContext(ChatContext);
+    const [showModal, setShowModal] = useState(false)
+    const [authData, setAuthData] = useState<ContextStateType>()
+
     const { dispatch } = useChatContext()
-    const { login, logOut } = useAuth()
+    const { login, logOut, isWhitelisted, validateAccessCode } = useAuth()
     
     const router = useRouter();
 
-    const handleAuth = useCallback(async (authData: ContextStateType) => {
-      dispatch({
-        type: "LOGIN IN"
-      })
-
-      const data = await login(authData.user)
+    const handleAuth = useCallback(async (payload: ContextStateType) => {
+      // console.log(authData);
+      
+      const data = await login(payload.user)
 
       console.log(data)
 
       dispatch({
         type: "LOGIN",
         payload: {
-          ...authData,
+          ...payload,
           accessToken: data.user.data.accessToken
         }
       })
@@ -43,6 +46,22 @@ const DynamicProvider = ({ children: child }: { children: React.ReactNode }) => 
         router.push('/');
       })
     }, []);
+
+    const handleAccessCodeSubmission = async(accessCode: string) => {  
+      if(validateAccessCode(accessCode)){
+        console.log(authData);
+        
+        await handleAuth(authData!)
+        setShowModal(false)
+      } else {
+        await logOut()
+        handleLogout()
+        dispatch({
+          type: "LOGOUT"
+        })
+        setShowModal(false)
+      }
+    }
 
     const cssOverrides = `
     .dynamic-widget-container {
@@ -59,6 +78,9 @@ const DynamicProvider = ({ children: child }: { children: React.ReactNode }) => 
           events: {
             
             onAuthSuccess: (args) => {
+              dispatch({
+                type: "LOGIN IN"
+              })
               const data: ContextStateType = {
                 isAuthenticated: true,
                 user: {
@@ -67,9 +89,15 @@ const DynamicProvider = ({ children: child }: { children: React.ReactNode }) => 
                 },
                 logOutHandler: args.handleLogOut
               }
+              setAuthData(data)
               console.log("Auth data to dispatch", data);
+
+              if(!isWhitelisted(args.primaryWallet?.address!)){
+                setShowModal(true)
+              } else {
+                handleAuth(data)
+              }
               
-              handleAuth(data)
               console.log('onAuthSuccess was called', args);
             },
 
@@ -81,6 +109,11 @@ const DynamicProvider = ({ children: child }: { children: React.ReactNode }) => 
 
       >
         {child}
+      <AccessCodeModal 
+        isOpen={showModal}
+        onClose={() => setShowModal(!showModal)}
+        onClickHandler={handleAccessCodeSubmission}
+      />
       </DynamicContextProvider>
     )
   }

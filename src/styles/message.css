@@ -19,6 +19,7 @@
 
 .text__word-wrap {
     word-wrap: break-word;
+    overflow-wrap: anywhere;
 }
 
 
