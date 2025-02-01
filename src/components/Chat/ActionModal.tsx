@@ -4,12 +4,13 @@
 import React, { JSX, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaTimes, FaLink, FaImage, FaCoins, FaPuzzlePiece, FaImages, FaSquare, FaTag, FaExchangeAlt } from 'react-icons/fa';
-
+import classNames from "classnames"
 interface Prompt {
   title: string;
   description: string;
   icon: JSX.Element;
   promptText: string;
+  active?: boolean
 }
 
 interface Tab {
@@ -25,19 +26,22 @@ const tabs: Tab[] = [
         title: 'Create a Tiplink',
         description: 'Generate a new tiplink for fast transfers',
         icon: <FaLink className="h-6 w-6" />,
-        promptText: "How do I create a tiplink for sending SOL?"
+        promptText: "How do I create a tiplink for sending SOL?",
+        active: false
       },
       {
         title: 'Create an Image',
         description: 'Generate images using DALL-E',
         icon: <FaImage className="h-6 w-6" />,
-        promptText: "Can you help me create an image?"
+        promptText: "Can you help me create an image?",
+        active: false
       },
       {
         title: 'Create Token on PumpFun',
         description: 'Launch your own token using PumpPortal',
         icon: <FaCoins className="h-6 w-6" />,
-        promptText: "Can you create a token on PumpFun?"
+        promptText: "Can you create a token on PumpFun?",
+        active: false
       }
     ]
   },
@@ -48,25 +52,29 @@ const tabs: Tab[] = [
         title: 'Deploy Metaplex Fungible Token',
         description: 'Create and deploy fungible tokens',
         icon: <FaPuzzlePiece className="h-6 w-6" />,
-        promptText: "How can you help me deploy a Metaplex fungible token?"
+        promptText: "How can you help me deploy a Metaplex fungible token?",
+        active: false
       },
       {
         title: 'Deploy Collection',
         description: 'Create and deploy an NFT collection',
         icon: <FaImages className="h-6 w-6" />,
-        promptText: "Please I want to deploy an NFT collection"
+        promptText: "Please I want to deploy an NFT collection",
+        active: false
       },
       {
         title: 'Deploy Metaplex Core NFT',
         description: 'Create and deploy individual NFTs',
         icon: <FaSquare className="h-6 w-6" />,
-        promptText: "I want to deploy an NFT, Can you do that?"
+        promptText: "I want to deploy an NFT, Can you do that?",
+        active: false
       },
       {
         title: 'List NFT for Sale',
         description: 'List your NFT on marketplaces',
         icon: <FaTag className="h-6 w-6" />,
-        promptText: "Can you list my NFT for sale?"
+        promptText: "Can you list my NFT for sale?",
+        active: false
       }
     ]
   },
@@ -77,7 +85,9 @@ const tabs: Tab[] = [
         title: 'Swap Tokens using Jupiter',
         description: 'Trade tokens with the best rates',
         icon: <FaExchangeAlt className="h-6 w-6" />,
-        promptText: "Can you help me swap tokens using Jupiter?"
+        promptText: "Hello Toly what can you do for me?",
+        // promptText: "Can you help me swap tokens using Jupiter?",
+        active: true
       }
     ]
   }
@@ -151,9 +161,13 @@ const ActionModal: React.FC<ActionModalProps> = ({
           <div className="grid gap-4">
             {tabs.find(t => t.name === activeTab)?.prompts.map((prompt, index) => (
               <button
+                disabled={!prompt.active}
                 key={index}
                 onClick={() => handlePromptClick(prompt.promptText)}
-                className="flex items-start gap-4 p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-colors text-left group"
+                className={classNames(
+                  "flex items-start gap-4 p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-colors text-left group",
+                  {'cursor-not-allowed opacity-50': !prompt.active}
+                )}
               >
                 <div className="text-[#6FCB71] group-hover:text-[#6FCB71] transition-colors">
                   {prompt.icon}

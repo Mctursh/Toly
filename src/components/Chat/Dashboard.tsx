@@ -110,7 +110,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
   });
 
   const handlePromptSelect = (promptText: string) => {
+    setCurrentView("chat")
     setInputValue(promptText);
+    handleSendMessage(promptText)
   };
 
   const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000';
@@ -351,13 +353,14 @@ export const Dashboard: React.FC<DashboardProps> = ({
     }
   };
 
-  const handleSendMessage = async () => {
-    if (!inputValue.trim()) return;
+  const handleSendMessage = async (prompt?: string) => {
+    if (!inputValue.trim() && !prompt?.trim()) return;
+    const userPrompt = prompt || inputValue
     const isNewChat = !(!!chatState.messages.length)
 
     const newMessage: Message = {
       id: Date.now().toString(),
-      content: inputValue,
+      content: userPrompt,
       role: 'user' as const,
       timestamp: new Date(),
       isLoading: false
@@ -366,7 +369,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
     // const assistantMessage: Message = {
     //   id: 'temp-loading',
     //   // id: 'temp-' + Date.now().toString(),
-    //   content: inputValue,
+    //   content: userPrompt,
     //   role: 'assistant' as const,
     //   timestamp: new Date(),
     //   isLoading: true,
@@ -431,7 +434,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
       const aiMessage: Message = {
         id: Date.now().toString(),
-        content: inputValue,
+        content: userPrompt,
         role: 'assistant',
         timestamp: new Date(),
         isLoading: true
@@ -709,7 +712,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                         </div>
                         <button 
                           type="button"
-                          onClick={handleSendMessage}
+                          onClick={() => handleSendMessage()}
                           disabled={!inputValue.trim() || chatState.isLoading}
                           className={`w-10 h-10 flex items-center justify-center rounded-full transition-colors duration-200
                             ${inputValue.trim() ? 'bg-[#6FCB71] text-black' : 'bg-[#6FCB71]/20 text-[#6FCB71]'}`}
@@ -834,7 +837,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                     </div>
                     <button 
                       type="button"
-                      onClick={handleSendMessage}
+                      onClick={() => handleSendMessage()}
                       disabled={!inputValue.trim() || chatState.isLoading}
                       className={`w-10 h-10 flex items-center justify-center rounded-full transition-all duration-200 cursor-pointer
                         transform hover:scale-105 active:scale-95
