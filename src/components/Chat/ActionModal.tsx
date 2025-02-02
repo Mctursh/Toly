@@ -85,8 +85,8 @@ const tabs: Tab[] = [
         title: 'Swap Tokens using Jupiter',
         description: 'Trade tokens with the best rates',
         icon: <FaExchangeAlt className="h-6 w-6" />,
-        promptText: "Hello Toly what can you do for me?",
-        // promptText: "Can you help me swap tokens using Jupiter?",
+        // promptText: "Hello Toly what can you do for me?",
+        promptText: "Can you help me swap tokens using Jupiter?",
         active: true
       }
     ]
@@ -98,16 +98,16 @@ interface ActionModalProps {
   onClose: () => void;
   initialTab: string;
   onPromptSelect: (promptText: string) => void;
+  setActiveTab: (value: string) => void
 }
 
 const ActionModal: React.FC<ActionModalProps> = ({ 
   isOpen, 
   onClose, 
   initialTab,
-  onPromptSelect
+  onPromptSelect,
+  setActiveTab
 }) => {
-  const [activeTab, setActiveTab] = useState(initialTab);
-
   const handlePromptClick = (promptText: string) => {
     onPromptSelect(promptText);
     onClose();
@@ -146,7 +146,7 @@ const ActionModal: React.FC<ActionModalProps> = ({
               key={tab.name}
               onClick={() => setActiveTab(tab.name)}
               className={`flex-1 px-6 py-4 text-sm font-medium transition-colors
-                ${activeTab === tab.name 
+                ${initialTab === tab.name 
                   ? 'text-[#6FCB71] border-b-2 border-[#6FCB71]' 
                   : 'text-gray-400 hover:text-white'
                 }`}
@@ -159,7 +159,7 @@ const ActionModal: React.FC<ActionModalProps> = ({
         {/* Content */}
         <div className="p-6">
           <div className="grid gap-4">
-            {tabs.find(t => t.name === activeTab)?.prompts.map((prompt, index) => (
+            {tabs.find(t => t.name === initialTab)?.prompts.map((prompt, index) => (
               <button
                 disabled={!prompt.active}
                 key={index}

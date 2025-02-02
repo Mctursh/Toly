@@ -904,6 +904,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             isOpen={isActionModalOpen}
             onClose={() => setIsActionModalOpen(false)}
             initialTab={activeActionTab}
+            setActiveTab={setActiveActionTab}
             onPromptSelect={handlePromptSelect}
           />
 
