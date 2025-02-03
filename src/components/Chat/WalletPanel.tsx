@@ -7,12 +7,19 @@ import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
 import { LoadingOrNotFound } from './LoadingOrNotFound';
 import TokenItem from './TokenItem';
 import { ChatContext, useChatContext } from '../Context/ChatProvider';
+import { ChatView } from '@/types/chat';
 
 type WalletPanel = {
   walletAddress: string
+  inAppwallet?: string
+  setCurrentView: (value: ChatView) => void
 }
   
-const WalletPanel = ({ walletAddress }: WalletPanel) => {
+const WalletPanel = ({ 
+  walletAddress,
+  setCurrentView,
+  inAppwallet,
+}: WalletPanel) => {
     const primaryWallet = walletAddress
     const [portfolio, setPortfolio] = useState<PortfolioResponse | null>(null);
     const [loading, setLoading] = useState(true);
@@ -44,6 +51,7 @@ const WalletPanel = ({ walletAddress }: WalletPanel) => {
           }
         });
         
+        
         if (!response.ok) {
           const errorText = await response.text();
           console.error('Error response:', errorText);
@@ -51,8 +59,18 @@ const WalletPanel = ({ walletAddress }: WalletPanel) => {
         }
   
         const data = await response.json();
+        console.log(data);
 
-        setPortfolio(data);
+        
+        if(data?.success === false){
+          setError(null)
+          setLoading(false)
+          setPortfolio(null)
+        } else {
+          setPortfolio(data);
+        }
+        
+
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Failed to fetch portfolio';
         console.error('Full error:', err);
@@ -67,7 +85,7 @@ const WalletPanel = ({ walletAddress }: WalletPanel) => {
       if(walletAddress){
         fetchPortfolio();
       }
-    }, [fetchPortfolio, walletAddress]);
+    }, [fetchPortfolio, walletAddress, inAppwallet]);
 
   
     return (
@@ -127,6 +145,21 @@ const WalletPanel = ({ walletAddress }: WalletPanel) => {
                {portfolio?.tokenPortfolio?.tokens.map((token, index) => (
                 <TokenItem key={index} token={{type: 'token', ...token}}/>
                 ))}
+            </div>
+          )}
+
+          {!error && !loading && !portfolio && (
+            <div className="flex flex-col gap-y-4">
+            {/* <div className="p-3 mb-4 bg-red-500/10 border border-red-500 rounded-lg text-red-500 text-sm"> */}
+              <p className='text-sm text-center' >Your in app wallet hasn’t been activated, please generate one now</p>
+              <button
+                type='button'
+                role='link'
+                className='rounded-lg text-base bg-[#6FCB71] p-3 text-white'
+                onClick={() => setCurrentView("settings")}
+              > 
+                Generate wallet
+              </button>
             </div>
           )}
         </div>

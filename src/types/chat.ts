@@ -1,5 +1,5 @@
 // types/chat.ts
-
+export type ChatView = 'chat' | 'faq' | 'settings' | 'changelog' | 'automations'
 export interface Tool {
   tool_name: string;
   additional_kwargs: string;

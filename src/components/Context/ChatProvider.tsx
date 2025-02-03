@@ -5,9 +5,10 @@ import React, { createContext, Dispatch, ReactNode, useCallback, useContext, use
 type User = {
     email?: string
     address?: string
+    inAppWallet?: string
 }
 
-type Action = 'LOGIN' | 'LOGOUT' | 'LOADED' | "LOGIN IN" | "ADD CHAT DETAILS" 
+type Action = 'LOGIN' | 'LOGOUT' | 'LOADED' | "LOGIN IN" | "ADD CHAT DETAILS" | "ADD IN APP WALLET"
 
 export type Actions = { 
     type: Action,
@@ -61,6 +62,8 @@ function chatReducer(
         return { ...state, isLoggingIn: true };
       case "ADD CHAT DETAILS":
         return { ...state, ...action.payload };
+      case "ADD IN APP WALLET":
+        return { ...state, user: { ...state.user, inAppWallet: action.payload } };
       default:
         return state;
     }
@@ -86,7 +89,8 @@ export const ChatProvider = ({ children, value }: { children: ReactNode, value?:
           isAuthenticated: true,
           user: {
             email: res.data.data.email,
-            address: res.data.data.address
+            address: res.data.data.address,
+            inAppWallet: res.data.data.inAppAddress
           },
           accessToken: res.data.data.accessToken,
           isLoggingInIn: false

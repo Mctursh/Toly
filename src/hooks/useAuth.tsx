@@ -81,6 +81,7 @@ export function useAuth() {
     "nyiKqHFJEyrZTWMoCQ4FcUKsV4DMqFMPwcSnTt2dxCe",
     "BqRtYdaM896r66q3tTRdWNqNcPCJ66v5fwKfpwJCTLju",
     "AcS2wTc7XUMTnJkAbednF3m44QBGfenJbiBPYB6QwQMn",
+    "FxmGwcJW4fQQboEETbYrfMGKebKdEyW1HXiMMShWXbCj",
   ]
   // const accessCode = "catoly"
   const accessCode = "catoly-ski-025"
