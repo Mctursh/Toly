@@ -33,6 +33,7 @@ interface HolderSummary {
 
 interface TokenLookupProps {
   data: {
+    mint: string
     tokenMeta: TokenMeta;
     token: Token;
     image?: string;
