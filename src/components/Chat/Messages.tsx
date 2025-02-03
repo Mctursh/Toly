@@ -12,6 +12,10 @@ import { useRouter } from 'next/router';
 import { useParams } from 'next/navigation';
 
 import "../../styles/message.css";
+import TokenLookup from '../ActionUIs/TokenLookup';
+import SwapOnJupiter from '../ActionUIs/JupSwap';
+import { LaunchTokenOnPump } from '../ActionUIs/PumpLaunch';
+import TransferTokens from '../ActionUIs/TransferToken';
 
 interface MessageProps {
   message: Message;
@@ -172,7 +176,7 @@ export const Messages: React.FC<MessageProps> = ({
                     //   type: "ADD TOOL TO MESSAGE",
                     //   payload: {}
                     // })
-                    let tool = {
+                    const tool = {
                       tool_name: parsedData.payload.tool_name,
                       additional_kwargs: JSON.stringify(parsedData.payload.additional_kwargs)
                     }
@@ -233,32 +237,31 @@ export const Messages: React.FC<MessageProps> = ({
       
       switch (tool.tool_name) {
         case 'get_account_type':
+          const accountData = JSON.parse(kwargs);
           return (
             <div key={`${message.id}-${tool.tool_name}`} className="mt-2 p-3 bg-gray-800 rounded-lg">
-              <div className="flex flex-col gap-y-1">
-                <div className="text-sm text-gray-300">
-                  Account Type: {kwargs.isWallet ? 'Wallet' : kwargs.isToken ? 'Token' : 'Program'}
-                </div>
-                <div className="text-sm text-gray-300">
-                  Owner: {kwargs.owner}
-                </div>
+            <div className="flex flex-col gap-y-1">
+              <div className="text-sm text-gray-300">
+                Account Type: {accountData.isWallet ? 'Wallet' : accountData.isToken ? 'Token' : 'Program'}
               </div>
             </div>
+          </div>
           );
 
         case 'get_complete_balance':
+          const completeBalanceData = JSON.parse(kwargs);
           return (
             <div key={`${message.id}-${tool.tool_name}`} className="mt-2 p-3 bg-gray-800 rounded-lg">
               <div className="flex flex-col gap-y-2">
                 <div className="text-sm text-gray-300">
-                  <div>SOL Balance: {kwargs.nativeBalance?.balanceFormatted}</div>
-                  <div>Value in USD: ${kwargs.nativeBalance?.valueInUsd}</div>
+                  <div>SOL Balance: {completeBalanceData.nativeBalance?.balanceFormatted}</div>
+                  <div>Value in USD: ${completeBalanceData.nativeBalance?.valueInUsd}</div>
                 </div>
-                {kwargs.tokenPortfolio?.tokens && (
+                {completeBalanceData.tokenPortfolio?.tokens && (
                   <div className="mt-2">
                     <div className="text-sm font-medium text-gray-200 mb-1">Token Portfolio:</div>
                     <div className="space-y-1">
-                      {kwargs.tokenPortfolio.tokens.map((token: any, index: number) => (
+                      {completeBalanceData.tokenPortfolio.tokens.map((token: any, index: number) => (
                         <div key={`${message.id}-token-${index}`} className="text-sm text-gray-300 flex justify-between">
                           <span>{token.name} ({token.symbol})</span>
                           <span>${token.value.toFixed(2)}</span>
@@ -266,14 +269,32 @@ export const Messages: React.FC<MessageProps> = ({
                       ))}
                     </div>
                     <div className="mt-2 pt-2 border-t border-gray-700 text-sm text-gray-200">
-                      Total Value: ${kwargs.totalValueUsd}
+                      Total Value: ${completeBalanceData.totalValueUsd}
                     </div>
                   </div>
                 )}
               </div>
             </div>
           );
-
+        case 'check_token_detailed_report':
+          const checkTokenDetailedReport = JSON.parse(kwargs);
+          return (
+            <TokenLookup data={checkTokenDetailedReport} />
+          );
+        case 'swap_tokens':
+          const swapOnJup = JSON.parse(kwargs);
+            return (
+              <SwapOnJupiter />
+            );
+        case 'launch_pumpfun_token':
+          const launchOnPump = JSON.parse(kwargs);
+            return (
+              <LaunchTokenOnPump />
+            );
+        case 'transfer_tokens':
+           return (
+              <TransferTokens />
+            );
         default:
           console.warn(`Unknown tool type: ${tool.tool_name}`);
           return null;
