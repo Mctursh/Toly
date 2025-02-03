@@ -19,7 +19,8 @@ import {
   type AIResponse, 
   type Coordinates,
   type DeleteMessageConfirmation, 
-  Conversation
+  Conversation,
+  Tool
 } from '@/types/chat';
 import { Email } from '@privy-io/react-auth';
 import Http from '@/services/httpService';
@@ -36,6 +37,7 @@ import FAQ from './FAQ';
 import Settings from './Settings';
 import Changelog from './Changelog';
 import Automations from '../Actions/Automation';
+import { threadId } from 'worker_threads';
 
 interface DashboardProps {
   username?: string | Email;
@@ -44,7 +46,9 @@ interface DashboardProps {
   logOutHandler: () => Promise<void>,
   dispatch: Dispatch<Actions>
   isAuthenticated: boolean
-  chatId?: string
+  chatId: string
+  threadId: string
+  accessToken: string
 }
 
 interface NavigationItem {
@@ -62,8 +66,10 @@ export const Dashboard: React.FC<DashboardProps> = ({
   walletAddress,
   logOutHandler,
   dispatch,
-  isAuthenticated
-  // chatId
+  isAuthenticated,
+  chatId,
+  threadId,
+  accessToken
 }) => {
   // const { user, handleLogOut } = useDynamicContext();
   // const { state } = useChatContext()
@@ -71,7 +77,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const { logOut } = useAuth()
   const router = useRouter();
   const params = useParams()
-  const chatId = params.id as string
+  // const chatId = params.id as string
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [currentView, setCurrentView] = useState<'chat' | 'faq' | 'settings' | 'changelog' | 'automations'>('chat');
@@ -150,7 +156,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
     getMessages()
     return () => {}
-  }, [chatId, isAuthenticated])
+  }, [])
+  // }, [chatId, isAuthenticated])
 
   useEffect(() => {
     async function getConvo(){
@@ -303,6 +310,21 @@ export const Dashboard: React.FC<DashboardProps> = ({
       setIsFetchingMore(false);
     }
   };
+
+  const setMessageTool = (messageId: string, tool: Tool) => {
+    setChatState(previousValue => {
+      return {
+        ...previousValue,
+        messages: previousValue.messages.map(message => {
+          if(message.id != messageId) return message
+          return {
+            ...message,
+            tools: message.tools ? [...message.tools, tool] : [tool]
+          }
+        })
+      }
+    })
+  }
 
   // const handleScroll = () => {
   //   if (!scrollContainerRef.current) return;
@@ -775,10 +797,10 @@ export const Dashboard: React.FC<DashboardProps> = ({
                           key={`${message.id}-${index}`} 
                           message={message} 
                           isConsecutive={isConsecutive}
-                          onDelete={() => setDeleteConfirmation({
-                            messageId: message.id,
-                            isOpen: true
-                          })}
+                          // setMessageTool={setMessageTool}
+                          chatId={chatId}
+                          threadId={threadId}
+                          accessToken={accessToken}
                         />
                       );
                     })}

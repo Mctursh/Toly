@@ -1,13 +1,13 @@
 import { useAuth } from '@/hooks/useAuth'
 import { useRouter } from 'next/navigation'
-import React, { createContext, Dispatch, ReactNode, useContext, useEffect, useReducer } from 'react'
+import React, { createContext, Dispatch, ReactNode, useCallback, useContext, useEffect, useReducer } from 'react'
 
 type User = {
     email?: string
     address?: string
 }
 
-type Action = 'LOGIN' | 'LOGOUT' | 'LOADED' | "LOGIN IN" | "ADD CHAT DETAILS"
+type Action = 'LOGIN' | 'LOGOUT' | 'LOADED' | "LOGIN IN" | "ADD CHAT DETAILS" 
 
 export type Actions = { 
     type: Action,
@@ -27,8 +27,8 @@ export type ContextStateType = {
     isLoading?: boolean,
     isLoggingIn?: boolean
     chat?: {
-      chatId: string
-      threadId: string 
+      chatId: string;
+      threadId: string;
     } 
   };
 
@@ -41,7 +41,7 @@ const initialState: ContextStateType = {
     isLoggingIn: false,
     chat: {
       chatId: '',
-      threadId: '' 
+      threadId: '',
     }
 };
 
@@ -115,10 +115,15 @@ export const ChatProvider = ({ children, value }: { children: ReactNode, value?:
       fetchUser();
     }
   }, [])
+
+  const contextValue: AuthContextType = {
+    state,
+    dispatch,
+};
   
 
   return (
-    <ChatContext.Provider value={{ state, dispatch }}>
+    <ChatContext.Provider value={contextValue}>
       {children}
     </ChatContext.Provider>
   );
