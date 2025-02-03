@@ -20,7 +20,8 @@ import {
   type Coordinates,
   type DeleteMessageConfirmation, 
   Conversation,
-  Tool
+  Tool,
+  ChatView
 } from '@/types/chat';
 import { Email } from '@privy-io/react-auth';
 import Http from '@/services/httpService';
@@ -43,6 +44,7 @@ interface DashboardProps {
   username?: string | Email;
   profileImage?: string;
   walletAddress?: string
+  inAppWallet?: string
   logOutHandler: () => Promise<void>,
   dispatch: Dispatch<Actions>
   isAuthenticated: boolean
@@ -69,18 +71,18 @@ export const Dashboard: React.FC<DashboardProps> = ({
   isAuthenticated,
   chatId,
   threadId,
-  accessToken
+  accessToken,
+  inAppWallet,
 }) => {
   // const { user, handleLogOut } = useDynamicContext();
   // const { state } = useChatContext()
   const { get, post } = useApi()
   const { logOut } = useAuth()
   const router = useRouter();
-  const params = useParams()
   // const chatId = params.id as string
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [currentView, setCurrentView] = useState<'chat' | 'faq' | 'settings' | 'changelog' | 'automations'>('chat');
+  const [currentView, setCurrentView] = useState<ChatView>('chat');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -200,7 +202,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
         const response = await post<Conversation>(`chat/create-conversations`);
         // const response = await post(`chat/conversations`);
         
-        const newConversation = await response.data.data;
+        const newConversation = await response?.data.data;
         dispatch({
           type: 'ADD CHAT DETAILS',
           payload: {
@@ -256,7 +258,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
         });
         // const response = await post(`chat/conversations`);
         
-        const newConversation = await response.data;
+        const newConversation = await response?.data;
   
         // console.log(response);
         
@@ -813,7 +815,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
               <div className="max-w-3xl mx-auto">
                 {currentView === 'automations' && <Automations />}
                 {currentView === 'faq' && <FAQ />}
-                {currentView === 'settings' && <Settings address={walletAddress || ''} />}
+                {currentView === 'settings' && <Settings dispatch={dispatch} inAppWallet={inAppWallet}  address={walletAddress || ''} />}
                 {currentView === 'changelog' && <Changelog />}
               </div>
             )}
@@ -907,7 +909,11 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   : 'opacity-0 invisible'
               }`}
             >
-              <WalletPanel walletAddress={walletAddress || ""} />
+              <WalletPanel 
+                inAppwallet={inAppWallet}
+                walletAddress={walletAddress || ""}
+                setCurrentView={setCurrentView}
+              />
             </div>
 
             {/* Collapsed State Icon */}

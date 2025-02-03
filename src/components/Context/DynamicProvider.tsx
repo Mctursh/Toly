@@ -34,6 +34,10 @@ const DynamicProvider = ({ children: child }: { children: React.ReactNode }) => 
         type: "LOGIN",
         payload: {
           ...payload,
+          user: {
+            ...payload.user,
+            inAppWallet: data.user.data.inAppAddress
+          },
           accessToken: data.user.data.accessToken
         }
       })

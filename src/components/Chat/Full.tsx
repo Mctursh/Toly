@@ -14,6 +14,7 @@ export default function ChatPage({ id = '' }: ChatProps) {
   const { state, dispatch } = useChatContext()
 
   const address = useMemo(() => state.user?.address, [state.user?.address])
+  const inAppWallet = useMemo(() => state.user?.inAppWallet, [state.user?.inAppWallet])
   const email = useMemo(() => state.user?.email, [state.user?.email])
   const isAuthenticated = useMemo(() => state.isAuthenticated, [state.isAuthenticated])
   const accessToken = useMemo(() => state.accessToken, [state.accessToken])
@@ -39,7 +40,7 @@ export default function ChatPage({ id = '' }: ChatProps) {
         accessToken={accessToken!}
         chatId={chatId || ''}
         isAuthenticated={isAuthenticated}
-
+        inAppWallet={inAppWallet}
       />
     </main>
   );

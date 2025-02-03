@@ -1,6 +1,6 @@
 
 import { useChatContext } from "@/components/Context/ChatProvider";
-import Axios, { AxiosRequestConfig } from "axios";
+import Axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import type { FetchOptions } from "ofetch";
 import { useAuth } from "./useAuth";
 export const useApi = () => {
@@ -80,7 +80,7 @@ export const useApi = () => {
     //     }
     // }
 
-    const get = async<T>(url: string, options?: AxiosRequestConfig) => {
+    const get = async<T>(url: string, options?: AxiosRequestConfig): Promise<AxiosResponse | undefined> => {
         try {
             return await fetch<T>(`${url}`, {
                 ...options,
@@ -107,7 +107,7 @@ export const useApi = () => {
         }
     }
 
-    const post = async<T>(url: string, options?: AxiosRequestConfig) => {
+    const post = async<T>(url: string, options?: AxiosRequestConfig): Promise<AxiosResponse | undefined> => {
         try {
             return await fetch<T>(`${url}`, {
                 ...options,
@@ -182,7 +182,7 @@ export const useApi = () => {
         }
     }
 
-    const put = async<T>(url: string, options?: AxiosRequestConfig) => {
+    const put = async<T>(url: string, options?: AxiosRequestConfig): Promise<AxiosResponse> => {
         try {
             return await fetch<T>(`${baseUrl}${url}`, {
                 ...options,
