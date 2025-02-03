@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 export function LaunchTokenOnPump() {
     const [tokenName, setTokenName] = useState('');
@@ -8,8 +8,8 @@ export function LaunchTokenOnPump() {
     const [imageFile, setImageFile] = useState({ name: ''});
     const [imagePreview, setImagePreview] = useState('');
   
-    const handleImageUpload = (e) => {
-      const file = e.target.files[0];
+    const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
       if (file) {
         setImageFile(file);
         // Create a preview URL
