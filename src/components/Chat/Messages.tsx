@@ -283,8 +283,9 @@ export const Messages: React.FC<MessageProps> = ({
           );
         case 'swap_tokens':
           const swapOnJup = JSON.parse(kwargs);
+          console.log(swapOnJup)
             return (
-              <SwapOnJupiter />
+              <SwapOnJupiter data={swapOnJup} />
             );
         case 'launch_pumpfun_token':
           const launchOnPump = JSON.parse(kwargs);

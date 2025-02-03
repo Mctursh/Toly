@@ -69,11 +69,11 @@ const TokenItem: React.FC<TokenItemProps> = ({ token }) => {
       <div className="flex items-center gap-3">
         <div className="relative w-10 h-10">
           <img
-            src={token.image || '/default-token.png'}
+            src={token.image || 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/A_black_image.jpg/1200px-A_black_image.jpg'}
             alt={token.name}
             className="w-full h-full rounded-full object-cover"
             onError={(e) => {
-              (e.target as HTMLImageElement).src = '/default-token.png';
+              (e.target as HTMLImageElement).src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/A_black_image.jpg/1200px-A_black_image.jpg';
             }}
             loading="lazy"
           />
