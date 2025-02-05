@@ -1,5 +1,7 @@
 "use client"
 import { format, isToday, isYesterday } from 'date-fns';
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -56,61 +58,158 @@ export const Messages: React.FC<MessageProps> = ({
     return format(date, 'MMM d, HH:mm');
   };
 
+  const CodeBlock = ({ className, children }: any) => {
+    const [copied, setCopied] = useState(false);
+    const language = className?.replace("language-", "") || "javascript";
+    const code = String(children).trim();
+  
+    return (
+      <div className="relative group w-full">
+        <SyntaxHighlighter
+          language={language}
+          style={vscDarkPlus}
+          className="rounded-md !bg-[#1E1E1E]"
+          wrapLines={true}
+          wrapLongLines={true}
+          customStyle={{
+            maxWidth: "100%",
+            overflowX: "auto",
+            padding: "1rem",
+          }}
+        >
+          {code}
+        </SyntaxHighlighter>
+        <CopyToClipboard
+          text={code}
+          onCopy={() => {
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+          }}
+        >
+          <button className="absolute top-2 right-2 p-2 rounded-md bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity">
+            {copied ? <FaCheck size={14} /> : <FaRegCopy size={14} />}
+          </button>
+        </CopyToClipboard>
+      </div>
+    );
+  };
+
+  // Function to clean up the raw text into readable Markdown format
+  const cleanMarkdown = (text: string) => {
+    return text
+      .replace(/\s+/g, " ") // Remove excessive spaces
+      .replace(/\n{2,}/g, "\n\n") // Ensure proper paragraph spacing
+      .replace(/(?<![-*])\s*(`[^`]+`):/g, "$1") // Remove colons after inline code if not in a list
+      .replace(/(\!\[.*?\]\(.*?\))(?=[^\n])/g, "$1\n") // Ensure images are followed by a newline
+      .replace(/(?<=\S)-\s(?=\*\*)/g, "\n- ") // Fix list items stuck together
+      .replace(/(?<!\n)(#+)\s*([^#\n])/g, "\n$1 $2") // Ensure headers are on a new line
+      .replace(/(#+ .+?)(?=\n|$)/g, "$1\n---\n") // Add horizontal rules before headers
+      .trim();
+};
+  // const cleanMarkdown = (text: string) => {
+  //   return text
+  //     .replace(/\s+/g, " ") // Remove excessive spaces
+  //     .replace(/\n{2,}/g, "\n\n") // Ensure proper paragraph spacing
+  //     .replace(/(?<![-*])\s*(`[^`]+`):/g, "$1") // Remove colons after inline code if not in a list
+  //     .replace(/(\!\[.*?\]\(.*?\))(?=[^\n])/g, "$1\n") // Ensure images are followed by a newline
+  //     .replace(/\n?(-\s.*?)(?=\n|$)/g, "\n$1") // Ensure list items are on new lines
+  //     .replace(/(?<!\n)(#+)\s*([^#\n])/g, "\n$1 $2") // Ensure headers are on a new line
+  //     .replace(/(#+ .+?)(?=\n|$)/g, "$1\n---\n") // Add horizontal rules before and after headers
+  //     .trim();
+  // };
+  
+
   const renderContent = (content: string) => {
-    const codeBlockRegex = /```(\w+)?\n([\s\S]*?)```/g;
+    // const codeBlockRegex = /```(\w+)?\n([\s\S]*?)```/g;
+    const formattedContent = cleanMarkdown(content);
+    console.log(formattedContent);
+    console.log(content);
+  
     const parts = [];
     let lastIndex = 0;
     let match;
 
-    while ((match = codeBlockRegex.exec(content)) !== null) {
-      if (match.index > lastIndex) {
-        parts.push(
-          <ReactMarkdown key={lastIndex} className="prose prose-invert text-nowrap">
-            {content.slice(lastIndex, match.index)}
-          </ReactMarkdown>
-        );
-      }
+    // const RenderContent = ({ content }: { content: string }) => {
+    //   const formattedContent = cleanMarkdown(content);
+    
+    //   return (
+    //     <ReactMarkdown
+    //       className="prose prose-invert"
+    //       remarkPlugins={[remarkGfm]} // Support tables, lists, etc.
+    //       rehypePlugins={[rehypeRaw]} // Allow raw HTML if needed
+    //       components={{
+    //         code: CodeBlock, // Render code blocks properly
+    //       }}
+    //     >
+    //       {formattedContent}
+    //     </ReactMarkdown>
+    //   );
+    // };
 
-      const language = match[1] || 'javascript';
-      const code = match[2].trim();
+    // while ((match = codeBlockRegex.exec(content)) !== null) {
+    //   if (match.index > lastIndex) {
+    //     parts.push(
+    //       <ReactMarkdown key={lastIndex} className="prose prose-invert text-nowrap">
+    //         {content.slice(lastIndex, match.index)}
+    //       </ReactMarkdown>
+    //     );
+    //   }
 
-      parts.push(
-        <div key={match.index} className="relative group w-full">
-          <SyntaxHighlighter
-            language={language}
-            style={vscDarkPlus}
-            className="rounded-md !bg-[#1E1E1E]"
-            wrapLines={true}
-            wrapLongLines={true}
-            customStyle={{
-              maxWidth: '100%',
-              overflowX: 'auto',
-              padding: '1rem'
-            }}
-          >
-            {code}
-          </SyntaxHighlighter>
-          <CopyToClipboard text={code} onCopy={() => {
-            setCopied(true);
-            setTimeout(() => setCopied(false), 2000);
-          }}>
-            <button className="absolute top-2 right-2 p-2 rounded-md bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity">
-              {copied ? <FaCheck size={14} /> : <FaRegCopy size={14} />}
-            </button>
-          </CopyToClipboard>
-        </div>
-      );
+    //   const language = match[1] || 'javascript';
+    //   const code = match[2].trim();
 
-      lastIndex = match.index + match[0].length;
-    }
+    //   parts.push(
+    //     <div key={match.index} className="relative group w-full">
+    //       <SyntaxHighlighter
+    //         language={language}
+    //         style={vscDarkPlus}
+    //         className="rounded-md !bg-[#1E1E1E]"
+    //         wrapLines={true}
+    //         wrapLongLines={true}
+    //         customStyle={{
+    //           maxWidth: '100%',
+    //           overflowX: 'auto',
+    //           padding: '1rem'
+    //         }}
+    //       >
+    //         {code}
+    //       </SyntaxHighlighter>
+    //       <CopyToClipboard text={code} onCopy={() => {
+    //         setCopied(true);
+    //         setTimeout(() => setCopied(false), 2000);
+    //       }}>
+    //         <button className="absolute top-2 right-2 p-2 rounded-md bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity">
+    //           {copied ? <FaCheck size={14} /> : <FaRegCopy size={14} />}
+    //         </button>
+    //       </CopyToClipboard>
+    //     </div>
+    //   );
 
-    if (lastIndex < content.length) {
-      parts.push(
-        <ReactMarkdown key={lastIndex} className="prose prose-invert">
-          {content.slice(lastIndex)}
-        </ReactMarkdown>
-      );
-    }
+    //   lastIndex = match.index + match[0].length;
+    // }
+
+    parts.push(
+      <ReactMarkdown
+      className="prose prose-invert"
+      remarkPlugins={[remarkGfm]} // Support tables, lists, etc.
+      rehypePlugins={[rehypeRaw]} // Allow raw HTML if needed
+      components={{
+        code: CodeBlock, // Render code blocks properly
+      }}
+    >
+      {formattedContent}
+    </ReactMarkdown>
+      // <ReactMarkdown key={lastIndex} className="prose prose-invert">
+      //   {content.slice(lastIndex)}
+      // </ReactMarkdown>
+    );
+    // if (lastIndex < content.length) {
+    //   parts.push(
+    //     <ReactMarkdown key={lastIndex} className="prose prose-invert">
+    //       {content.slice(lastIndex)}
+    //     </ReactMarkdown>
+    //   );
+    // }
 
     return parts;
   };

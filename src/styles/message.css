@@ -23,3 +23,31 @@
 }
 
 
+.prose ul{
+    list-style: disc;
+    margin-left: 2em;
+}
+
+.prose h1{
+    font-size: 26px;
+    font-weight: 600;
+    margin: 1em 0 0;
+}
+
+.prose h2{
+    font-size: 22px;
+    font-weight: 600;
+    margin: 1em 0 0;
+}
+
+.prose h3{
+    font-size: 18px;
+    font-weight: 600;
+    margin: 1em 0 0;
+}
+
+
+.prose hr{
+    margin: 1em 0;
+}
+

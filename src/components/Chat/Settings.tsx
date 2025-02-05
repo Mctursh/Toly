@@ -86,7 +86,7 @@ const Settings = ({ address, inAppWallet, dispatch }: settingsProp) => {
                 {/* <p className="text-sm text-gray-400">Account Created Nov 12, 2024</p> */}
               </div>
               {
-                publicKey ?
+                inAppWallet || publicKey ?
                 (
                   <button onClick={handleCopyWallet} className="flex items-center gap-x-4 px-4 py-2 bg-white/5 rounded-lg text-sm hover:bg-white/10 transition-colors w-full md:w-auto text-center">
                     <span>{ellipsify(publicKey, 8)}</span>
