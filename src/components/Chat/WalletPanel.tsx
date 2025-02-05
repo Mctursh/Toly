@@ -8,6 +8,8 @@ import { LoadingOrNotFound } from './LoadingOrNotFound';
 import TokenItem from './TokenItem';
 import { ChatContext, useChatContext } from '../Context/ChatProvider';
 import { ChatView } from '@/types/chat';
+import { copyToClipboard, ellipsify } from '@/utils';
+import { FaCopy } from 'react-icons/fa';
 
 type WalletPanel = {
   walletAddress: string
@@ -114,6 +116,14 @@ const WalletPanel = ({
                 <p className="text-xs text-[#9097A6] mt-1">
                   {portfolio?.tokenPortfolio?.tokens?.length} Token{portfolio?.tokenPortfolio?.tokens?.length !== 1 ? 's' : ''}
                 </p>
+                  <button
+                    onClick={() => copyToClipboard(inAppwallet || walletAddress)}
+                    title='Copy address'
+                    className='flex items-center justify-between text-xs text-[#9097A6] w-full mt-1'
+                  >
+                    <p className="text-xs text-[#9097A6]">{ellipsify(inAppwallet || walletAddress, 8)}</p>
+                    <FaCopy className='text-gray-400' />
+                  </button>
               </div>
             )}
           </div>

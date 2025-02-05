@@ -49,11 +49,11 @@ export const Sidebar: FC<SidebarProps> = ({
 }) => {
 
   const footerItems = [
-    {
-      icon: FaRocket,
-      label: 'Automations',
-      description: 'Configure and manage automated trading actions.'
-    },
+    // {
+    //   icon: FaRocket,
+    //   label: 'Automations',
+    //   description: 'Configure and manage automated trading actions.'
+    // },
     { 
       icon: FaCircleQuestion, 
       label: 'FAQ', 
