@@ -90,7 +90,7 @@ export const ChatProvider = ({ children, value }: { children: ReactNode, value?:
           user: {
             email: res.data.data.email,
             address: res.data.data.address,
-            inAppWallet: res.data.data.inAppAddress
+            inAppWallet: res.data.data.inAppWallet
           },
           accessToken: res.data.data.accessToken,
           isLoggingInIn: false

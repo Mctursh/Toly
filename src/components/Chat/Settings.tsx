@@ -6,6 +6,7 @@ import { FaDiscord, FaTwitter, FaGithub, FaTelegram, FaClipboard } from 'react-i
 import GenerateWalletModal from "../Modal/GenerateWalletModal";
 import { useApi } from '@/hooks/useHttp';
 import { Actions } from '../Context/ChatProvider';
+import ConfirmRevokeModal from '../Modal/ConfirmRevokeModal';
 
 type settingsProp = {
   address: string,
@@ -16,7 +17,8 @@ type settingsProp = {
 const Settings = ({ address, inAppWallet, dispatch }: settingsProp) => {
   const { post } = useApi()
   const [showModal, setShowModal] = useState(false)
-  const [isModalLoading, setIsModalLoading] = useState(true)
+  const [isModalLoading, setIsModalLoading] = useState(false)
+  const [showRevokeModal, setRevokeModal] = useState(false)
   const [privateKey, setPrivateKey] = useState('')
   const [publicKey, setPublicKey] = useState('')
   const [error, setError] = useState('')
@@ -67,7 +69,24 @@ const Settings = ({ address, inAppWallet, dispatch }: settingsProp) => {
   const handleClosePrivateKeyModal = () => {
     setShowModal(!showModal)
     setPrivateKey('')
-  } 
+  }
+  
+  const handleCloseRevokeModal = () => {
+    setRevokeModal(false)
+    setIsModalLoading(false)
+  }
+
+  const handleRevokeConfirmation = () => {
+    setRevokeModal(true)
+  }
+  
+  const revokeWallet = () => {
+    try {
+      setIsModalLoading(true)
+    } catch (error) {
+      toast.error("Failed to revoke")
+    }
+  }
 
   return (
     <div className="min-h-full">
@@ -88,10 +107,16 @@ const Settings = ({ address, inAppWallet, dispatch }: settingsProp) => {
               {
                 inAppWallet || publicKey ?
                 (
-                  <button onClick={handleCopyWallet} className="flex items-center gap-x-4 px-4 py-2 bg-white/5 rounded-lg text-sm hover:bg-white/10 transition-colors w-full md:w-auto text-center">
-                    <span>{ellipsify(publicKey, 8)}</span>
-                    <FaClipboard className='text-gray-400' />
-                  </button>
+                  <div className="flex items-center gap-x-3">
+                    <button onClick={handleRevokeConfirmation} className="flex justify-center align-center py-1 px-3 bg-red-500/10 border border-red-500 rounded-full text-red-500 text-sm">
+                      Revoke
+                    </button>
+
+                    <button onClick={handleCopyWallet} className="flex items-center gap-x-4 px-4 py-2 bg-white/5 rounded-lg text-sm hover:bg-white/10 transition-colors w-full md:w-auto text-center">
+                      <span>{ellipsify(publicKey, 8)}</span>
+                      <FaClipboard className='text-gray-400' />
+                    </button>
+                  </div>
                 )
                 :
                 (
@@ -161,6 +186,13 @@ const Settings = ({ address, inAppWallet, dispatch }: settingsProp) => {
         error={error}
         onClose={handleClosePrivateKeyModal}
         onClickHandler={() => {}}
+        />
+
+      <ConfirmRevokeModal 
+        isOpen={showRevokeModal}
+        isLoading={isModalLoading}
+        onClose={handleCloseRevokeModal}
+        onConfirm={revokeWallet}
       />
     </div>
   );

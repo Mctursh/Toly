@@ -181,6 +181,7 @@ const AccessCodeModal: React.FC<AccessCodeModalProps> = ({ isOpen, onClose, onCl
                 type="text"
                 placeholder="Enter Access Code"
                 value={searchQuery}
+                onKeyUp={(e) => e.key === 'Enter' && onClickHandler(searchQuery)}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full bg-white/5 rounded-xl py-3 px-4 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6FCB71]/50"
               />
