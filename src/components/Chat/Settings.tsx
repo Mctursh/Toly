@@ -1,12 +1,14 @@
 "use client"
 import { toast } from '@/hooks/useToast';
 import { ellipsify } from '@/utils';
-import React, { Dispatch, useEffect, useState } from 'react';
+import React, { Dispatch, useEffect, useRef, useState } from 'react';
 import { FaDiscord, FaTwitter, FaGithub, FaTelegram, FaClipboard } from 'react-icons/fa';
 import GenerateWalletModal from "../Modal/GenerateWalletModal";
 import { useApi } from '@/hooks/useHttp';
-import { Actions } from '../Context/ChatProvider';
+import { Actions, useChatContext } from '../Context/ChatProvider';
 import ConfirmRevokeModal from '../Modal/ConfirmRevokeModal';
+import { useAuth } from '@/hooks/useAuth';
+import { useRouter } from 'next/navigation';
 
 type settingsProp = {
   address: string,
@@ -15,13 +17,19 @@ type settingsProp = {
 }
 
 const Settings = ({ address, inAppWallet, dispatch }: settingsProp) => {
-  const { post } = useApi()
+  const { state } = useChatContext()
+  const { logOut } = useAuth()
+  const router = useRouter();
+  const { post, del } = useApi()
   const [showModal, setShowModal] = useState(false)
   const [isModalLoading, setIsModalLoading] = useState(false)
+  const [isRevoked, setRevoked] = useState(false)
   const [showRevokeModal, setRevokeModal] = useState(false)
   const [privateKey, setPrivateKey] = useState('')
   const [publicKey, setPublicKey] = useState('')
   const [error, setError] = useState('')
+  const [countDown, setCountDown] = useState(5)
+
 
   const handleCopyWallet = () => {
     navigator.clipboard.writeText(publicKey)
@@ -38,6 +46,30 @@ const Settings = ({ address, inAppWallet, dispatch }: settingsProp) => {
     setPublicKey(inAppWallet)
     return () => {}
   }, [inAppWallet])
+
+  useEffect(() => {
+    if(!isRevoked) return
+    async function run(){
+      if (countDown == 0) {
+        await logOut()
+        await state.logOutHandler()
+        router.push('/');
+        dispatch({
+          type: "LOGOUT"
+        })
+        setRevoked(false)
+      }
+  
+      const timer = setInterval(() => {
+        setCountDown(countDown - 1);
+      }, 1000);
+
+      return () => clearInterval(timer);
+    }
+
+    run()
+
+  }, [countDown, isRevoked])
   
 
   const generateWallet = async() => {
@@ -51,11 +83,6 @@ const Settings = ({ address, inAppWallet, dispatch }: settingsProp) => {
       const data = response?.data.data
       setPrivateKey(data.privateKey)
       setPublicKey(data.publicKey)
-
-      dispatch({
-        type: 'ADD IN APP WALLET',
-        payload: data.publicKey
-      })
       
 
     } catch (error) {
@@ -69,6 +96,10 @@ const Settings = ({ address, inAppWallet, dispatch }: settingsProp) => {
   const handleClosePrivateKeyModal = () => {
     setShowModal(!showModal)
     setPrivateKey('')
+    dispatch({
+      type: 'ADD IN APP WALLET',
+      payload: publicKey
+    })
   }
   
   const handleCloseRevokeModal = () => {
@@ -80,12 +111,25 @@ const Settings = ({ address, inAppWallet, dispatch }: settingsProp) => {
     setRevokeModal(true)
   }
   
-  const revokeWallet = () => {
+  const revokeWallet = async() => {
+    setIsModalLoading(true)
     try {
-      setIsModalLoading(true)
+      await del(`user/revoke/${address}`)
+      toast.success("Succcessfully Revoked Wallet")
+      setPublicKey('')
+      
+      dispatch({
+        type: 'ADD IN APP WALLET',
+        payload: ''
+      })
+      
+      setRevoked(true)
+      setIsModalLoading(false)
+
     } catch (error) {
-      toast.error("Failed to revoke")
+      toast.error("Failed to Revoked Wallet")
     }
+    
   }
 
   return (
@@ -193,6 +237,8 @@ const Settings = ({ address, inAppWallet, dispatch }: settingsProp) => {
         isLoading={isModalLoading}
         onClose={handleCloseRevokeModal}
         onConfirm={revokeWallet}
+        isRevoked={isRevoked}
+        countDown={countDown}
       />
     </div>
   );

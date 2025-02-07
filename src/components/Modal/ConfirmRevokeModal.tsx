@@ -7,10 +7,19 @@ interface RevokeConfirmationModal {
     isOpen: boolean;
     onClose: () => void;
     onConfirm?: () => void;
+    isRevoked: boolean
+    countDown: number
   }
 
 
-const ConfirmRevokeModal = ({ isOpen, onClose, isLoading, onConfirm }: RevokeConfirmationModal) => (
+const ConfirmRevokeModal = ({
+    isOpen,
+    onClose,
+    isLoading,
+    onConfirm,
+    isRevoked,
+    countDown,
+}: RevokeConfirmationModal) => (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
@@ -21,7 +30,6 @@ const ConfirmRevokeModal = ({ isOpen, onClose, isLoading, onConfirm }: RevokeCon
             Cancel
           </button>
           <button onClick={onConfirm} className="flex justify-center align-center py-1 px-3 bg-red-500/10 border border-red-500 rounded-lg text-red-500 text-sm">
-          {/* <button onClick={onConfirm} className="btn-primary"> */}
             Confirm
           </button>
         </div>
@@ -33,11 +41,18 @@ const ConfirmRevokeModal = ({ isOpen, onClose, isLoading, onConfirm }: RevokeCon
                 <LoadingOrNotFound loading={true} text='' />
             )
             :
+            isRevoked ?
+            (
+                <div>
+                    You will be logged out in {countDown} Seconds, please Re-Authenticate...
+                </div>
+            )
+            :
             (
                 <p className="text-gray-200">Are you sure you want to revoke?</p>
             )
+            
         }
-      {/* <p className="text-gray-200">{message}</p> */}
     </Modal>
   );
 

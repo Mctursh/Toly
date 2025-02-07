@@ -134,11 +134,14 @@ export const useApi = () => {
         }
     }
 
-    const del = async<T>(url: string, options?: AxiosRequestConfig) => {
+    const del = async<T>(url: string, options?: AxiosRequestConfig): Promise<AxiosResponse | undefined> => {
         try {
-            return await fetch<T>(`${baseUrl}${url}`, {
+            return await fetch<T>(`${url}`, {
                 ...options,
-                method: "DELETE"
+                method: "DELETE",
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                },
             })
 
         } catch (error: any) {

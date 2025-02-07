@@ -10,6 +10,7 @@ import { ChatContext, useChatContext } from '../Context/ChatProvider';
 import { ChatView } from '@/types/chat';
 import { copyToClipboard, ellipsify } from '@/utils';
 import { FaCopy } from 'react-icons/fa';
+import { useApi } from '@/hooks/useHttp';
 
 type WalletPanel = {
   walletAddress: string
@@ -22,7 +23,8 @@ const WalletPanel = ({
   setCurrentView,
   inAppwallet,
 }: WalletPanel) => {
-    const primaryWallet = walletAddress
+    const { get } = useApi()
+    const primaryWallet = inAppwallet || ''
     const [portfolio, setPortfolio] = useState<PortfolioResponse | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -31,7 +33,6 @@ const WalletPanel = ({
   
     const fetchPortfolio = useCallback(async () => {
       try {
-        // console.log(primaryWallet);
         
         setLoading(true);
         setError(null);
@@ -40,12 +41,14 @@ const WalletPanel = ({
         // const walletAddress = '3wRBJjPEmdk4b2NBEojeMKyuUCKLspKyViYUQMwJUsqt';
         
         // const url = `${API_URL}/das/portfolio/${walletAddress}?detailed=true&network=devnet`;
-        const url = `${API_URL}/das/portfolio/${walletAddress}?detailed=true&network=mainnet`;
+        // const url = `${API_URL}/das/portfolio/${walletAddress}?detailed=true&network=mainnet`;
+        const url = `${API_URL}/das/portfolio?detailed=true&network=mainnet`;
         // const url = `${API_URL}/das/spl-portfolio/${walletAddress}?detailed=true&network=devnet`;
      
 
         // Most like going to be a cjors issue so add credential to server with apikey infact for all the endpoints
-        const response = await fetch(url, {
+        // const response = await fetch(url, {
+        const response = await get(url, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
@@ -54,13 +57,13 @@ const WalletPanel = ({
         });
         
         
-        if (!response.ok) {
-          const errorText = await response.text();
-          console.error('Error response:', errorText);
-          throw new Error(`Failed to fetch portfolio: ${response.status} - ${errorText}`);
-        }
+        // if (!response.ok) {
+        //   const errorText = await response.text();
+        //   console.error('Error response:', errorText);
+        //   throw new Error(`Failed to fetch portfolio: ${response.status} - ${errorText}`);
+        // }
   
-        const data = await response.json();
+        const data = await response?.data;
         console.log(data);
 
         
@@ -80,14 +83,14 @@ const WalletPanel = ({
       } finally {
         setLoading(false);
       }
-    }, [API_URL, walletAddress]); // Add API_URL as dependency
+    }, [API_URL, inAppwallet]); // Add API_URL as dependency
   
     useEffect(() => {
       // conditional should only call if primary wallet is available
       if(walletAddress){
         fetchPortfolio();
       }
-    }, [fetchPortfolio, walletAddress, inAppwallet]);
+    }, [fetchPortfolio, walletAddress]);
 
   
     return (
@@ -159,6 +162,7 @@ const WalletPanel = ({
           )}
 
           {!error && !loading && !portfolio && (
+          // {!error && !loading && !portfolio && walletAddress && (
             <div className="flex flex-col gap-y-4">
             {/* <div className="p-3 mb-4 bg-red-500/10 border border-red-500 rounded-lg text-red-500 text-sm"> */}
               <p className='text-sm text-center' >Your in app wallet hasn’t been activated, please generate one now</p>
