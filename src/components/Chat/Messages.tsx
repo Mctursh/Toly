@@ -100,6 +100,7 @@ export const Messages: React.FC<MessageProps> = ({
       .replace(/\s+/g, " ") // Remove excessive spaces
       .replace(/\n{2,}/g, "\n\n") // Ensure proper paragraph spacing
       .replace(/(?<![-*])\s*(`[^`]+`):/g, "$1") // Remove colons after inline code if not in a list
+      .replace(/(?<![-*])\s*(`[^`]+`):/g, "$1\n") // Remove colons after inline code and move following text to a new line
       .replace(/(\!\[.*?\]\(.*?\))(?=[^\n])/g, "$1\n") // Ensure images are followed by a newline
       .replace(/(?<=\S)-\s(?=\*\*)/g, "\n- ") // Fix list items stuck together
       .replace(/(?<!\n)(#+)\s*([^#\n])/g, "\n$1 $2") // Ensure headers are on a new line
@@ -120,10 +121,12 @@ export const Messages: React.FC<MessageProps> = ({
   
 
   const renderContent = (content: string) => {
-    // const codeBlockRegex = /```(\w+)?\n([\s\S]*?)```/g;
-    const formattedContent = cleanMarkdown(content);
-    console.log(formattedContent);
-    console.log(content);
+    let formattedContent = cleanMarkdown(content);
+    if((message.role === 'assistant' && !message.isLoading)){
+      formattedContent = content
+    } else {
+      formattedContent = cleanMarkdown(content);
+    }
   
     const parts = [];
     let lastIndex = 0;
@@ -309,7 +312,6 @@ export const Messages: React.FC<MessageProps> = ({
             // })
             setMesaageTool(tools)
           }
-
         } catch (error) {
           // if (error.name === 'AbortError') return;
           console.error('Stream error:', error);

@@ -6,14 +6,17 @@
     margin-bottom: 4px;
 }
 
-.prose li:has( > img)
+.prose li:has( > img),
+.prose p:has( > img)
  {
     width: 50%;
     max-width: 200px;
     margin: 16px 0;
 }
 
-.prose li img {
+.prose li img,
+.prose p img
+ {
     border-radius: 8px;
 }
 
@@ -48,6 +51,8 @@
 
 
 .prose hr{
-    margin: 1em 0;
+    margin: 2em 0;
+    border-top-width: 0.1px;
+    opacity: .7;
 }
 
