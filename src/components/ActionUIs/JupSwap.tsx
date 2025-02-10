@@ -1,5 +1,6 @@
 import { CheckCircle2, Loader2 } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
+import { useChatContext } from '../Context/ChatProvider';
 
 export interface JupiterSwap {
   outputMint: string;
@@ -38,6 +39,8 @@ interface TradeOptions {
 
 
 export default function SwapOnJupiter({ data }: SwapProps) {
+  const { state } = useChatContext()
+  const wallet = state.user?.inAppWallet || state.user?.address
   const [tokens, setTokens] = useState<TokenInfo[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -95,7 +98,7 @@ export default function SwapOnJupiter({ data }: SwapProps) {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            user: "FxmGwcJW4fQQboEETbYrfMGKebKdEyW1HXiMMShWXbCj",
+            user: wallet,
             options: tradeOptions,
           }),
         });
